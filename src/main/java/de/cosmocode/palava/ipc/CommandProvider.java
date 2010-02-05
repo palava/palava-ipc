@@ -1,4 +1,4 @@
-package de.cosmocode.palava.connector;
+package de.cosmocode.palava.ipc;
 
 /**
  * The implementing object manages the source of requested

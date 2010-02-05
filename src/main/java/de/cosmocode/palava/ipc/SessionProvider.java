@@ -1,4 +1,4 @@
-package de.cosmocode.palava.connector;
+package de.cosmocode.palava.ipc;
 
 /**
  * The implementing object provides the session management

@@ -1,4 +1,4 @@
-package de.cosmocode.palava.connector;
+package de.cosmocode.palava.ipc;
 
 /**
  * Will be used by the {@link CommandProvider} and will be given

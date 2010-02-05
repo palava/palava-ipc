@@ -1,4 +1,4 @@
-package de.cosmocode.palava.connector;
+package de.cosmocode.palava.ipc;
 
 /**
  * Should be thrown if something went wrong during the
