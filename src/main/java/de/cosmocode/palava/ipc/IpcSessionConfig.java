@@ -19,22 +19,28 @@
 
 package de.cosmocode.palava.ipc;
 
-import java.util.Map;
-
 /**
- * A command provides an interface to get called by
- * a heterogeneous environment.
+ * Common configuration keys for the IPC session provider
  *
  * @author Tobias Sarnowski
  */
-public interface Command {
+public class IpcSessionConfig {
+	public final static String PREFIX = "ipc.session.";
 
 	/**
-	 * This method will be called upon request.
-	 * 
-	 * @param call Contains all given informations.
-	 * @param result Can be filled with return values.
-	 * @throws CommandExecutionException 
+	 * Will not be used.
 	 */
-	void execute(Call call, Map result) throws CommandExecutionException;
+	private IpcSessionConfig() {
+		
+	}
+
+	/**
+	 * Defines how long a session should be held until it expires.
+	 */
+	public final static String EXPIRATION_TIME = PREFIX + "expirationTime";
+
+	/**
+	 * The TimeUnit for {@link EXPIRATION_TIME}.
+	 */
+	public final static String EXPIRATION_TIME_UNIT = PREFIX + "expirationTimeUnit";
 }
