@@ -27,7 +27,7 @@ import java.util.Map;
  *
  * @author Tobias Sarnowski
  */
-public interface Session {
+public interface IpcSession {
 	/**
      * Provide the session id of this session.
      *

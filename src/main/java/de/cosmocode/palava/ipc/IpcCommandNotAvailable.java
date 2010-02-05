@@ -19,28 +19,29 @@
 
 package de.cosmocode.palava.ipc;
 
-import java.util.Map;
-
 /**
- * A call symbolizes the request to execute a {@link Command} with
- * all given informations.
+ * Will be used by the {@link IpcCommandProvider} and will be given
+ * to the IpcCommand caller.
  *
  * @author Tobias Sarnowski
  */
-public interface Call {
+public class IpcCommandNotAvailable extends Exception {
 
 	/**
-	 * A request related session.
 	 *
-	 * @return must not be null
+	 * @param requestedCommand
 	 */
-	Session getSession();
+	public IpcCommandNotAvailable(Class<IpcCommand> requestedCommand) {
+		super("command '" + requestedCommand.getName() + "' is not available");
+	}
 
 	/**
-	 * All given arguments for the request.
 	 * 
-	 * @return must not be null
+	 * @param requestedCommand
+	 * @param throwable
 	 */
-	Map<String,Object> getArguments();
+	public IpcCommandNotAvailable(Class<IpcCommand> requestedCommand, Throwable throwable) {
+		super("command '" + requestedCommand.getName() + "' is not available", throwable);
+	}
 
 }

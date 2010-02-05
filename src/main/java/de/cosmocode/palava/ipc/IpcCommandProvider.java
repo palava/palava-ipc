@@ -20,28 +20,22 @@
 package de.cosmocode.palava.ipc;
 
 /**
- * Will be used by the {@link CommandProvider} and will be given
- * to the Command caller.
+ * The implementing object manages the source of requested
+ * commands.
+ *
+ * Implementation has to available via Guice with this interface.
  *
  * @author Tobias Sarnowski
  */
-public class CommandNotAvailable extends Exception {
+public interface IpcCommandProvider {
 
 	/**
+	 * Provides a factory for {@link IpcCommand}s.
 	 *
-	 * @param requestedCommand
+	 * @param command the requested command type
+	 * @return must not be null
+	 * @throws IpcCommandNotAvailable will be returned to the caller
 	 */
-	public CommandNotAvailable(Class<Command> requestedCommand) {
-		super("command '" + requestedCommand.getName() + "' is not available");
-	}
-
-	/**
-	 * 
-	 * @param requestedCommand
-	 * @param throwable
-	 */
-	public CommandNotAvailable(Class<Command> requestedCommand, Throwable throwable) {
-		super("command '" + requestedCommand.getName() + "' is not available", throwable);
-	}
+	IpcCommand getCommand(Class<IpcCommand> command) throws IpcCommandNotAvailable;
 
 }

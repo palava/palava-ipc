@@ -22,19 +22,25 @@ package de.cosmocode.palava.ipc;
 import java.util.Map;
 
 /**
- * A command provides an interface to get called by
- * a heterogeneous environment.
+ * A call symbolizes the request to execute a {@link IpcCommand} with
+ * all given informations.
  *
  * @author Tobias Sarnowski
  */
-public interface Command {
+public interface IpcCall {
 
 	/**
-	 * This method will be called upon request.
-	 * 
-	 * @param call Contains all given informations.
-	 * @param result Can be filled with return values.
-	 * @throws CommandExecutionException 
+	 * A request related session.
+	 *
+	 * @return must not be null
 	 */
-	void execute(Call call, Map result) throws CommandExecutionException;
+	IpcSession getSession();
+
+	/**
+	 * All given arguments for the request.
+	 * 
+	 * @return must not be null
+	 */
+	Map<String,Object> getArguments();
+
 }

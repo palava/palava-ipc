@@ -20,22 +20,21 @@
 package de.cosmocode.palava.ipc;
 
 /**
- * The implementing object manages the source of requested
- * commands.
- *
- * Implementation has to available via Guice with this interface.
+ * Should be thrown if something went wrong during the
+ * execution of a {@link IpcCommand}.
  *
  * @author Tobias Sarnowski
  */
-public interface CommandProvider {
+public class IpcCommandExecutionException extends Exception {
 
 	/**
-	 * Provides a factory for {@link Command}s.
+	 * This is object is just a wrapper and as a consequence,
+	 * you can only nest other exceptions.
 	 *
-	 * @param command the requested command type
-	 * @return must not be null
-	 * @throws CommandNotAvailable will be returned to the caller
+	 * @param cause the real exception
 	 */
-	Command getCommand(Class<Command> command) throws CommandNotAvailable;
+	public IpcCommandExecutionException(Throwable cause) {
+		super(cause);
+	}
 
 }

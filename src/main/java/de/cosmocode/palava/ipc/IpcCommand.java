@@ -19,22 +19,22 @@
 
 package de.cosmocode.palava.ipc;
 
+import java.util.Map;
+
 /**
- * Should be thrown if something went wrong during the
- * execution of a {@link Command}.
+ * A command provides an interface to get called by
+ * a heterogeneous environment.
  *
  * @author Tobias Sarnowski
  */
-public class CommandExecutionException extends Exception {
+public interface IpcCommand {
 
 	/**
-	 * This is object is just a wrapper and as a consequence,
-	 * you can only nest other exceptions.
-	 *
-	 * @param cause the real exception
+	 * This method will be called upon request.
+	 * 
+	 * @param ipcCall Contains all given informations.
+	 * @param result Can be filled with return values.
+	 * @throws IpcCommandExecutionException
 	 */
-	public CommandExecutionException(Throwable cause) {
-		super(cause);
-	}
-
+	void execute(IpcCall ipcCall, Map result) throws IpcCommandExecutionException;
 }
