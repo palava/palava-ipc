@@ -31,8 +31,8 @@ public class IpcCommandNotAvailable extends Exception {
 	 *
 	 * @param requestedCommand
 	 */
-	public IpcCommandNotAvailable(Class<IpcCommand> requestedCommand) {
-		super("command '" + requestedCommand.getName() + "' is not available");
+	public IpcCommandNotAvailable(String requestedCommand) {
+		super("command '" + requestedCommand + "' is not available");
 	}
 
 	/**
@@ -40,8 +40,8 @@ public class IpcCommandNotAvailable extends Exception {
 	 * @param requestedCommand
 	 * @param throwable
 	 */
-	public IpcCommandNotAvailable(Class<IpcCommand> requestedCommand, Throwable throwable) {
-		super("command '" + requestedCommand.getName() + "' is not available", throwable);
+	public IpcCommandNotAvailable(String requestedCommand, Throwable throwable) {
+		super("command '" + requestedCommand + "' is not available", throwable);
 	}
 
 }

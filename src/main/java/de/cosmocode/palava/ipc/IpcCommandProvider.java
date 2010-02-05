@@ -32,10 +32,10 @@ public interface IpcCommandProvider {
 	/**
 	 * Provides a factory for {@link IpcCommand}s.
 	 *
-	 * @param command the requested command type
+	 * @param command the requested command; should be the full class name
 	 * @return must not be null
 	 * @throws IpcCommandNotAvailable will be returned to the caller
 	 */
-	IpcCommand getCommand(Class<IpcCommand> command) throws IpcCommandNotAvailable;
+	IpcCommand getCommand(String command) throws IpcCommandNotAvailable;
 
 }
