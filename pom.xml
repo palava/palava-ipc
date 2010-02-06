@@ -14,4 +14,11 @@
 	<scm>
 		<developerConnection>scm:svn:https://palava.svn.cosmocode.de/palava-ipc/trunk</developerConnection>
 	</scm>
+
+	<dependencies>
+		<dependency>
+			<groupId>de.cosmocode</groupId>
+			<artifactId>cosmocode-collections</artifactId>
+		</dependency>
+	</dependencies>
 </project>

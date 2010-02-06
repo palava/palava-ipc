@@ -41,6 +41,6 @@ public interface IpcCall {
 	 * 
 	 * @return must not be null
 	 */
-	Map<String,Object> getArguments();
+	IpcArguments getArguments();
 
 }
