@@ -25,13 +25,13 @@ package de.cosmocode.palava.ipc;
  *
  * @author Tobias Sarnowski
  */
-public class IpcCommandNotAvailable extends Exception {
+public class IpcCommandNotAvailableException extends Exception {
 
 	/**
 	 *
 	 * @param requestedCommand
 	 */
-	public IpcCommandNotAvailable(String requestedCommand) {
+	public IpcCommandNotAvailableException(String requestedCommand) {
 		super("command '" + requestedCommand + "' is not available");
 	}
 
@@ -40,7 +40,7 @@ public class IpcCommandNotAvailable extends Exception {
 	 * @param requestedCommand
 	 * @param throwable
 	 */
-	public IpcCommandNotAvailable(String requestedCommand, Throwable throwable) {
+	public IpcCommandNotAvailableException(String requestedCommand, Throwable throwable) {
 		super("command '" + requestedCommand + "' is not available", throwable);
 	}
 

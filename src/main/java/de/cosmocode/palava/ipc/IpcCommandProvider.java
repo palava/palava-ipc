@@ -34,8 +34,8 @@ public interface IpcCommandProvider {
 	 *
 	 * @param command the requested command; should be the full class name
 	 * @return must not be null
-	 * @throws IpcCommandNotAvailable will be returned to the caller
+	 * @throws IpcCommandNotAvailableException will be returned to the caller
 	 */
-	IpcCommand getCommand(String command) throws IpcCommandNotAvailable;
+	IpcCommand getCommand(String command) throws IpcCommandNotAvailableException;
 
 }
