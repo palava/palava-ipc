@@ -36,5 +36,5 @@ public interface IpcCommand {
 	 * @param result Can be filled with return values.
 	 * @throws IpcCommandExecutionException
 	 */
-	void execute(IpcCall ipcCall, Map result) throws IpcCommandExecutionException;
+	void execute(IpcCall ipcCall, Map<String,Object> result) throws IpcCommandExecutionException;
 }
