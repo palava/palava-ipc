@@ -22,8 +22,6 @@ package de.cosmocode.palava.ipc;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.google.common.collect.UnmodifiableIterator;
-
 /**
  * 
  * @author Tobias Sarnowski
@@ -83,8 +81,4 @@ public interface IpcScopeContext extends Iterable<Entry<Object, Object>> {
      * @throws NullPointerException if map is null
      */
     <K, V> void putAll(Map<? extends K, ? extends V> map);
-    
-    @Override
-    UnmodifiableIterator<Entry<Object, Object>> iterator();
-    
 }
