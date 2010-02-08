@@ -19,14 +19,19 @@
 
 package de.cosmocode.palava.ipc;
 
-import com.google.inject.Scope;
-import com.google.inject.ScopeAnnotation;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.google.inject.ScopeAnnotation;
+
+/**
+ * Apply this to implementation classes when you want one instance per {@linkplain IpcCall call}.
+ *
+ * @author Tobias Sarnowski
+ * @author Willi Schoenborn
+ */
 @Target({
     ElementType.TYPE,
     ElementType.METHOD
@@ -34,4 +39,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @ScopeAnnotation
 public @interface IpcCallScoped {
+    
 }

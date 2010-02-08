@@ -29,13 +29,13 @@ package de.cosmocode.palava.ipc;
  */
 public interface IpcCommandProvider {
 
-	/**
-	 * Provides a factory for {@link IpcCommand}s.
-	 *
-	 * @param command the requested command; should be the full class name
-	 * @return must not be null
-	 * @throws IpcCommandNotAvailableException will be returned to the caller
-	 */
-	IpcCommand getCommand(String command) throws IpcCommandNotAvailableException;
+    /**
+     * Provides a factory for {@link IpcCommand}s.
+     *
+     * @param command the requested command; should be the full class name
+     * @return must not be null
+     * @throws IpcCommandNotAvailableException will be returned to the caller
+     */
+    IpcCommand getCommand(String command) throws IpcCommandNotAvailableException;
 
 }

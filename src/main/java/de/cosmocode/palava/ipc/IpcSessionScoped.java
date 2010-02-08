@@ -26,7 +26,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-
+/**
+ * Apply this to implementation classes when you want one instance per {@linkplain IpcSession session}.
+ *
+ * @author Tobias Sarnowski
+ * @author Willi Schoenborn
+ */
 @Target({
     ElementType.TYPE,
     ElementType.METHOD
@@ -34,4 +39,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @ScopeAnnotation
 public @interface IpcSessionScoped {
+    
 }

@@ -19,8 +19,6 @@
 
 package de.cosmocode.palava.ipc;
 
-import java.util.List;
-
 /**
  * Indicates a missing argument when invoking a command.
  *
@@ -41,18 +39,6 @@ public class IpcArgumentsMissingException extends RuntimeException {
 
     public IpcArgumentsMissingException(String message, Throwable cause) {
         super(message, cause);
-    }
-
-    public IpcArgumentsMissingException(Object ignored, String missingArgument) {
-        this(missingArgument);
-    }
-
-    public IpcArgumentsMissingException(Object ignored, String missingArgument, String type) {
-        super(missingArgument + " (" + type + ")");
-    }
-
-    public IpcArgumentsMissingException(Object ignored, List<String> missingArguments) {
-        this(missingArguments.toString());
     }
 
 }

@@ -27,21 +27,14 @@ package de.cosmocode.palava.ipc;
  */
 public class IpcCommandNotAvailableException extends Exception {
 
-	/**
-	 *
-	 * @param requestedCommand
-	 */
-	public IpcCommandNotAvailableException(String requestedCommand) {
-		super("command '" + requestedCommand + "' is not available");
-	}
+    private static final long serialVersionUID = -2465797117256681579L;
 
-	/**
-	 * 
-	 * @param requestedCommand
-	 * @param throwable
-	 */
-	public IpcCommandNotAvailableException(String requestedCommand, Throwable throwable) {
-		super("command '" + requestedCommand + "' is not available", throwable);
-	}
+    public IpcCommandNotAvailableException(String requestedCommand) {
+        super("command '" + requestedCommand + "' is not available");
+    }
+
+    public IpcCommandNotAvailableException(String requestedCommand, Throwable throwable) {
+        super("command '" + requestedCommand + "' is not available", throwable);
+    }
 
 }

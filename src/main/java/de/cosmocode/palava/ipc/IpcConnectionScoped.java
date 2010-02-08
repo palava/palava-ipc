@@ -26,6 +26,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Apply this to implementation classes when you want one instance per {@linkplain IpcConnection connection}.
+ *
+ * @author Tobias Sarnowski
+ * @author Willi Schoenborn
+ */
 @Target({
     ElementType.TYPE,
     ElementType.METHOD

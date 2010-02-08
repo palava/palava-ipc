@@ -28,11 +28,11 @@ package de.cosmocode.palava.ipc;
  */
 public interface IpcEventSessionRemoved {
 
-	/**
-	 * Cleanup session data.
-	 *
-	 * @param ipcSession the session which will be removed
-	 */
-	void eventIpcSessionRemoved(IpcSession ipcSession);
+    /**
+     * Cleanup session data.
+     *
+     * @param ipcSession the session which will be removed
+     */
+    void eventIpcSessionRemoved(IpcSession ipcSession);
 
 }

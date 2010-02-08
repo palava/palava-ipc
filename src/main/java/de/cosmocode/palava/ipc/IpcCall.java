@@ -19,28 +19,26 @@
 
 package de.cosmocode.palava.ipc;
 
-import java.util.Map;
-
 /**
  * A call symbolizes the request to execute a {@link IpcCommand} with
  * all given informations.
  *
  * @author Tobias Sarnowski
  */
-public interface IpcCall {
+public interface IpcCall extends IpcScopeContext {
 
-	/**
-	 * A request related session.
-	 *
-	 * @return must not be null
-	 */
-	IpcSession getSession();
+    /**
+     * A request related session.
+     *
+     * @return must not be null
+     */
+    IpcSession getSession();
 
-	/**
-	 * All given arguments for the request.
-	 * 
-	 * @return must not be null
-	 */
-	IpcArguments getArguments();
+    /**
+     * All given arguments for the request.
+     * 
+     * @return must not be null
+     */
+    IpcArguments getArguments();
 
 }

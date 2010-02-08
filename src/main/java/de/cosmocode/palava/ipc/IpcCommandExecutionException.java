@@ -27,14 +27,16 @@ package de.cosmocode.palava.ipc;
  */
 public class IpcCommandExecutionException extends Exception {
 
-	/**
-	 * This is object is just a wrapper and as a consequence,
-	 * you can only nest other exceptions.
-	 *
-	 * @param cause the real exception
-	 */
-	public IpcCommandExecutionException(Throwable cause) {
-		super(cause);
-	}
+    private static final long serialVersionUID = 8749819392899952996L;
+
+    /**
+     * This is object is just a wrapper and as a consequence,
+     * you can only nest other exceptions.
+     *
+     * @param cause the real exception
+     */
+    public IpcCommandExecutionException(Throwable cause) {
+        super(cause);
+    }
 
 }
