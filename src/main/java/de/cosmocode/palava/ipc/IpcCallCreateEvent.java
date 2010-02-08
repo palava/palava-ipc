@@ -18,6 +18,9 @@ package de.cosmocode.palava.ipc;
 /**
  * Event handler on call creation.
  *
+ * TODO rename to PostIpcCallCreate and eventPostIpcCallCreate
+ * TODO wrong license header
+ *
  * @author Tobias Sarnowski
  */
 public interface IpcCallCreateEvent {

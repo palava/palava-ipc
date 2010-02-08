@@ -18,6 +18,9 @@ package de.cosmocode.palava.ipc;
 /**
  * Event handler on call destruction.
  *
+ * TODO rename to PreIpcCallDestroy and eventPreIpcCallDestroy
+ * TODO wrong license header
+ *
  * @author Tobias Sarnowski
  */
 public interface IpcCallDestroyEvent {
