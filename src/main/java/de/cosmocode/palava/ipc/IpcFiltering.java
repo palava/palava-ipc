@@ -32,15 +32,15 @@ import com.google.common.base.Predicate;
  *
  * @author Willi Schoenborn
  */
-public final class Filtering {
+public final class IpcFiltering {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Filtering.class);
+    private static final Logger LOG = LoggerFactory.getLogger(IpcFiltering.class);
 
-    private Filtering() {
+    private IpcFiltering() {
         
     }
-    
-    /**
+
+	/**
      * Composes a {@link Predicate} and an {@link IpcCallFilter} which executes the specified
      * filter if and only if the specified predicate returns true for a given command.
      * 
@@ -72,7 +72,7 @@ public final class Filtering {
         @Override
         public Map<String, Object> filter(IpcCall call, IpcCallFilterChain chain) throws IpcCallFilterException {
             if (predicate.apply(call.command())) {
-                LOG.debug("Filtering {} using {}", call, filter);
+                LOG.debug("IpcFiltering {} using {}", call, filter);
                 return filter.filter(call, chain);
             } else {
                 LOG.debug("Skipping filter executing of {} for {}", filter, call);
@@ -82,7 +82,7 @@ public final class Filtering {
         
         @Override
         public String toString() {
-            return String.format("Filtering.compose(%s, %s)", filter, predicate);
+            return String.format("IpcFiltering.compose(%s, %s)", filter, predicate);
         }
         
     }
