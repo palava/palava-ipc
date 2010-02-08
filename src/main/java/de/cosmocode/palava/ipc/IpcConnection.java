@@ -30,8 +30,16 @@ public interface IpcConnection extends IpcScopeContext {
     /**
      * The connection related session.
      *
-     * @return must not be null
+     * @return can be null
      */
     IpcSession getSession();
+
+
+	/**
+	 * Sets the connection related session.
+	 *
+	 * @param ipcSesscion the session
+	 */
+	void setSession(IpcSession ipcSesscion);
     
 }

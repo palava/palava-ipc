@@ -20,21 +20,21 @@
 package de.cosmocode.palava.ipc;
 
 /**
- * Will be used by the {@link IpcCommandProvider} and will be given
+ * Will be used by the {@link IpcCommandExecutor} and will be given
  * to the IpcCommand caller.
  *
  * @author Tobias Sarnowski
  */
-public class IpcCommandNotAvailableException extends Exception {
+public class IpcCommandNotAvailableException extends IpcCommandExecutionException {
 
     private static final long serialVersionUID = -2465797117256681579L;
 
     public IpcCommandNotAvailableException(String requestedCommand) {
-        super("command '" + requestedCommand + "' is not available");
+        super(new IllegalArgumentException("command '" + requestedCommand + "' is not available"));
     }
 
     public IpcCommandNotAvailableException(String requestedCommand, Throwable throwable) {
-        super("command '" + requestedCommand + "' is not available", throwable);
+        super(new IllegalArgumentException("command '" + requestedCommand + "' is not available", throwable));
     }
 
 }
