@@ -8,6 +8,11 @@ package de.cosmocode.palava.ipc;
  */
 public interface IpcConnection extends IpcScopeContext {
 
-    
+    /**
+     * The connection related session.
+     *
+     * @return must not be null
+     */
+    IpcSession getSession();
     
 }

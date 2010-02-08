@@ -28,11 +28,11 @@ package de.cosmocode.palava.ipc;
 public interface IpcCall extends IpcScopeContext {
 
     /**
-     * A request related session.
+     * The call related connection
      *
      * @return must not be null
      */
-    IpcSession getSession();
+    IpcConnection getConnection();
 
     /**
      * All given arguments for the request.
