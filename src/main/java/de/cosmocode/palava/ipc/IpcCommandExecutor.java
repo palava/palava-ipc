@@ -32,10 +32,10 @@ public interface IpcCommandExecutor {
 	/**
 	 * Execute the given command and the given call, respecting the filter chain.
 	 *
-	 * @param ipcCommand the command to execute
+	 * @param command the textual command to execute
 	 * @param ipcCall the call to execute the command with
 	 * @return the result of the command execution
 	 */
-	Map<String,Object> execute(IpcCommand ipcCommand, IpcCall ipcCall);
+	Map<String,Object> execute(String command, IpcCall ipcCall);
 
 }
