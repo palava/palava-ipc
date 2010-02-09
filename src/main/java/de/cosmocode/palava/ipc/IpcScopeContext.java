@@ -86,7 +86,8 @@ public interface IpcScopeContext extends Iterable<Entry<Object, Object>>, Destro
     
     /**
      * Destroys this scope context and all {@link Destroyable} attributes
-     * currently present in this context.
+     * currently present in this context. Exceptions thrown from
+     * nested destroyables are suppressed.
      */
     @Override
     void destroy();

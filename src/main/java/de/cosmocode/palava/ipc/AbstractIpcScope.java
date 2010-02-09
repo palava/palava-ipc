@@ -42,12 +42,12 @@ abstract class AbstractIpcScope implements Scope {
 
     @Override
     public final <T> Provider<T> scope(final Key<T> key, final Provider<T> provider) {
+        final IpcScopeContext currentContext = getScopeContext();
+        if (currentContext == null) return provider;
         return new Provider<T>() {
 
             @Override
             public T get() {
-                final IpcScopeContext currentContext = getScopeContext();
-                if (currentContext == null) return provider.get();
                 final T cached = currentContext.<Key<T>, T>get(key);
                 if (cached == null || !currentContext.contains(key)) {
                     final T unscoped = provider.get();

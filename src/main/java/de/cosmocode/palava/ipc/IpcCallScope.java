@@ -40,9 +40,7 @@ public final class IpcCallScope extends AbstractIpcScope implements Provider<Ipc
 
     private final ThreadLocal<IpcCall> currentCall = new ThreadLocal<IpcCall>();
 
-    /**
-     * Package private!
-     */
+    // prevent instantiation outside this package
     IpcCallScope() {
 
     }

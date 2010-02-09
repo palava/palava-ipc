@@ -25,11 +25,12 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 
 /**
- * Static factory class for {@link CommandMatcher}s.
+ * Static factory class for {@link Predicate}s regarding {@link IpcCommand} 
+ * matching.
  *
  * @author Willi Schoenborn
  */
-public final class Matching {
+public final class IpcMatching {
 
     private static final Predicate<IpcCommand> ANY = new Predicate<IpcCommand>() {
         
@@ -40,7 +41,7 @@ public final class Matching {
         
     };
     
-    private Matching() {
+    private IpcMatching() {
         
     }
     
@@ -61,7 +62,7 @@ public final class Matching {
      * @return a {@link Predicate<IpcCommand>} backed by a {@link Predicate}
      * @throws NullPointerException if predicate is null
      */
-    public static Predicate<IpcCommand> ofPredicate(final Predicate<? super IpcCommand> predicate) {
+    public static Predicate<IpcCommand> of(final Predicate<? super IpcCommand> predicate) {
         Preconditions.checkNotNull(predicate, "Predicate");
         return new Predicate<IpcCommand>() {
             
@@ -108,6 +109,26 @@ public final class Matching {
             @Override
             public boolean apply(IpcCommand command) {
                 return superClass.isAssignableFrom(command.getClass());
+            }
+            
+        };
+    }
+    
+    /**
+     * Returns a {@link Predicate} which checks whether the given {@link IpcCommand}
+     * is an instance of the  specified class literal.
+     * 
+     * @param type the required class type
+     * @return a new {@link Predicate}
+     * @throws NullPointerException if type is null
+     */
+    public static Predicate<IpcCommand> instanceOf(final Class<?> type) {
+        Preconditions.checkNotNull(type, "Type");
+        return new Predicate<IpcCommand>() {
+            
+            @Override
+            public boolean apply(IpcCommand command) {
+                return type.isInstance(command);
             }
             
         };
