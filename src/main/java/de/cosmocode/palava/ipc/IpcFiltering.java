@@ -40,7 +40,7 @@ public final class IpcFiltering {
         
     }
 
-	/**
+    /**
      * Composes a {@link Predicate} and an {@link IpcCallFilter} which executes the specified
      * filter if and only if the specified predicate returns true for a given command.
      * 
@@ -50,7 +50,7 @@ public final class IpcFiltering {
      * @return a composed filter which skips filter execution if the specified predicate does not apply
      */
     public static IpcCallFilter compose(Predicate<? super IpcCommand> predicate, IpcCallFilter filter) {
-        return new ComposedIpcCallFilterDefinition(predicate, filter);
+        return new ComposedIpcCallFilter(predicate, filter);
     }
     
     /**
@@ -58,25 +58,26 @@ public final class IpcFiltering {
      *
      * @author Willi Schoenborn
      */
-    private static final class ComposedIpcCallFilterDefinition implements IpcCallFilter {
+    private static final class ComposedIpcCallFilter implements IpcCallFilter {
 
         private final Predicate<? super IpcCommand> predicate;
         
         private final IpcCallFilter filter;
         
-        public ComposedIpcCallFilterDefinition(Predicate<? super IpcCommand> predicate, IpcCallFilter filter) {
+        public ComposedIpcCallFilter(Predicate<? super IpcCommand> predicate, IpcCallFilter filter) {
             this.predicate = Preconditions.checkNotNull(predicate, "Predicate");
             this.filter = Preconditions.checkNotNull(filter, "Filter");
         }
         
         @Override
-        public Map<String, Object> filter(IpcCall call, IpcCallFilterChain chain) throws IpcCallFilterException {
-            if (predicate.apply(call.command())) {
+        public Map<String, Object> filter(IpcCall call, IpcCommand command, IpcCallFilterChain chain) 
+            throws IpcCallFilterException {
+            if (predicate.apply(command)) {
                 LOG.debug("IpcFiltering {} using {}", call, filter);
-                return filter.filter(call, chain);
+                return filter.filter(call, command, chain);
             } else {
                 LOG.debug("Skipping filter executing of {} for {}", filter, call);
-                return chain.filter(call);
+                return chain.filter(call, command);
             }
         }
         

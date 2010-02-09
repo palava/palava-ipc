@@ -35,10 +35,12 @@ public interface IpcCallFilter {
      * a probably cached content.
      * 
      * @param call the incoming call
+     * @param command the command scheduled to process the call
      * @param chain the proceeding chain
      * @return the generated content
      * @throws IpcCallFilterException if filtering failed
      */
-    Map<String, Object> filter(IpcCall call, IpcCallFilterChain chain) throws IpcCallFilterException;
+    Map<String, Object> filter(IpcCall call, IpcCommand command, IpcCallFilterChain chain) 
+        throws IpcCallFilterException;
     
 }

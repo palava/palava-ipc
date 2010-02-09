@@ -28,13 +28,6 @@ package de.cosmocode.palava.ipc;
 public interface IpcCall extends IpcScopeContext {
 
     /**
-     * The command scheduled to process this call.
-     * 
-     * @return the associated {@linkplain IpcCommand command} 
-     */
-    IpcCommand command();
-    
-    /**
      * The call related connection.
      *
      * @return must not be null
