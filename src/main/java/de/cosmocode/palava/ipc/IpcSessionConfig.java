@@ -20,27 +20,29 @@
 package de.cosmocode.palava.ipc;
 
 /**
- * Common configuration keys for the IPC session provider
+ * Common configuration keys for the IPC session provider.
  *
  * @author Tobias Sarnowski
  */
-public class IpcSessionConfig {
-	public final static String PREFIX = "ipc.session.";
+public final class IpcSessionConfig {
+    
+    public static final String PREFIX = "ipc.session.";
 
-	/**
-	 * Will not be used.
-	 */
-	private IpcSessionConfig() {
-		
-	}
+    /**
+     * Defines how long a session should be held until it expires.
+     */
+    public static final String EXPIRATION_TIME = PREFIX + "expirationTime";
 
-	/**
-	 * Defines how long a session should be held until it expires.
-	 */
-	public final static String EXPIRATION_TIME = PREFIX + "expirationTime";
+    /**
+     * The TimeUnit for {@link EXPIRATION_TIME}.
+     */
+    public static final String EXPIRATION_TIME_UNIT = PREFIX + "expirationTimeUnit";
 
-	/**
-	 * The TimeUnit for {@link EXPIRATION_TIME}.
-	 */
-	public final static String EXPIRATION_TIME_UNIT = PREFIX + "expirationTimeUnit";
+    /**
+     * Will not be used.
+     */
+    private IpcSessionConfig() {
+        
+    }
+    
 }

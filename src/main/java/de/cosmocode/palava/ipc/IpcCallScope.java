@@ -1,5 +1,5 @@
 /**
- * palava - a java-php-bridge
+s * palava - a java-php-bridge
  * Copyright (C) 2007-2010  CosmoCode GmbH
  *
  * This program is free software; you can redistribute it and/or
@@ -19,15 +19,16 @@
 
 package de.cosmocode.palava.ipc;
 
-import com.google.common.base.Preconditions;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Preconditions;
+import com.google.inject.Provider;
+import com.google.inject.Scope;
+import com.google.inject.Singleton;
+
 /**
- *
+ * Custom {@link Scope} implementation for one single {@linkplain IpcCall call}.
  *
  * @author Willi Schoenborn
  * @author Tobias Sarnowski
@@ -51,13 +52,24 @@ public final class IpcCallScope extends AbstractIpcScope implements Provider<Ipc
         return currentCall.get();
     }
 
+    /**
+     * Enters this scope.
+     * 
+     * @param call the incoming call
+     * @throws NullPointerException if call is null
+     * @throws IllegalStateException if there is already a call scope block in progress
+     */
     public void enter(IpcCall call) {
         LOG.trace("entering call scope");
         Preconditions.checkNotNull(call, "Call");
-        Preconditions.checkState(currentCall.get() == null, "Already in a call scope block");
+        Preconditions.checkState(currentCall.get() == null, "There is already a call scope block in progress");
         currentCall.set(call);
     }
 
+    /**
+     * Exists this scope. This method just returns
+     * if there is currently no scoping block in progress.
+     */
     public void exit() {
         LOG.trace("exiting call scope");
         currentCall.remove();

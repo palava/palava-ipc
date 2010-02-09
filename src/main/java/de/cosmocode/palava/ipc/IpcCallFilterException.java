@@ -20,7 +20,7 @@
 package de.cosmocode.palava.ipc;
 
 /**
- * 
+ * Indicates an error during filter execution.
  *
  * @author Willi Schoenborn
  */

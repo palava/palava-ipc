@@ -29,14 +29,14 @@ import java.util.Map;
  */
 public interface IpcCommandExecutor {
 
-	/**
-	 * Execute the given command and the given call, respecting the filter chain.
-	 *
-	 * @param command the textual command to execute
-	 * @param ipcCall the call to execute the command with
-	 * @return the result of the command execution
-	 * @throws IpcCommandExecutionException if something goes wrong, return this exception to the caller
-	 */
-	Map<String,Object> execute(String command, IpcCall ipcCall) throws IpcCommandExecutionException;
+    /**
+     * Execute the given command and the given call, respecting the filter chain.
+     *
+     * @param command the textual command to execute
+     * @param ipcCall the call to execute the command with
+     * @return the result of the command execution
+     * @throws IpcCommandExecutionException if something goes wrong, return this exception to the caller
+     */
+    Map<String, Object> execute(String command, IpcCall ipcCall) throws IpcCommandExecutionException;
 
 }

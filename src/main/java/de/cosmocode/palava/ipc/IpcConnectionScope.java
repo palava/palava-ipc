@@ -22,15 +22,17 @@ package de.cosmocode.palava.ipc;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Scope;
 import com.google.inject.Singleton;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
+ * Custom {@link Scope} implementation for one {@linkplain IpcConnection connection}.
+ * 
+ * @author Willi Schoenborn
  * @author Tobias Sarnowski
  */
 @Singleton
-public final class IpcConnectionScope extends AbstractIpcScope implements Provider<IpcConnection> {
+final class IpcConnectionScope extends AbstractIpcScope implements Provider<IpcConnection> {
 
     private final Provider<IpcCall> provider;
 

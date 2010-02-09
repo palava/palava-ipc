@@ -22,17 +22,22 @@ package de.cosmocode.palava.ipc;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
-import de.cosmocode.palava.ipc.IpcScopeContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
+ * Abstract implementation of the {@link Scope} interface
+ * which uses and underlying {@link IpcScopeContext} and
+ * provides a meaningful implementation of the caching algorithm.
+ * 
+ * @author Willi Schoenborn
  * @author Tobias Sarnowski
  */
 abstract class AbstractIpcScope implements Scope {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractIpcScope.class);
-
+    /**
+     * Provide access to the underlying scope context.
+     * 
+     * @return the context of this scope
+     */
     protected abstract IpcScopeContext getScopeContext();
 
     @Override

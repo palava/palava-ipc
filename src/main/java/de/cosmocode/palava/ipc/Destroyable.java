@@ -20,12 +20,17 @@
 package de.cosmocode.palava.ipc;
 
 /**
- * Event handler on call destruction.
- *
- * @author Tobias Sarnowski
+ * Lifecycle class for scoped objects. The {@link Destroyable#destroy()}
+ * method will be called on the end of the surrounding scope.
+ * 
+ * @author Detlef Hüttemann
+ * @author Willi Schoenborn
  */
-public interface IpcCallDestroyEvent {
-
-    void eventIpcCallDestroy(IpcCall ipcCall);
-
+public interface Destroyable {
+    
+    /**
+     * Runs when the corresponding context gets destroyed.
+     */
+    void destroy();
+    
 }

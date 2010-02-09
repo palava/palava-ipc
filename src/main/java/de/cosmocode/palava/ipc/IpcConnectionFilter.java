@@ -26,8 +26,18 @@ package de.cosmocode.palava.ipc;
  */
 public interface IpcConnectionFilter {
 
+    /**
+     * Event callback after connect.
+     * 
+     * @param connection the current connection
+     */
     void postConnect(IpcConnection connection);
     
+    /**
+     * Event callback before disconnect.
+     * 
+     * @param connection the current connection
+     */
     void preDisconnect(IpcConnection connection);
     
 }

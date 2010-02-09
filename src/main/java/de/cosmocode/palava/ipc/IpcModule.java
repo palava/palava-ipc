@@ -21,11 +21,9 @@ package de.cosmocode.palava.ipc;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- * Binds the three custom scopes:
+ * Binds the three custom scopes.
  * <ol>
  *   <li>{@link IpcCallScoped}</li>
  *   <li>{@link IpcConnectionScoped}</li>
@@ -46,12 +44,10 @@ public final class IpcModule implements Module {
 
         final IpcConnectionScope connectionScope = new IpcConnectionScope(callScope);
         binder.bindScope(IpcConnectionScoped.class, connectionScope);
-        binder.bind(IpcConnectionScope.class).toInstance(connectionScope);
         binder.bind(IpcConnection.class).toProvider(connectionScope);
 
         final IpcSessionScope sessionScope = new IpcSessionScope(connectionScope);
         binder.bindScope(IpcSessionScoped.class, sessionScope);
-        binder.bind(IpcSessionScope.class).toInstance(sessionScope);
         binder.bind(IpcSession.class).toProvider(sessionScope);
     }
 

@@ -20,21 +20,21 @@
 package de.cosmocode.palava.ipc;
 
 import com.google.common.base.Preconditions;
-import com.google.inject.*;
-import de.cosmocode.palava.ipc.IpcScopeContext;
-import de.cosmocode.palava.ipc.IpcSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Scope;
+import com.google.inject.Singleton;
 
 /**
+ * Custom {@link Scope} implementation for one {@linkplain IpcSession session}.
+ * 
+ * @author Willi Schoenborn
  * @author Tobias Sarnowski
  */
 @Singleton
-public final class IpcSessionScope extends AbstractIpcScope implements Provider<IpcSession> {
+final class IpcSessionScope extends AbstractIpcScope implements Provider<IpcSession> {
 
     private final Provider<IpcConnection> provider;
-
-    private static final Logger LOG = LoggerFactory.getLogger(IpcSessionScope.class);
 
     @Inject
     public IpcSessionScope(Provider<IpcConnection> provider) {
