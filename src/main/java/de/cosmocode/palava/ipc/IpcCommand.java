@@ -49,7 +49,9 @@ public interface IpcCommand {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
     public @interface Description {
+        
         String value();
+        
     }
 
     /**
@@ -58,7 +60,9 @@ public interface IpcCommand {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
     public @interface Params {
-        Param[] value() default { };
+        
+        Param[] value();
+        
     }
 
     /**
@@ -67,9 +71,15 @@ public interface IpcCommand {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
     public @interface Param {
+        
         String name();
+        
         String description() default "";
+        
         boolean optional() default false;
+        
+        String defaultValue() default "";
+        
     }
 
     /**
@@ -78,7 +88,9 @@ public interface IpcCommand {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
     public @interface Throws {
-        Throw[] value() default { };
+        
+        Throw[] value();
+        
     }
 
     /**
@@ -87,8 +99,11 @@ public interface IpcCommand {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
     public @interface Throw {
+        
         Class<? extends Throwable> name();
+        
         String description() default "";
+        
     }
 
     /**
@@ -97,7 +112,9 @@ public interface IpcCommand {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
     public @interface Returns {
-        Return[] value() default { };
+        
+        Return[] value();
+        
     }
 
     /**
@@ -106,7 +123,10 @@ public interface IpcCommand {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
     public @interface Return {
+        
         String name();
+        
         String description() default "";
+        
     }
 }
