@@ -58,7 +58,7 @@ public interface IpcCommand {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
     public @interface Params {
-        Param[] value() default {};
+        Param[] value() default { };
     }
 
     /**
@@ -78,7 +78,7 @@ public interface IpcCommand {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
     public @interface Throws {
-        Throw[] value() default {};
+        Throw[] value() default { };
     }
 
     /**
@@ -97,7 +97,7 @@ public interface IpcCommand {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
     public @interface Returns {
-        Return[] value() default {};
+        Return[] value() default { };
     }
 
     /**
