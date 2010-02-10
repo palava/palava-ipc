@@ -24,12 +24,12 @@ import java.util.Map.Entry;
 
 /**
  * A scope context allows to set certain attributes which will live
- * in the scope until it gets destroyed. 
- * 
+ * in the scope until it gets destroyed.
+ *
  * @author Tobias Sarnowski
  * @author Willi Schoenborn
  */
-public interface IpcScopeContext extends Iterable<Entry<Object, Object>>, Destroyable {
+public interface IpcScopeContext extends Iterable<Entry<Object, Object>> {
 
     /**
      * Binds a key to a specific value.
@@ -83,12 +83,4 @@ public interface IpcScopeContext extends Iterable<Entry<Object, Object>>, Destro
      * @throws NullPointerException if map is null
      */
     <K, V> void putAll(Map<? extends K, ? extends V> map);
-    
-    /**
-     * Destroys this scope context and all {@link Destroyable} attributes
-     * currently present in this context. Exceptions thrown from
-     * nested destroyables are suppressed.
-     */
-    @Override
-    void destroy();
 }

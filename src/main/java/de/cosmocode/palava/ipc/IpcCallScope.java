@@ -52,7 +52,7 @@ public final class IpcCallScope extends AbstractIpcScope implements Provider<Ipc
 
     /**
      * Enters this scope.
-     * 
+     *
      * @param call the incoming call
      * @throws NullPointerException if call is null
      * @throws IllegalStateException if there is already a call scope block in progress
@@ -69,8 +69,10 @@ public final class IpcCallScope extends AbstractIpcScope implements Provider<Ipc
      * if there is currently no scoping block in progress.
      */
     public void exit() {
-        LOG.trace("exiting call scope");
-        currentCall.remove();
+        if (currentCall.get() != null) {
+            LOG.trace("exiting call scope");
+            currentCall.remove();
+        }
     }
 
     @Override

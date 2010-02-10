@@ -26,12 +26,24 @@ package de.cosmocode.palava.ipc;
  * @author Tobias Sarnowski
  */
 public interface IpcSession extends IpcScopeContext {
-    
+
     /**
      * Provide the session id of this session.
      *
      * @return the session id
      */
     String getSessionId();
+
+
+    /**
+     * The session will be marked for destruction and will be
+     * destroyed as soon as the connection scope exited.
+     */
+    void markForDestruction();
+
+    /**
+     * @return if the session will be destroyed after the current connection scope
+     */
+    boolean isMarkedForDestruction();
 
 }

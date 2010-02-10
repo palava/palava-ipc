@@ -19,18 +19,19 @@
 
 package de.cosmocode.palava.ipc;
 
+import java.util.Map;
+
 /**
- * Lifecycle class for scoped objects. The {@link Destroyable#destroy()}
- * method will be called on the end of the surrounding scope.
- * 
- * @author Detlef Hüttemann
- * @author Willi Schoenborn
+ * Will be triggered as soon as a session will be resumed.
+ *
+ * @author Tobias Sarnowski
  */
-public interface Destroyable {
-    
+public interface IpcSessionResumeEvent {
+
     /**
-     * Runs when the corresponding context gets destroyed.
+     * @param ipcSession the session which will be resumed
+     * @param data the map where informations for the resume were stored
      */
-    void destroy();
-    
+    void eventIpcSessionResume(IpcSession ipcSession, Map<String,Object> data);
+
 }

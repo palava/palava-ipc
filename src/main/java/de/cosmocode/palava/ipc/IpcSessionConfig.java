@@ -25,7 +25,7 @@ package de.cosmocode.palava.ipc;
  * @author Tobias Sarnowski
  */
 public final class IpcSessionConfig {
-    
+
     public static final String PREFIX = "ipc.session.";
 
     /**
@@ -34,7 +34,7 @@ public final class IpcSessionConfig {
     public static final String EXPIRATION_TIME = PREFIX + "expirationTime";
 
     /**
-     * The TimeUnit for {@link EXPIRATION_TIME}.
+     * The TimeUnit for {@link IpcSessionConfig#EXPIRATION_TIME}.
      */
     public static final String EXPIRATION_TIME_UNIT = PREFIX + "expirationTimeUnit";
 
@@ -42,7 +42,7 @@ public final class IpcSessionConfig {
      * Will not be used.
      */
     private IpcSessionConfig() {
-        
+
     }
-    
+
 }
