@@ -34,16 +34,10 @@ public interface IpcSession extends IpcScopeContext {
      */
     String getSessionId();
 
-
     /**
-     * The session will be marked for destruction and will be
-     * destroyed as soon as the connection scope exited.
+     * Destroy this session. Any exception occuring
+     * will be suppressed.
      */
-    void markForDestruction();
-
-    /**
-     * @return if the session will be destroyed after the current connection scope
-     */
-    boolean isMarkedForDestruction();
-
+    void destroy();
+    
 }
