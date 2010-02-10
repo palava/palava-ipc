@@ -19,6 +19,10 @@
 
 package de.cosmocode.palava.ipc;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.Map;
 
 /**
@@ -31,10 +35,78 @@ public interface IpcCommand {
 
     /**
      * This method will be called upon request.
-     * 
+     *
      * @param ipcCall Contains all given informations.
      * @param result Can be filled with return values.
      * @throws IpcCommandExecutionException if execution failed due to an exception
      */
     void execute(IpcCall ipcCall, Map<String, Object> result) throws IpcCommandExecutionException;
+
+
+    /**
+     * Has a description for the implemented {@link IpcCommand}.
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    public @interface Description {
+        String value();
+    }
+
+    /**
+     * List of all parameters.
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    public @interface Params {
+        Param[] value() default {};
+    }
+
+    /**
+     * Specifies a single parameter.
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    public @interface Param {
+        String name();
+        String description() default "";
+        boolean optional() default false;
+    }
+
+    /**
+     * List of all exceptions which can be thrown.
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    public @interface Throws {
+        Throw[] value() default {};
+    }
+
+    /**
+     * Specifies one exception which can be thrown.
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    public @interface Throw {
+        Class<? extends Throwable> name();
+        String description() default "";
+    }
+
+    /**
+     * List of all result keys.
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    public @interface Returns {
+        Return[] value() default {};
+    }
+
+    /**
+     * A single results key and its meaning.
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    public @interface Return {
+        String name();
+        String description() default "";
+    }
 }
