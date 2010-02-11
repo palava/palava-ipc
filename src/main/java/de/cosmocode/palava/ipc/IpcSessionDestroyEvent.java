@@ -26,6 +26,11 @@ package de.cosmocode.palava.ipc;
  */
 public interface IpcSessionDestroyEvent {
 
-    void eventIpcSessionDestroy(IpcSession ipcSession);
+    /**
+     * Callback when a session gets destroyed.
+     * 
+     * @param session the session being destroyed
+     */
+    void eventIpcSessionDestroy(IpcSession session);
 
 }

@@ -26,6 +26,11 @@ package de.cosmocode.palava.ipc;
  */
 public interface IpcCallDestroyEvent {
 
-    void eventIpcCallDestroy(IpcCall ipcCall);
+    /**
+     * Callback when a call gets destroyed.
+     * 
+     * @param call the call being destroyed
+     */
+    void eventIpcCallDestroy(IpcCall call);
 
 }

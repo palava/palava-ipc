@@ -26,6 +26,11 @@ package de.cosmocode.palava.ipc;
  */
 public interface IpcConnectionDestroyEvent {
 
-    void eventIpcConnectionDestroy(IpcConnection ipcConnection);
+    /**
+     * Callback when a connections gets destroyed.
+     * 
+     * @param connection the connection being destroyed
+     */
+    void eventIpcConnectionDestroy(IpcConnection connection);
 
 }

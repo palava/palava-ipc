@@ -29,9 +29,12 @@ import java.util.Map;
 public interface IpcSessionSuspendEvent {
 
     /**
+     * Allows to hook into session suspend process to prevent certain
+     * elements in the session from being serialized.
+     * 
      * @param ipcSession the session which will be suspended
-     * @param data a map where informations for the resume can be stored in
+     * @param data context information which will be serialized
      */
-    void eventIpcSessionSuspend(IpcSession ipcSession, Map<String,Object> data);
+    void eventIpcSessionSuspend(IpcSession ipcSession, Map<String, Object> data);
 
 }

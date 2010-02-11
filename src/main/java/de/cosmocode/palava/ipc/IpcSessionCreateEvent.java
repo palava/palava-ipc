@@ -26,6 +26,11 @@ package de.cosmocode.palava.ipc;
  */
 public interface IpcSessionCreateEvent {
 
-    void eventIpcSessionCreate(IpcSession ipcSession);
+    /**
+     * Callback when a sessions gets created.
+     * 
+     * @param session the new session
+     */
+    void eventIpcSessionCreate(IpcSession session);
 
 }

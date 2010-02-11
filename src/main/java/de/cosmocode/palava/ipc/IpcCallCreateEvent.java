@@ -26,6 +26,11 @@ package de.cosmocode.palava.ipc;
  */
 public interface IpcCallCreateEvent {
 
-    void eventIpcCallCreate(IpcCall ipcCall);
+    /**
+     * Callback when a call gets created.
+     * 
+     * @param call the new call
+     */
+    void eventIpcCallCreate(IpcCall call);
 
 }

@@ -26,6 +26,11 @@ package de.cosmocode.palava.ipc;
  */
 public interface IpcConnectionCreateEvent {
 
-    void eventIpcConnectionCreate(IpcConnection ipcConnection);
+    /**
+     * Callback when a connections gets created.
+     * 
+     * @param connection the new connection
+     */
+    void eventIpcConnectionCreate(IpcConnection connection);
 
 }

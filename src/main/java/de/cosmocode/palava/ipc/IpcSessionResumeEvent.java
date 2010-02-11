@@ -29,9 +29,12 @@ import java.util.Map;
 public interface IpcSessionResumeEvent {
 
     /**
-     * @param ipcSession the session which will be resumed
-     * @param data the map where informations for the resume were stored
+     * Allows to hook into session resuming process to
+     * restore specific elements.
+     * 
+     * @param session the session which will be resumed
+     * @param data the deserialized context information
      */
-    void eventIpcSessionResume(IpcSession ipcSession, Map<String,Object> data);
+    void eventIpcSessionResume(IpcSession session, Map<String, Object> data);
 
 }
