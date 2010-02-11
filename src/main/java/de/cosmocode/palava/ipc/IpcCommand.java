@@ -42,7 +42,6 @@ public interface IpcCommand {
      */
     void execute(IpcCall ipcCall, Map<String, Object> result) throws IpcCommandExecutionException;
 
-
     /**
      * Has a description for the implemented {@link IpcCommand}.
      */
@@ -129,4 +128,5 @@ public interface IpcCommand {
         String description() default "";
         
     }
+    
 }
