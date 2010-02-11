@@ -32,7 +32,7 @@ import com.google.inject.Singleton;
  * @author Tobias Sarnowski
  */
 @Singleton
-final class IpcConnectionScope extends AbstractIpcScope implements Provider<IpcConnection> {
+final class IpcConnectionScope extends AbstractIpcScope<IpcConnection> {
 
     private final Provider<IpcCall> provider;
 
@@ -42,14 +42,8 @@ final class IpcConnectionScope extends AbstractIpcScope implements Provider<IpcC
     }
 
     @Override
-    protected IpcScopeContext getScopeContext() {
-        return get();
-    }
-
-    @Override
     public IpcConnection get() {
         final IpcCall currentCall = provider.get();
-        // get current (!) connection
         return currentCall == null ? null : currentCall.getConnection();
     }
 

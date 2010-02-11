@@ -28,21 +28,15 @@ import com.google.inject.Scope;
  * which uses and underlying {@link IpcScopeContext} and
  * provides a meaningful implementation of the caching algorithm.
  * 
+ * @param <S> generic scope type
  * @author Willi Schoenborn
  * @author Tobias Sarnowski
  */
-abstract class AbstractIpcScope implements Scope {
-
-    /**
-     * Provide access to the underlying scope context.
-     * 
-     * @return the context of this scope
-     */
-    protected abstract IpcScopeContext getScopeContext();
+abstract class AbstractIpcScope<S extends IpcScopeContext> implements Scope, Provider<S> {
 
     @Override
     public final <T> Provider<T> scope(final Key<T> key, final Provider<T> provider) {
-        final IpcScopeContext currentContext = getScopeContext();
+        final IpcScopeContext currentContext = get();
         if (currentContext == null) return provider;
         return new Provider<T>() {
 

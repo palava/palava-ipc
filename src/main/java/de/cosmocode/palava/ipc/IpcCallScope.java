@@ -23,7 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
-import com.google.inject.Provider;
 import com.google.inject.Scope;
 import com.google.inject.Singleton;
 
@@ -34,7 +33,7 @@ import com.google.inject.Singleton;
  * @author Tobias Sarnowski
  */
 @Singleton
-public final class IpcCallScope extends AbstractIpcScope implements Provider<IpcCall> {
+public final class IpcCallScope extends AbstractIpcScope<IpcCall> {
 
     private static final Logger LOG = LoggerFactory.getLogger(IpcCallScope.class);
 
@@ -45,11 +44,6 @@ public final class IpcCallScope extends AbstractIpcScope implements Provider<Ipc
 
     }
 
-    @Override
-    protected IpcScopeContext getScopeContext() {
-        return currentCall.get();
-    }
-
     /**
      * Enters this scope.
      *
@@ -58,9 +52,9 @@ public final class IpcCallScope extends AbstractIpcScope implements Provider<Ipc
      * @throws IllegalStateException if there is already a call scope block in progress
      */
     public void enter(IpcCall call) {
-        LOG.trace("entering call scope");
         Preconditions.checkNotNull(call, "Call");
         Preconditions.checkState(currentCall.get() == null, "There is already a call scope block in progress");
+        LOG.trace("entering call scope");
         currentCall.set(call);
     }
 
@@ -69,10 +63,9 @@ public final class IpcCallScope extends AbstractIpcScope implements Provider<Ipc
      * if there is currently no scoping block in progress.
      */
     public void exit() {
-        if (currentCall.get() != null) {
-            LOG.trace("exiting call scope");
-            currentCall.remove();
-        }
+        if (currentCall.get() == null) return;
+        LOG.trace("exiting call scope");
+        currentCall.remove();
     }
 
     @Override

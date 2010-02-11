@@ -32,18 +32,13 @@ import com.google.inject.Singleton;
  * @author Tobias Sarnowski
  */
 @Singleton
-final class IpcSessionScope extends AbstractIpcScope implements Provider<IpcSession> {
+final class IpcSessionScope extends AbstractIpcScope<IpcSession> {
 
     private final Provider<IpcConnection> provider;
 
     @Inject
     public IpcSessionScope(Provider<IpcConnection> provider) {
         this.provider = Preconditions.checkNotNull(provider, "Provider");
-    }
-
-    @Override
-    protected IpcScopeContext getScopeContext() {
-        return get();
     }
 
     @Override
