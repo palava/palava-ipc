@@ -43,14 +43,25 @@ public interface IpcCommand {
     void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException;
 
     /**
+     * Marks MetaInformation annotations.
+     */
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.ANNOTATION_TYPE)
+    public @interface Meta {
+
+    }
+
+
+    /**
      * Has a description for the implemented {@link IpcCommand}.
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
+    @Meta
     public @interface Description {
-        
+
         String value();
-        
+
     }
 
     /**
@@ -58,10 +69,11 @@ public interface IpcCommand {
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
+    @Meta
     public @interface Params {
-        
+
         Param[] value();
-        
+
     }
 
     /**
@@ -69,16 +81,17 @@ public interface IpcCommand {
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
+    @Meta
     public @interface Param {
-        
+
         String name();
-        
+
         String description() default "";
-        
+
         boolean optional() default false;
-        
+
         String defaultValue() default "";
-        
+
     }
 
     /**
@@ -86,10 +99,11 @@ public interface IpcCommand {
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
+    @Meta
     public @interface Throws {
-        
+
         Throw[] value();
-        
+
     }
 
     /**
@@ -97,12 +111,13 @@ public interface IpcCommand {
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
+    @Meta
     public @interface Throw {
-        
+
         Class<? extends Throwable> name();
-        
+
         String description() default "";
-        
+
     }
 
     /**
@@ -110,10 +125,11 @@ public interface IpcCommand {
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
+    @Meta
     public @interface Returns {
-        
+
         Return[] value();
-        
+
     }
 
     /**
@@ -121,12 +137,13 @@ public interface IpcCommand {
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
+    @Meta
     public @interface Return {
-        
+
         String name();
-        
+
         String description() default "";
-        
+
     }
     
 }
