@@ -36,11 +36,11 @@ public interface IpcCommand {
     /**
      * This method will be called upon request.
      *
-     * @param ipcCall Contains all given informations.
+     * @param call Contains all given informations.
      * @param result Can be filled with return values.
      * @throws IpcCommandExecutionException if execution failed due to an exception
      */
-    void execute(IpcCall ipcCall, Map<String, Object> result) throws IpcCommandExecutionException;
+    void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException;
 
     /**
      * Has a description for the implemented {@link IpcCommand}.
