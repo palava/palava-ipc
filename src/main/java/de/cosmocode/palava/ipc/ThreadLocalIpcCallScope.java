@@ -19,8 +19,12 @@ s * palava - a java-php-bridge
 
 package de.cosmocode.palava.ipc;
 
-import com.google.inject.Provider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Preconditions;
 import com.google.inject.Scope;
+import com.google.inject.Singleton;
 
 /**
  * Custom {@link Scope} implementation for one single {@linkplain IpcCall call}.
@@ -28,21 +32,31 @@ import com.google.inject.Scope;
  * @author Willi Schoenborn
  * @author Tobias Sarnowski
  */
-public interface IpcCallScope extends Scope, Provider<IpcCall> {
+@Singleton
+final class ThreadLocalIpcCallScope extends AbstractIpcScope<IpcCall> implements IpcCallScope {
 
-    /**
-     * Enters this scope.
-     *
-     * @param call the incoming call
-     * @throws NullPointerException if call is null
-     * @throws IllegalStateException if there is already a call scope block in progress
-     */
-    void enter(IpcCall call);
+    private static final Logger LOG = LoggerFactory.getLogger(ThreadLocalIpcCallScope.class);
 
-    /**
-     * Exists this scope. This method just returns
-     * if there is currently no scoping block in progress.
-     */
-    void exit();
+    private final ThreadLocal<IpcCall> currentCall = new ThreadLocal<IpcCall>();
+
+    @Override
+    public void enter(IpcCall call) {
+        Preconditions.checkNotNull(call, "Call");
+        Preconditions.checkState(currentCall.get() == null, "There is already a call scope block in progress");
+        LOG.trace("entering call scope");
+        currentCall.set(call);
+    }
+
+    @Override
+    public void exit() {
+        if (currentCall.get() == null) return;
+        LOG.trace("exiting call scope");
+        currentCall.remove();
+    }
+
+    @Override
+    public IpcCall get() {
+        return currentCall.get();
+    }
 
 }

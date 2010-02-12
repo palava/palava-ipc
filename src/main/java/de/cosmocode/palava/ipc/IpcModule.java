@@ -37,7 +37,7 @@ public final class IpcModule implements Module {
 
     @Override
     public void configure(Binder binder) {
-        final IpcCallScope callScope = new IpcCallScope();
+        final IpcCallScope callScope = new ThreadLocalIpcCallScope();
         binder.bindScope(IpcCallScoped.class, callScope);
         binder.bind(IpcCallScope.class).toInstance(callScope);
         binder.bind(IpcCall.class).toProvider(callScope);
