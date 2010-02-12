@@ -73,7 +73,7 @@ public final class IpcFiltering {
         public Map<String, Object> filter(IpcCall call, IpcCommand command, IpcCallFilterChain chain) 
             throws IpcCallFilterException {
             if (predicate.apply(command)) {
-                LOG.trace("IpcFiltering {} using {}", call, filter);
+                LOG.trace("Filtering {} using {}", call, filter);
                 return filter.filter(call, command, chain);
             } else {
                 LOG.trace("Skipping filter executing of {} for {}", filter, call);
