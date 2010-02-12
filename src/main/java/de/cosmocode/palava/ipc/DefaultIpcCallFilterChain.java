@@ -19,28 +19,34 @@
 
 package de.cosmocode.palava.ipc;
 
-import java.util.Map;
+import java.util.List;
+
+import com.google.common.base.Preconditions;
 
 /**
- * A filter can be configured to get executed on specified call, 
- * usually requesting specified {@link IpcCommand}s and runs before, after or instead
- * of the requested command.
+ * Default implementation of the {@link IpcCallFilterChain} interface.
  *
  * @author Willi Schoenborn
  */
-public interface IpcCallFilter {
+final class DefaultIpcCallFilterChain extends AbstractIpcCallFilterChain {
 
-    /**
-     * Execute this filter. This may result in proceeding the given chain or in returning 
-     * a probably cached content.
-     * 
-     * @param call the incoming call
-     * @param command the command scheduled to process the call
-     * @param chain the proceeding chain
-     * @return the generated content
-     * @throws IpcCommandExecutionException if filtering failed
-     */
-    Map<String, Object> filter(IpcCall call, IpcCommand command, IpcCallFilterChain chain) 
-        throws IpcCommandExecutionException;
+    private final List<IpcCallFilter> filters;
+    
+    private final IpcCallFilterChain proceedingChain;
+
+    public DefaultIpcCallFilterChain(List<IpcCallFilter> filters, IpcCallFilterChain proceedingChain) {
+        this.filters = Preconditions.checkNotNull(filters, "Filter");
+        this.proceedingChain = Preconditions.checkNotNull(proceedingChain, "ProceedingChain");
+    }
+    
+    @Override
+    protected List<IpcCallFilter> getFilters() {
+        return filters;
+    }
+    
+    @Override
+    protected IpcCallFilterChain proceedingChain() {
+        return proceedingChain;
+    }
     
 }

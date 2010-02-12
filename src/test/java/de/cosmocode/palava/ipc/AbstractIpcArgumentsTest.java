@@ -19,28 +19,39 @@
 
 package de.cosmocode.palava.ipc;
 
-import java.util.Map;
+import junit.framework.Assert;
+
+import org.junit.Test;
+
+import de.cosmocode.collections.utility.map.MapTest;
 
 /**
- * A filter can be configured to get executed on specified call, 
- * usually requesting specified {@link IpcCommand}s and runs before, after or instead
- * of the requested command.
+ * Tests {@link IpcArguments} implementations.
  *
  * @author Willi Schoenborn
  */
-public interface IpcCallFilter {
+public abstract class AbstractIpcArgumentsTest extends MapTest {
 
+    @Override
+    protected abstract IpcArguments unit();
+ 
     /**
-     * Execute this filter. This may result in proceeding the given chain or in returning 
-     * a probably cached content.
-     * 
-     * @param call the incoming call
-     * @param command the command scheduled to process the call
-     * @param chain the proceeding chain
-     * @return the generated content
-     * @throws IpcCommandExecutionException if filtering failed
+     * Tests {@link IpcArguments#require(String...)} with a present key.
      */
-    Map<String, Object> filter(IpcCall call, IpcCommand command, IpcCallFilterChain chain) 
-        throws IpcCommandExecutionException;
+    @Test
+    public void require() {
+        final IpcArguments unit = unit();
+        unit.put("key", "value");
+        Assert.assertTrue("'key' should be present", unit.containsKey("key"));
+        unit.require("key");
+    }
+    
+    /**
+     * Tests {@link IpcArguments#require(String...)} with a missing key.
+     */
+    @Test(expected = IpcArgumentsMissingException.class)
+    public void requireFail() {
+        unit().require("no-such-key");
+    }
     
 }

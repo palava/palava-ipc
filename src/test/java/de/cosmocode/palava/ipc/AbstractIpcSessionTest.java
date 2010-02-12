@@ -19,28 +19,29 @@
 
 package de.cosmocode.palava.ipc;
 
-import java.util.Map;
+import org.junit.Assert;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * A filter can be configured to get executed on specified call, 
- * usually requesting specified {@link IpcCommand}s and runs before, after or instead
- * of the requested command.
+ * Tests {@link IpcSession} implementations.
  *
  * @author Willi Schoenborn
  */
-public interface IpcCallFilter {
+public abstract class AbstractIpcSessionTest extends AbstractIpcScopeContextTest {
 
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractIpcSessionTest.class);
+
+    @Override
+    protected abstract IpcSession unit();
+    
     /**
-     * Execute this filter. This may result in proceeding the given chain or in returning 
-     * a probably cached content.
-     * 
-     * @param call the incoming call
-     * @param command the command scheduled to process the call
-     * @param chain the proceeding chain
-     * @return the generated content
-     * @throws IpcCommandExecutionException if filtering failed
+     * Tests {@link IpcSession#destroy()}.
      */
-    Map<String, Object> filter(IpcCall call, IpcCommand command, IpcCallFilterChain chain) 
-        throws IpcCommandExecutionException;
+    @Test
+    public void destroy() {
+        Assert.fail("Not yet implemented");
+    }
     
 }

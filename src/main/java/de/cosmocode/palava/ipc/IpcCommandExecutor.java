@@ -32,11 +32,12 @@ public interface IpcCommandExecutor {
     /**
      * Execute the given command and the given call, respecting the filter chain.
      *
-     * @param command the textual command to execute
-     * @param ipcCall the call to execute the command with
+     * @param name the name of the command to execute
+     * @param call the call to execute the command with
      * @return the result of the command execution
+     * @throws NullPointerException if name or call is null
      * @throws IpcCommandExecutionException if something goes wrong, return this exception to the caller
      */
-    Map<String, Object> execute(String command, IpcCall ipcCall) throws IpcCommandExecutionException;
+    Map<String, Object> execute(String name, IpcCall call) throws IpcCommandExecutionException;
 
 }

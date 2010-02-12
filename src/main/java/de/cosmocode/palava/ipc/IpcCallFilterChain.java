@@ -36,8 +36,8 @@ public interface IpcCallFilterChain {
      * @param call the incoming call
      * @param command the command scheduled to process the call
      * @return the generated content
-     * @throws IpcCallFilterException if filtering failed
+     * @throws IpcCommandExecutionException if filtering failed
      */
-    Map<String, Object> filter(IpcCall call, IpcCommand command) throws IpcCallFilterException;
+    Map<String, Object> filter(IpcCall call, IpcCommand command) throws IpcCommandExecutionException;
     
 }

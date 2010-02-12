@@ -71,7 +71,7 @@ public final class IpcFiltering {
         
         @Override
         public Map<String, Object> filter(IpcCall call, IpcCommand command, IpcCallFilterChain chain) 
-            throws IpcCallFilterException {
+            throws IpcCommandExecutionException {
             if (predicate.apply(command)) {
                 LOG.trace("Filtering {} using {}", call, filter);
                 return filter.filter(call, command, chain);

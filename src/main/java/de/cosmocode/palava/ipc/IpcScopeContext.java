@@ -50,6 +50,7 @@ public interface IpcScopeContext extends Iterable<Entry<Object, Object>> {
      * @param key the key
      * @return the value bound to the key or null if there
      *         is no value for the given key
+     * @throws NullPointerException if key is null
      */
     <K, V> V get(K key);
 
@@ -60,6 +61,7 @@ public interface IpcScopeContext extends Iterable<Entry<Object, Object>> {
      * @param <K> the key type
      * @param key the key
      * @return true if the key is currently bound to a value
+     * @throws NullPointerException if key is null
      */
     <K> boolean contains(K key);
 
@@ -71,6 +73,7 @@ public interface IpcScopeContext extends Iterable<Entry<Object, Object>> {
      * @param key the key
      * @return the old value if the specified key was bound to a
      *         value before, null otherwise
+     * @throws NullPointerException if key is null
      */
     <K, V> V remove(K key);
 
