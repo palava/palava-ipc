@@ -21,14 +21,15 @@ package de.cosmocode.palava.ipc;
 
 import java.util.List;
 
+import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.inject.Binding;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
 
 /**
  * Default implementation of the {@link IpcCallFilterChainFactory} interface.
@@ -37,22 +38,31 @@ import com.google.inject.TypeLiteral;
  */
 @Singleton
 final class DefaultIpcCallFilterChainFactory implements IpcCallFilterChainFactory {
-
-    static final TypeLiteral<List<IpcCallFilter>> LITERAL = new TypeLiteral<List<IpcCallFilter>>() { };
-    
+        
     private final ImmutableList<IpcCallFilter> defaultFilters;
     
     @Inject
-    public DefaultIpcCallFilterChainFactory(Injector injector) {
+    public DefaultIpcCallFilterChainFactory(final Injector injector) {
         Preconditions.checkNotNull(injector, "Injector");
         
         final ImmutableList.Builder<IpcCallFilter> builder = ImmutableList.builder();
 
-        for (Binding<?> entry : injector.findBindingsByType(LITERAL)) {
+        for (Binding<?> entry : injector.findBindingsByType(IpcCallFilterDefinition.LITERAL)) {
             // guarded by findBindingsByType()
             @SuppressWarnings("unchecked")
-            final Key<List<IpcCallFilter>> key = (Key<List<IpcCallFilter>>) entry.getKey();
-            builder.addAll(injector.getInstance(key));
+            final Key<List<IpcCallFilterDefinition>> key = (Key<List<IpcCallFilterDefinition>>) entry.getKey();
+            
+            final Function<IpcCallFilterDefinition, IpcCallFilter> function;
+            function = new Function<IpcCallFilterDefinition, IpcCallFilter>() {
+                
+                @Override
+                public IpcCallFilter apply(IpcCallFilterDefinition input) {
+                    return IpcCallFiltering.compose(input.getPredicate(), injector.getInstance(input.getKey()));
+                }
+                
+            };
+            
+            builder.addAll(Iterables.transform(injector.getInstance(key), function));
         }
         
         this.defaultFilters = builder.build();

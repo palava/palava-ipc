@@ -30,7 +30,7 @@ import com.google.common.base.Predicate;
  *
  * @author Willi Schoenborn
  */
-public final class IpcMatching {
+public final class Commands {
 
     private static final Predicate<IpcCommand> ANY = new Predicate<IpcCommand>() {
         
@@ -39,9 +39,14 @@ public final class IpcMatching {
             return true;
         }
         
+        @Override
+        public String toString() {
+            return "Commandy.any()";
+        };
+        
     };
     
-    private IpcMatching() {
+    private Commands() {
         
     }
     
@@ -71,6 +76,11 @@ public final class IpcMatching {
                 return predicate.apply(input);
             }
             
+            @Override
+            public String toString() {
+                return String.format("Commands.of(%s)", predicate);
+            }
+            
         };
     }
     
@@ -89,6 +99,11 @@ public final class IpcMatching {
             @Override
             public boolean apply(IpcCommand command) {
                 return command.getClass().isAnnotationPresent(annotation);
+            }
+            
+            @Override
+            public String toString() {
+                return String.format("Commands.annotatedWith(@%s)", annotation.getName());
             }
             
         };
@@ -110,6 +125,11 @@ public final class IpcMatching {
             public boolean apply(IpcCommand command) {
                 return superClass.isAssignableFrom(command.getClass());
             }
+
+            @Override
+            public String toString() {
+                return String.format("Commands.subClassesOf(%s)", superClass);
+            }
             
         };
     }
@@ -129,6 +149,11 @@ public final class IpcMatching {
             @Override
             public boolean apply(IpcCommand command) {
                 return type.isInstance(command);
+            }
+            
+            @Override
+            public String toString() {
+                return String.format("Commands.instanceOf(%s)", type);
             }
             
         };

@@ -49,9 +49,12 @@ final class ThreadLocalIpcCallScope extends AbstractIpcScope<IpcCall> implements
 
     @Override
     public void exit() {
-        if (currentCall.get() == null) return;
-        LOG.trace("exiting call scope");
-        currentCall.remove();
+        if (currentCall.get() == null) {
+            LOG.warn("Call scope block already exited");
+        } else {
+            LOG.trace("exiting call scope");
+            currentCall.remove();
+        }
     }
 
     @Override

@@ -32,11 +32,11 @@ import com.google.common.base.Predicate;
  *
  * @author Willi Schoenborn
  */
-public final class IpcFiltering {
+final class IpcCallFiltering {
 
-    private static final Logger LOG = LoggerFactory.getLogger(IpcFiltering.class);
+    private static final Logger LOG = LoggerFactory.getLogger(IpcCallFiltering.class);
 
-    private IpcFiltering() {
+    private IpcCallFiltering() {
         
     }
 
@@ -48,9 +48,12 @@ public final class IpcFiltering {
      *        to an incoming call.
      * @param filter the backed filter
      * @return a composed filter which skips filter execution if the specified predicate does not apply
+     * @throws NullPointerException if predicate or filter is null
      */
     public static IpcCallFilter compose(Predicate<? super IpcCommand> predicate, IpcCallFilter filter) {
-        return new ComposedIpcCallFilter(predicate, filter);
+        Preconditions.checkNotNull(predicate, "Predicate");
+        Preconditions.checkNotNull(filter, "Filter");
+        return predicate == Commands.any() ? filter : new ComposedIpcCallFilter(predicate, filter);
     }
     
     /**
