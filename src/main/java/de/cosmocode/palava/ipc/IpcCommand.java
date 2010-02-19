@@ -85,6 +85,8 @@ public interface IpcCommand {
     public @interface Param {
 
         String name();
+        
+        String type() default "";
 
         String description() default "";
 
