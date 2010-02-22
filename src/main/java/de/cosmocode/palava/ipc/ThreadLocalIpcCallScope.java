@@ -32,7 +32,6 @@ import com.google.inject.Singleton;
  * @author Willi Schoenborn
  * @author Tobias Sarnowski
  */
-@Singleton
 final class ThreadLocalIpcCallScope extends AbstractIpcScope<IpcCall> implements IpcCallScope {
 
     private static final Logger LOG = LoggerFactory.getLogger(ThreadLocalIpcCallScope.class);

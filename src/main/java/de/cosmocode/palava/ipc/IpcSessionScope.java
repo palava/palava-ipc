@@ -31,7 +31,6 @@ import com.google.inject.Singleton;
  * @author Willi Schoenborn
  * @author Tobias Sarnowski
  */
-@Singleton
 final class IpcSessionScope extends AbstractIpcScope<IpcSession> {
 
     private final Provider<IpcConnection> provider;

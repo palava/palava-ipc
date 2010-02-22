@@ -36,7 +36,6 @@ import com.google.inject.Singleton;
  *
  * @author Willi Schoenborn
  */
-@Singleton
 final class DefaultIpcCallFilterChainFactory implements IpcCallFilterChainFactory {
         
     private final ImmutableList<IpcCallFilter> defaultFilters;
