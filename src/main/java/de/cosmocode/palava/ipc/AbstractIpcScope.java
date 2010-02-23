@@ -41,7 +41,7 @@ abstract class AbstractIpcScope<S extends IpcScopeContext> implements Scope, Pro
     
     @Override
     public final <T> Provider<T> scope(final Key<T> key, final Provider<T> provider) {
-        LOG.trace("Interception scoped request with {} to {}", key, provider);
+        LOG.trace("Intercepting scoped request with {} to {}", key, provider);
         final IpcScopeContext context = get();
         if (context == null) {
             LOG.trace("No context present, returning {}", provider);

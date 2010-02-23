@@ -19,11 +19,15 @@
 
 package de.cosmocode.palava.ipc;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 /**
  * A session can hold informations between multiple requests
  * and is tide to a client or person.
  *
  * @author Tobias Sarnowski
+ * @author Willi Schoenborn
  */
 public interface IpcSession extends IpcScopeContext {
 
@@ -33,9 +37,47 @@ public interface IpcSession extends IpcScopeContext {
      * @return the session id
      */
     String getSessionId();
+    
+    /**
+     * Provides the creation timestamp.
+     * 
+     * @return the date when this session was created
+     */
+    Date startedAt();
+    
+    /**
+     * Provides the last access time.
+     * 
+     * @return the date of last access
+     */
+    Date lastAccessTime();
+    
+    /**
+     * Touches this session. This results in an update
+     * of the last access time as provided by {@link IpcSession#lastAccessTime()}.
+     */
+    void touch();
 
     /**
-     * Destroy this session. Any exception occuring
+     * Gets the timeout of this session.
+     * 
+     * @param unit the desired time unit 
+     * @return the timeout of this session in the specified time unit
+     * @throws NullPointerException if unit is null
+     */
+    long getTimeout(TimeUnit unit);
+    
+    /**
+     * Sets the timeout of this session.
+     * 
+     * @param timeout the new timeout value
+     * @param unit the time unit of the specified timeout value
+     * @throws NullPointerException if unit is null
+     */
+    void setTimeout(long timeout, TimeUnit unit);
+
+    /**
+     * Destroys this session. Any exception occuring
      * will be suppressed.
      */
     void destroy();
