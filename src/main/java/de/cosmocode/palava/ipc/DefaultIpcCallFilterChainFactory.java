@@ -29,7 +29,6 @@ import com.google.inject.Binding;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
-import com.google.inject.Singleton;
 
 /**
  * Default implementation of the {@link IpcCallFilterChainFactory} interface.

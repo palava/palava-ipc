@@ -23,7 +23,6 @@ import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
-import com.google.inject.Singleton;
 
 /**
  * Custom {@link Scope} implementation for one {@linkplain IpcSession session}.
