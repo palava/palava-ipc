@@ -49,7 +49,8 @@ final class IpcConnectionScope extends AbstractScope<IpcConnection> {
     
     @Override
     public IpcConnection get() {
-        return provider.get().getConnection();
+        final IpcCall currentCall = provider.get();
+        return currentCall == null ? null : currentCall.getConnection();
     }
 
 }

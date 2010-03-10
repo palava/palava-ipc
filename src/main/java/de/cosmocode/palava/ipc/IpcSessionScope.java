@@ -49,7 +49,8 @@ final class IpcSessionScope extends AbstractScope<IpcSession> {
     
     @Override
     public IpcSession get() {
-        return provider.get().getSession();
+        final IpcConnection currentConnection = provider.get();
+        return currentConnection == null ? null : currentConnection.getSession();
     }
 
 }
