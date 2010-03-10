@@ -30,7 +30,9 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
 
-public abstract class AbstractIpcSession extends AbstractIpcScopeContext implements IpcSession {
+import de.cosmocode.palava.core.scope.AbstractScopeContext;
+
+public abstract class AbstractIpcSession extends AbstractScopeContext implements IpcSession {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractIpcSession.class);
 

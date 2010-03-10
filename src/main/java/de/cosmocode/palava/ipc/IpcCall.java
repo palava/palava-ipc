@@ -19,13 +19,15 @@
 
 package de.cosmocode.palava.ipc;
 
+import de.cosmocode.palava.core.scope.ScopeContext;
+
 /**
  * A call symbolizes the request to execute a {@link IpcCommand} with
  * all given informations.
  *
  * @author Tobias Sarnowski
  */
-public interface IpcCall extends IpcScopeContext {
+public interface IpcCall extends ScopeContext {
 
     /**
      * The call related connection.

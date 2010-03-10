@@ -22,6 +22,8 @@ package de.cosmocode.palava.ipc;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import de.cosmocode.palava.core.scope.ScopeContext;
+
 /**
  * A session can hold informations between multiple requests
  * and is tide to a client or person.
@@ -29,7 +31,7 @@ import java.util.concurrent.TimeUnit;
  * @author Tobias Sarnowski
  * @author Willi Schoenborn
  */
-public interface IpcSession extends IpcScopeContext {
+public interface IpcSession extends ScopeContext {
 
     /**
      * Provide the session id of this session.

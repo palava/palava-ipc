@@ -24,13 +24,15 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
 
+import de.cosmocode.palava.core.scope.AbstractScope;
+
 /**
  * Custom {@link Scope} implementation for one {@linkplain IpcSession session}.
  * 
  * @author Willi Schoenborn
  * @author Tobias Sarnowski
  */
-final class IpcSessionScope extends AbstractIpcScope<IpcSession> {
+final class IpcSessionScope extends AbstractScope<IpcSession> {
 
     private final Provider<IpcConnection> provider;
 
@@ -40,9 +42,14 @@ final class IpcSessionScope extends AbstractIpcScope<IpcSession> {
     }
 
     @Override
-    public IpcSession get() {
+    protected boolean inProgress() {
         final IpcConnection currentConnection = provider.get();
-        return currentConnection == null ? null : currentConnection.getSession();
+        return currentConnection != null && currentConnection.getSession() != null;
+    }
+    
+    @Override
+    public IpcSession get() {
+        return provider.get().getSession();
     }
 
 }

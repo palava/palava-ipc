@@ -19,11 +19,10 @@ s * palava - a java-php-bridge
 
 package de.cosmocode.palava.ipc;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Preconditions;
 import com.google.inject.Scope;
+
+import de.cosmocode.palava.core.scope.AbstractScope;
 
 /**
  * Custom {@link Scope} implementation for one single {@linkplain IpcCall call}.
@@ -31,28 +30,25 @@ import com.google.inject.Scope;
  * @author Willi Schoenborn
  * @author Tobias Sarnowski
  */
-final class ThreadLocalIpcCallScope extends AbstractIpcScope<IpcCall> implements IpcCallScope {
-
-    private static final Logger LOG = LoggerFactory.getLogger(ThreadLocalIpcCallScope.class);
+final class ThreadLocalIpcCallScope extends AbstractScope<IpcCall> implements IpcCallScope {
 
     private final ThreadLocal<IpcCall> currentCall = new ThreadLocal<IpcCall>();
 
     @Override
+    protected boolean inProgress() {
+        return currentCall.get() != null;
+    }
+    
+    @Override
     public void enter(IpcCall call) {
         Preconditions.checkNotNull(call, "Call");
-        Preconditions.checkState(currentCall.get() == null, "There is already a call scope block in progress");
-        LOG.trace("entering call scope");
+        enter();
         currentCall.set(call);
     }
 
     @Override
-    public void exit() {
-        if (currentCall.get() == null) {
-            LOG.warn("Call scope block already exited");
-        } else {
-            LOG.trace("exiting call scope");
-            currentCall.remove();
-        }
+    public void doExit() {
+        currentCall.remove();
     }
 
     @Override

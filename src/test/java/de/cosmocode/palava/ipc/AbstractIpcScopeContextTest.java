@@ -26,8 +26,10 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.cosmocode.palava.core.scope.ScopeContext;
+
 /**
- * Tests {@link IpcScopeContext} implementations.
+ * Tests {@link ScopeContext} implementations.
  *
  * @author Willi Schoenborn
  */
@@ -40,10 +42,10 @@ public abstract class AbstractIpcScopeContextTest {
      * 
      * @return the current unit
      */
-    protected abstract IpcScopeContext unit();
+    protected abstract ScopeContext unit();
 
     /**
-     * Tests {@link IpcScopeContext#set(Object, Object)}.
+     * Tests {@link ScopeContext#set(Object, Object)}.
      */
     @Test
     public void set() {
@@ -51,7 +53,7 @@ public abstract class AbstractIpcScopeContextTest {
     }
     
     /**
-     * Tests {@link IpcScopeContext#get(Object)}.
+     * Tests {@link ScopeContext#get(Object)}.
      */
     @Test
     public void get() {
@@ -59,7 +61,7 @@ public abstract class AbstractIpcScopeContextTest {
     }
     
     /**
-     * Tests {@link IpcScopeContext#contains(Object)}.
+     * Tests {@link ScopeContext#contains(Object)}.
      */
     @Test
     public void contains() {
@@ -67,7 +69,7 @@ public abstract class AbstractIpcScopeContextTest {
     }
     
     /**
-     * Tests {@link IpcScopeContext#remove(Object)}.
+     * Tests {@link ScopeContext#remove(Object)}.
      */
     @Test
     public void remove() {
@@ -75,7 +77,7 @@ public abstract class AbstractIpcScopeContextTest {
     }
     
     /**
-     * Tests {@link IpcScopeContext#putAll(Map)}.
+     * Tests {@link ScopeContext#putAll(Map)}.
      */
     @Test
     public void putAll() {
@@ -83,7 +85,7 @@ public abstract class AbstractIpcScopeContextTest {
     }
     
     /**
-     * Tests {@link IpcScopeContext#iterator()}.
+     * Tests {@link ScopeContext#iterator()}.
      */
     @Test
     public void iterator() {
