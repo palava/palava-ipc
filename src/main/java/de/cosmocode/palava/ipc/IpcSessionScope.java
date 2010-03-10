@@ -43,8 +43,7 @@ final class IpcSessionScope extends AbstractScope<IpcSession> {
 
     @Override
     protected boolean inProgress() {
-        final IpcConnection currentConnection = provider.get();
-        return currentConnection != null && currentConnection.getSession() != null;
+        return get() != null;
     }
     
     @Override

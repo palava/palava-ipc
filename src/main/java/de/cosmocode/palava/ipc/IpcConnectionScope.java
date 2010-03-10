@@ -43,8 +43,7 @@ final class IpcConnectionScope extends AbstractScope<IpcConnection> {
 
     @Override
     protected boolean inProgress() {
-        final IpcCall currentCall = provider.get();
-        return currentCall != null && currentCall.getConnection() != null;
+        return get() != null;
     }
     
     @Override
