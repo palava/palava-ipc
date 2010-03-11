@@ -20,7 +20,6 @@
 package de.cosmocode.palava.ipc;
 
 import com.google.common.base.Preconditions;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
 
@@ -32,7 +31,7 @@ import de.cosmocode.palava.core.scope.AbstractScope;
  * @author Willi Schoenborn
  * @author Tobias Sarnowski
  */
-final class IpcConnectionScope extends AbstractScope<IpcConnection> {
+public final class IpcConnectionScope extends AbstractScope<IpcConnection> {
 
     private final Provider<IpcCall> provider;
 

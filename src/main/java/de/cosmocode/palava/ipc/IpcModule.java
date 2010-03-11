@@ -51,6 +51,7 @@ public final class IpcModule implements Module {
         binder.bind(IpcSessionScope.class).toInstance(sessionScope);
     }
 
+    // TODO does this cause stackoverflow errors?!
     @Provides
     @IpcCallScoped
     IpcCall provideCall(IpcCallScope scope) {
