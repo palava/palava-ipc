@@ -56,4 +56,9 @@ final class ThreadLocalIpcCallScope extends AbstractScope<IpcCall> implements Ip
         return currentCall.get();
     }
 
+    @Override
+    public String toString() {
+        return IpcCallScope.class.getSimpleName();
+    }
+    
 }

@@ -36,7 +36,6 @@ final class IpcConnectionScope extends AbstractScope<IpcConnection> {
 
     private final Provider<IpcCall> provider;
 
-    @Inject
     public IpcConnectionScope(Provider<IpcCall> provider) {
         this.provider = Preconditions.checkNotNull(provider, "Provider");
     }

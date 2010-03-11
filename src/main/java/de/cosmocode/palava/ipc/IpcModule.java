@@ -21,6 +21,7 @@ package de.cosmocode.palava.ipc;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
+import com.google.inject.Provides;
 
 /**
  * Binds the three custom scopes.
@@ -40,15 +41,32 @@ public final class IpcModule implements Module {
         final IpcCallScope callScope = new ThreadLocalIpcCallScope();
         binder.bindScope(IpcCallScoped.class, callScope);
         binder.bind(IpcCallScope.class).toInstance(callScope);
-        binder.bind(IpcCall.class).toProvider(callScope);
 
         final IpcConnectionScope connectionScope = new IpcConnectionScope(callScope);
         binder.bindScope(IpcConnectionScoped.class, connectionScope);
-        binder.bind(IpcConnection.class).toProvider(connectionScope);
+        binder.bind(IpcConnectionScope.class).toInstance(connectionScope);
 
         final IpcSessionScope sessionScope = new IpcSessionScope(connectionScope);
         binder.bindScope(IpcSessionScoped.class, sessionScope);
-        binder.bind(IpcSession.class).toProvider(sessionScope);
+        binder.bind(IpcSessionScope.class).toInstance(sessionScope);
     }
 
+    @Provides
+    @IpcCallScoped
+    IpcCall provideCall(IpcCallScope scope) {
+        return scope.get();
+    }
+    
+    @Provides
+    @IpcConnectionScoped
+    IpcConnection provideConnection(IpcConnectionScope scope) {
+        return scope.get();
+    }
+    
+    @Provides
+    @IpcSessionScoped
+    IpcSession provideSession(IpcSessionScope scope) {
+        return scope.get();
+    }
+    
 }
