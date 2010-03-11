@@ -42,8 +42,8 @@ final class ThreadLocalIpcCallScope extends AbstractScope<IpcCall> implements Ip
     @Override
     public void enter(IpcCall call) {
         Preconditions.checkNotNull(call, "Call");
-        enter();
         currentCall.set(call);
+        enter();
     }
 
     @Override

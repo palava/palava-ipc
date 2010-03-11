@@ -31,7 +31,7 @@ import de.cosmocode.palava.core.scope.AbstractScope;
  * @author Willi Schoenborn
  * @author Tobias Sarnowski
  */
-public final class IpcSessionScope extends AbstractScope<IpcSession> {
+final class IpcSessionScope extends AbstractScope<IpcSession> {
 
     private final Provider<IpcConnection> provider;
 
