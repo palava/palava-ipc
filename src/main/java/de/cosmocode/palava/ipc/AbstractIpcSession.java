@@ -46,8 +46,12 @@ public abstract class AbstractIpcSession extends AbstractScopeContext implements
     
     private boolean suppressingTouch;
     
-    public final void setSuppressingTouch(boolean suppressingTouch) {
+    protected void setSuppressingTouch(boolean suppressingTouch) {
         this.suppressingTouch = suppressingTouch;
+    }
+    
+    protected void setLastAccess(Date lastAccess) {
+        this.lastAccess = Preconditions.checkNotNull(lastAccess, "LastAccess").getTime();
     }
     
     @Override
@@ -117,7 +121,28 @@ public abstract class AbstractIpcSession extends AbstractScopeContext implements
     @Override
     public Iterator<Entry<Object, Object>> iterator() {
         touch();
-        return super.iterator();
+        final Iterator<Entry<Object, Object>> delegate = super.iterator();
+        return new Iterator<Entry<Object, Object>>() {
+            
+            @Override
+            public boolean hasNext() {
+                touch();
+                return delegate.hasNext();
+            }
+            
+            @Override
+            public Entry<Object, Object> next() {
+                touch();
+                return delegate.next();
+            }
+            
+            @Override
+            public void remove() {
+                touch();
+                delegate.remove();
+            }
+            
+        };
     }
 
 }

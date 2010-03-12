@@ -37,7 +37,7 @@ public abstract class AbstractIpcSessionTest extends AbstractIpcScopeContextTest
     protected abstract IpcSession unit();
     
     /**
-     * Tests {@link IpcSession#destroy()}.
+     * Tests {@link IpcSession#clear()}.
      */
     @Test
     public void destroy() {
