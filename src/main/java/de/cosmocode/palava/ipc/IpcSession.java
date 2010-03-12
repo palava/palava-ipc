@@ -41,6 +41,13 @@ public interface IpcSession extends ScopeContext {
     String getSessionId();
     
     /**
+     * Provide the session's identifier, might be null.
+     * 
+     * @return the identifier of this session
+     */
+    String getIdentifier();
+    
+    /**
      * Provides the creation timestamp.
      * 
      * @return the date when this session was created
