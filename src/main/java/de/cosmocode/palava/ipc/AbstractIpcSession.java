@@ -44,6 +44,12 @@ public abstract class AbstractIpcSession extends AbstractScopeContext implements
     
     private long lastAccess = System.currentTimeMillis();
     
+    private boolean suppressingTouch;
+    
+    public final void setSuppressingTouch(boolean suppressingTouch) {
+        this.suppressingTouch = suppressingTouch;
+    }
+    
     @Override
     public long getTimeout(TimeUnit unit) {
         Preconditions.checkNotNull(unit, "Unit");
@@ -69,6 +75,7 @@ public abstract class AbstractIpcSession extends AbstractScopeContext implements
 
     @Override
     public void touch() {
+        if (suppressingTouch) return;
         this.lastAccess = System.currentTimeMillis();
     }
     
