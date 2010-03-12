@@ -38,11 +38,6 @@ final class IpcConnectionScope extends AbstractScope<IpcConnection> {
     public IpcConnectionScope(Provider<IpcCall> provider) {
         this.provider = Preconditions.checkNotNull(provider, "Provider");
     }
-
-    @Override
-    protected boolean inProgress() {
-        return get() != null;
-    }
     
     @Override
     public IpcConnection get() {

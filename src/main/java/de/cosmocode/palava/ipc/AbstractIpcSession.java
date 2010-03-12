@@ -25,16 +25,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Preconditions;
 
 import de.cosmocode.palava.core.scope.AbstractScopeContext;
 
+/**
+ * Abstract implementation of the {@link IpcSession} interface.
+ *
+ * @author Willi Schoenborn
+ */
 public abstract class AbstractIpcSession extends AbstractScopeContext implements IpcSession {
-
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractIpcSession.class);
 
     private long timeout;
     
@@ -44,11 +44,6 @@ public abstract class AbstractIpcSession extends AbstractScopeContext implements
     
     private long lastAccess = System.currentTimeMillis();
     
-    @Override
-    public void destroy() {
-        context().clear();
-    }
-
     @Override
     public long getTimeout(TimeUnit unit) {
         Preconditions.checkNotNull(unit, "Unit");
@@ -76,11 +71,16 @@ public abstract class AbstractIpcSession extends AbstractScopeContext implements
     public void touch() {
         this.lastAccess = System.currentTimeMillis();
     }
+    
+    @Override
+    public boolean isExpired() {
+        return (System.currentTimeMillis() - lastAccess) > timeoutUnit.toMillis(timeout);
+    }
 
     @Override
-    public <K> boolean contains(K key) {
+    public <K, V> void set(K key, V value) {
         touch();
-        return super.contains(key);
+        super.set(key, value);
     }
 
     @Override
@@ -90,15 +90,9 @@ public abstract class AbstractIpcSession extends AbstractScopeContext implements
     }
 
     @Override
-    public Iterator<Entry<Object, Object>> iterator() {
+    public <K> boolean contains(K key) {
         touch();
-        return super.iterator();
-    }
-
-    @Override
-    public <K, V> void putAll(Map<? extends K, ? extends V> map) {
-        touch();
-        super.putAll(map);
+        return super.contains(key);
     }
 
     @Override
@@ -108,9 +102,15 @@ public abstract class AbstractIpcSession extends AbstractScopeContext implements
     }
 
     @Override
-    public <K, V> void set(K key, V value) {
+    public <K, V> void putAll(Map<? extends K, ? extends V> map) {
         touch();
-        super.set(key, value);
+        super.putAll(map);
+    }
+
+    @Override
+    public Iterator<Entry<Object, Object>> iterator() {
+        touch();
+        return super.iterator();
     }
 
 }

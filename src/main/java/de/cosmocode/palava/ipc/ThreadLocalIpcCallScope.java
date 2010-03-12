@@ -23,6 +23,7 @@ import com.google.common.base.Preconditions;
 import com.google.inject.Scope;
 
 import de.cosmocode.palava.core.scope.AbstractScope;
+import de.cosmocode.palava.core.scope.ScopeManagement;
 
 /**
  * Custom {@link Scope} implementation for one single {@linkplain IpcCall call}.
@@ -33,21 +34,18 @@ import de.cosmocode.palava.core.scope.AbstractScope;
 final class ThreadLocalIpcCallScope extends AbstractScope<IpcCall> implements IpcCallScope {
 
     private final ThreadLocal<IpcCall> currentCall = new ThreadLocal<IpcCall>();
-
-    @Override
-    protected boolean inProgress() {
-        return currentCall.get() != null;
-    }
     
     @Override
     public void enter(IpcCall call) {
         Preconditions.checkNotNull(call, "Call");
         currentCall.set(call);
-        enter();
     }
 
     @Override
-    public void doExit() {
+    public void exit() {
+        final IpcCall call = currentCall.get();
+        Preconditions.checkState(call != null, "There is no %s block in progress", this);
+        ScopeManagement.destroy(call);
         currentCall.remove();
     }
 

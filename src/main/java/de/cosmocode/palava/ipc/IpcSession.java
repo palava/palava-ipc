@@ -77,11 +77,14 @@ public interface IpcSession extends ScopeContext {
      * @throws NullPointerException if unit is null
      */
     void setTimeout(long timeout, TimeUnit unit);
-
-    /**
-     * Destroys this session. Any exception occuring
-     * will be suppressed.
-     */
-    void destroy();
     
+    /**
+     * Checks whether this session is expired. A session
+     * is considered expired if the time since the last touch
+     * is greater than the configured timeout.
+     * 
+     * @return true if this session is expired, false otherwise
+     */
+    boolean isExpired();
+
 }
