@@ -3,7 +3,7 @@
   <parent>
     <artifactId>palava-parent</artifactId>
     <groupId>de.cosmocode.palava</groupId>
-    <version>2.0.5</version>
+    <version>2.0.6</version>
   </parent>
   <name>Palava IPC</name>
   <artifactId>palava-ipc</artifactId>
@@ -15,7 +15,7 @@
     <dependency>
       <groupId>de.cosmocode.palava</groupId>
       <artifactId>palava-core</artifactId>
-      <version>2.0-SNAPSHOT</version>
+      <version>2.0.0</version>
     </dependency>
     <dependency>
       <groupId>de.cosmocode</groupId>
