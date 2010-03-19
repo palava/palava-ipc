@@ -3,7 +3,7 @@
   <parent>
     <artifactId>palava-parent</artifactId>
     <groupId>de.cosmocode.palava</groupId>
-    <version>2.0.6</version>
+    <version>2.0.7</version>
   </parent>
   <name>Palava IPC</name>
   <artifactId>palava-ipc</artifactId>
@@ -15,12 +15,18 @@
     <dependency>
       <groupId>de.cosmocode.palava</groupId>
       <artifactId>palava-core</artifactId>
-      <version>2.0.0</version>
+      <version>2.0.1</version>
     </dependency>
     <dependency>
       <groupId>de.cosmocode</groupId>
       <artifactId>cosmocode-collections</artifactId>
-      <version>1.3.3</version>
+      <version>1.3.4</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.collections</groupId>
+      <artifactId>google-collections-testfw</artifactId>
+      <version>1.0</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.easymock</groupId>
@@ -30,7 +36,7 @@
     <dependency>
       <groupId>de.cosmocode</groupId>
       <artifactId>cosmocode-collections</artifactId>
-      <version>1.3.3</version>
+      <version>1.3.4</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
