@@ -30,8 +30,8 @@ public interface IpcSessionProvider {
     /**
      * The only way to access a session.
      *
-     * @param sessionId the unique session identifier used by the caller
-     * @param identifier an as unique as possible identifier for the caller determined by someone else than the caller
+     * @param sessionId the unique session identifier used by the caller, may be null
+     * @param identifier an as unique as possible identifier for the caller determined by someone else than the caller, may be null
      * @return must not be null, provides the requested session or a new one
      */
     IpcSession getSession(String sessionId, String identifier);

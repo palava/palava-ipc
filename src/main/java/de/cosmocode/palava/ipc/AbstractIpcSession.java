@@ -37,23 +37,23 @@ import de.cosmocode.palava.core.scope.AbstractScopeContext;
 public abstract class AbstractIpcSession extends AbstractScopeContext implements IpcSession {
 
     private long timeout;
-    
+
     private TimeUnit timeoutUnit;
-    
-    private final Date startedAt = new Date();
-    
+
+    private Date startedAt = new Date();
+
     private long lastAccess = System.currentTimeMillis();
-    
+
     private boolean suppressingTouch;
-    
+
     protected void setSuppressingTouch(boolean suppressingTouch) {
         this.suppressingTouch = suppressingTouch;
     }
-    
+
     protected void setLastAccess(Date lastAccess) {
         this.lastAccess = Preconditions.checkNotNull(lastAccess, "LastAccess").getTime();
     }
-    
+
     @Override
     public long getTimeout(TimeUnit unit) {
         Preconditions.checkNotNull(unit, "Unit");
@@ -65,7 +65,6 @@ public abstract class AbstractIpcSession extends AbstractScopeContext implements
         return new Date(lastAccess);
     }
 
-    @Override
     public void setTimeout(long time, TimeUnit unit) {
         Preconditions.checkNotNull(unit, "Unit");
         this.timeout = time;
@@ -77,12 +76,17 @@ public abstract class AbstractIpcSession extends AbstractScopeContext implements
         return startedAt;
     }
 
+    public void setStartedAt(Date startedAt) {
+        Preconditions.checkNotNull(startedAt, "startedAt");
+        this.startedAt = startedAt;
+    }
+
     @Override
     public void touch() {
         if (suppressingTouch) return;
         this.lastAccess = System.currentTimeMillis();
     }
-    
+
     @Override
     public boolean isExpired() {
         return (System.currentTimeMillis() - lastAccess) > timeoutUnit.toMillis(timeout);
@@ -123,25 +127,25 @@ public abstract class AbstractIpcSession extends AbstractScopeContext implements
         touch();
         final Iterator<Entry<Object, Object>> delegate = super.iterator();
         return new Iterator<Entry<Object, Object>>() {
-            
+
             @Override
             public boolean hasNext() {
                 touch();
                 return delegate.hasNext();
             }
-            
+
             @Override
             public Entry<Object, Object> next() {
                 touch();
                 return delegate.next();
             }
-            
+
             @Override
             public void remove() {
                 touch();
                 delegate.remove();
             }
-            
+
         };
     }
 
