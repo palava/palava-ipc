@@ -24,11 +24,12 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 
 /**
- * Binds the three custom scopes.
+ * Binds the four custom scopes.
  * <ol>
  *   <li>{@link IpcCallScoped}</li>
  *   <li>{@link IpcConnectionScoped}</li>
  *   <li>{@link IpcSessionScoped}</li>
+ *   <li>{@link IpcUnitOfWorkScope}}</li>
  * </ol>
  *
  * @author Willi Schoenborn
