@@ -20,7 +20,7 @@
 package de.cosmocode.palava.ipc;
 
 /**
- * 
+ * Static constant holder class for context specific key names.
  *
  * @author Willi Schoenborn
  */

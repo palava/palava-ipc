@@ -52,19 +52,36 @@ public final class IpcModule implements Module {
         binder.bind(IpcSessionScope.class).toInstance(sessionScope);
     }
 
-    // TODO does this cause stackoverflow errors?!
+    /**
+     * Provides the current call.
+     * 
+     * @param scope the call scope
+     * @return the current call or null, if there is no call scope in progress
+     */
     @Provides
     @IpcCallScoped
     IpcCall provideCall(IpcCallScope scope) {
         return scope.get();
     }
     
+    /**
+     * Provides the current connection.
+     * 
+     * @param scope the connection scope
+     * @return the current connection or null, if there is no connection scope in progress
+     */
     @Provides
     @IpcConnectionScoped
     IpcConnection provideConnection(IpcConnectionScope scope) {
         return scope.get();
     }
     
+    /**
+     * Provides the current session.
+     * 
+     * @param scope the session scope
+     * @return the current session or null, if there is no session scope in progress 
+     */
     @Provides
     @IpcSessionScoped
     IpcSession provideSession(IpcSessionScope scope) {

@@ -65,6 +65,7 @@ public abstract class AbstractIpcSession extends AbstractScopeContext implements
         return new Date(lastAccess);
     }
 
+    @Override
     public void setTimeout(long time, TimeUnit unit) {
         Preconditions.checkNotNull(unit, "Unit");
         this.timeout = time;
@@ -77,8 +78,7 @@ public abstract class AbstractIpcSession extends AbstractScopeContext implements
     }
 
     public void setStartedAt(Date startedAt) {
-        Preconditions.checkNotNull(startedAt, "startedAt");
-        this.startedAt = startedAt;
+        this.startedAt = Preconditions.checkNotNull(startedAt, "startedAt");
     }
 
     @Override

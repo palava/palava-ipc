@@ -29,8 +29,20 @@ import com.google.inject.Key;
  */
 public interface IpcCallFilterBindingBuilder {
 
+    /**
+     * Configures the matching to run with the filter specified 
+     * by the given class.
+     * 
+     * @param type the filter type
+     */
     void through(Class<? extends IpcCallFilter> type);
     
+    /**
+     * Configures the matching to run with the filter specified
+     * by the given key.
+     * 
+     * @param key the filter key
+     */
     void through(Key<? extends IpcCallFilter> key);
     
 }

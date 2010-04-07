@@ -21,8 +21,6 @@ package de.cosmocode.palava.ipc;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Tests {@link IpcSession} implementations.
@@ -30,8 +28,6 @@ import org.slf4j.LoggerFactory;
  * @author Willi Schoenborn
  */
 public abstract class AbstractIpcSessionTest extends AbstractIpcScopeContextTest {
-
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractIpcSessionTest.class);
 
     @Override
     protected abstract IpcSession unit();

@@ -23,8 +23,6 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import de.cosmocode.palava.core.scope.ScopeContext;
 
@@ -34,8 +32,6 @@ import de.cosmocode.palava.core.scope.ScopeContext;
  * @author Willi Schoenborn
  */
 public abstract class AbstractIpcScopeContextTest {
-
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractIpcScopeContextTest.class);
 
     /**
      * Provide a new unit under testing.
