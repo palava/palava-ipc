@@ -25,10 +25,11 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import de.cosmocode.palava.core.scope.AbstractScope;
 import de.cosmocode.palava.core.scope.ScopeContext;
-import de.cosmocode.palava.core.scope.ThreadUnitOfWorkScope;
+import de.cosmocode.palava.core.scope.ThreadLocalUnitOfWorkScope;
 import de.cosmocode.palava.core.scope.UnitOfWorkScope;
 
 /**
@@ -37,51 +38,52 @@ import de.cosmocode.palava.core.scope.UnitOfWorkScope;
  *
  * @author Willi Schoenborn
  */
-public final class IpcUnitOfWorkScope extends AbstractScope<ScopeContext> implements UnitOfWorkScope {
+public final class ConnectionAwareUnitOfWorkScope extends AbstractScope<ScopeContext> implements UnitOfWorkScope {
 
-    private static final Logger LOG = LoggerFactory.getLogger(IpcUnitOfWorkScope.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ConnectionAwareUnitOfWorkScope.class);
 
-    private IpcConnectionScope connectionScope;
+    private Provider<IpcConnection> provider;
     
     private final UnitOfWorkScope workScope;
 
-    public IpcUnitOfWorkScope(UnitOfWorkScope workScope) {
+    public ConnectionAwareUnitOfWorkScope(UnitOfWorkScope workScope) {
         this.workScope = Preconditions.checkNotNull(workScope, "WorkScope");
     }
 
-    public IpcUnitOfWorkScope() {
-        this(new ThreadUnitOfWorkScope());
+    public ConnectionAwareUnitOfWorkScope() {
+        this(new ThreadLocalUnitOfWorkScope());
     }
     
     @Inject
-    void setConnectionScope(IpcConnectionScope connectionScope) {
-        this.connectionScope = Preconditions.checkNotNull(connectionScope, "ConnectionScope");
+    void setProvider(Provider<IpcConnection> provider) {
+        this.provider = Preconditions.checkNotNull(provider, "Provider");
     }
 
     @Override
-    public void enter() {
-        if (connectionScope.get() == null) {
+    public void begin() {
+        if (provider.get() == null) {
             LOG.trace("Outside of connection scope, entering unit of work");
-            workScope.enter();
+            workScope.begin();
         }
     }
     
     @Override
-    public void exit() {
-        if (connectionScope.get() == null) {
+    public void end() {
+        if (provider.get() == null) {
             LOG.trace("Outside of connection scope, exiting unit of work");
-            workScope.exit();
+            workScope.end();
         }
     }
     
     @Override
     public ScopeContext get() {
-        if (connectionScope.get() == null) {
+        final IpcConnection connection = provider.get();
+        if (connection == null) {
             LOG.trace("Outside of connection scope, using unit work");
             return workScope.get();
         } else {
             LOG.trace("Inside of connection scope");
-            return connectionScope.get();
+            return connection;
         }
     }
     

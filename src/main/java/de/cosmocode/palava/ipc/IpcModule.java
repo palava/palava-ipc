@@ -29,7 +29,7 @@ import com.google.inject.Provides;
  *   <li>{@link IpcCallScoped}</li>
  *   <li>{@link IpcConnectionScoped}</li>
  *   <li>{@link IpcSessionScoped}</li>
- *   <li>{@link IpcUnitOfWorkScope}}</li>
+ *   <li>{@link ConnectionAwareUnitOfWorkScope}}</li>
  * </ol>
  *
  * @author Willi Schoenborn

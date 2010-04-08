@@ -27,15 +27,15 @@ import de.cosmocode.palava.core.scope.UnitOfWork;
 import de.cosmocode.palava.core.scope.UnitOfWorkScope;
 
 /**
- * Binds the {@link IpcUnitOfWorkScope} to {@link UnitOfWork}.
+ * Binds the {@link ConnectionAwareUnitOfWorkScope} to {@link UnitOfWork}.
  *
  * @author Willi Schoenborn
  */
-public final class IpcUnitOfWorkScopeModule implements Module {
+public final class ConnectionAwareUnitOfWorkScopeModule implements Module {
 
     @Override
     public void configure(Binder binder) {
-        final IpcUnitOfWorkScope unitOfWorkScope = new IpcUnitOfWorkScope();
+        final ConnectionAwareUnitOfWorkScope unitOfWorkScope = new ConnectionAwareUnitOfWorkScope();
         binder.requestInjection(unitOfWorkScope);
         binder.bindScope(UnitOfWork.class, unitOfWorkScope);
         binder.bind(UnitOfWorkScope.class).toInstance(unitOfWorkScope);
