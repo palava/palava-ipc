@@ -68,6 +68,11 @@ public final class ConnectionAwareUnitOfWorkScope extends AbstractScope<ScopeCon
     }
     
     @Override
+    public boolean inProgress() {
+        return provider.get() == null ? workScope.inProgress() : true;
+    }
+    
+    @Override
     public void end() {
         if (provider.get() == null) {
             LOG.trace("Outside of connection scope, exiting unit of work");
