@@ -22,7 +22,7 @@ package de.cosmocode.palava.ipc;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import de.cosmocode.palava.core.scope.ScopeContext;
+import de.cosmocode.palava.scope.ScopeContext;
 
 /**
  * A session can hold informations between multiple requests

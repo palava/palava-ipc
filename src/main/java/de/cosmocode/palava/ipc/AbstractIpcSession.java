@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Preconditions;
 
-import de.cosmocode.palava.core.scope.AbstractScopeContext;
+import de.cosmocode.palava.scope.AbstractScopeContext;
 
 /**
  * Abstract implementation of the {@link IpcSession} interface.

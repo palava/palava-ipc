@@ -24,7 +24,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.cosmocode.palava.core.scope.ScopeContext;
+import de.cosmocode.palava.scope.ScopeContext;
 
 /**
  * Tests {@link ScopeContext} implementations.

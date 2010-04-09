@@ -19,7 +19,7 @@
 
 package de.cosmocode.palava.ipc;
 
-import de.cosmocode.palava.core.scope.ScopeContext;
+import de.cosmocode.palava.scope.ScopeContext;
 
 /**
  * A call symbolizes the request to execute a {@link IpcCommand} with

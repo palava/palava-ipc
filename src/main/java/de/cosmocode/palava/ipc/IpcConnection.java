@@ -19,7 +19,7 @@
 
 package de.cosmocode.palava.ipc;
 
-import de.cosmocode.palava.core.scope.ScopeContext;
+import de.cosmocode.palava.scope.ScopeContext;
 
 /**
  * A connection represents a set of {@linkplain IpcCall calls}.

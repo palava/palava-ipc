@@ -27,10 +27,10 @@ import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-import de.cosmocode.palava.core.scope.AbstractScope;
-import de.cosmocode.palava.core.scope.ScopeContext;
-import de.cosmocode.palava.core.scope.ThreadLocalUnitOfWorkScope;
-import de.cosmocode.palava.core.scope.UnitOfWorkScope;
+import de.cosmocode.palava.scope.AbstractScope;
+import de.cosmocode.palava.scope.ScopeContext;
+import de.cosmocode.palava.scope.ThreadLocalUnitOfWorkScope;
+import de.cosmocode.palava.scope.UnitOfWorkScope;
 
 /**
  * An implementation of the {@link UnitOfWorkScope} which delegates to {@link IpcConnectionScope}

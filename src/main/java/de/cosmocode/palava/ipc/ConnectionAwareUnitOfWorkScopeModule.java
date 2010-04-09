@@ -23,8 +23,8 @@ package de.cosmocode.palava.ipc;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 
-import de.cosmocode.palava.core.scope.UnitOfWork;
-import de.cosmocode.palava.core.scope.UnitOfWorkScope;
+import de.cosmocode.palava.scope.UnitOfWork;
+import de.cosmocode.palava.scope.UnitOfWorkScope;
 
 /**
  * Binds the {@link ConnectionAwareUnitOfWorkScope} to {@link UnitOfWork}.

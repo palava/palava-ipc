@@ -23,7 +23,7 @@ import com.google.common.base.Preconditions;
 import com.google.inject.Provider;
 import com.google.inject.Scope;
 
-import de.cosmocode.palava.core.scope.AbstractScope;
+import de.cosmocode.palava.scope.AbstractScope;
 
 /**
  * Custom {@link Scope} implementation for one {@linkplain IpcSession session}.
