@@ -59,7 +59,6 @@ public final class IpcModule implements Module {
      * @return the current call or null, if there is no call scope in progress
      */
     @Provides
-    @IpcCallScoped
     IpcCall provideCall(IpcCallScope scope) {
         return scope.get();
     }
@@ -71,7 +70,6 @@ public final class IpcModule implements Module {
      * @return the current connection or null, if there is no connection scope in progress
      */
     @Provides
-    @IpcConnectionScoped
     IpcConnection provideConnection(IpcConnectionScope scope) {
         return scope.get();
     }
@@ -83,7 +81,6 @@ public final class IpcModule implements Module {
      * @return the current session or null, if there is no session scope in progress 
      */
     @Provides
-    @IpcSessionScoped
     IpcSession provideSession(IpcSessionScope scope) {
         return scope.get();
     }
