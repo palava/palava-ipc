@@ -48,6 +48,7 @@ public abstract class AbstractIpcCallFilterChainFactoryTest {
         final IpcCallFilterChain chain = EasyMock.createMock("chain", IpcCallFilterChain.class);
         EasyMock.replay(chain);
         unit().create(null, chain);
+        EasyMock.verify(chain);
     }
 
     /**

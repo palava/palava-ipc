@@ -69,6 +69,7 @@ public abstract class AbstractIpcCommandExecutorTest {
         final Object returnedName = result.get("name");
         Assert.assertNotNull(returnedName);
         Assert.assertEquals(name, returnedName);
+        EasyMock.verify(call);
     }
     
     /**

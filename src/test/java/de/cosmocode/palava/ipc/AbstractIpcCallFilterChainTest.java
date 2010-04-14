@@ -69,6 +69,7 @@ public abstract class AbstractIpcCallFilterChainTest {
         
         final Map<String, Object> result = unit.filter(call, command);
         Assert.assertSame(dummyResult, result);
+        EasyMock.verify(proceeding, call, command);
     }
     
     /**
@@ -94,6 +95,7 @@ public abstract class AbstractIpcCallFilterChainTest {
 
         final Map<String, Object> result = unit.filter(call, command);
         Assert.assertSame(dummyResult, result);
+        EasyMock.verify(filter, proceeding, call, command);
     }
     
     /**
@@ -148,6 +150,7 @@ public abstract class AbstractIpcCallFilterChainTest {
         
         final Map<String, Object> result = unit.filter(call, command);
         Assert.assertSame(dummyResult, result);
+        EasyMock.verify(filter1, filter2, filter3, proceeding, call, command);
     }
     
     /**
@@ -176,6 +179,7 @@ public abstract class AbstractIpcCallFilterChainTest {
 
         final Map<String, Object> result = unit.filter(call, command);
         Assert.assertSame(dummyResult, result);
+        EasyMock.verify(filter1, filter2, filter3, proceeding, call, command);
     }
 
     /**
@@ -204,6 +208,7 @@ public abstract class AbstractIpcCallFilterChainTest {
 
         final Map<String, Object> result = unit.filter(call, command);
         Assert.assertSame(dummyResult, result);
+        EasyMock.verify(filter1, filter2, filter3, proceeding, call, command);
     }
     
     /**
@@ -227,6 +232,7 @@ public abstract class AbstractIpcCallFilterChainTest {
         EasyMock.replay(filter, proceeding, call, command);
         
         unit.filter(call, command);
+        EasyMock.verify(filter, proceeding, call, command);
     }
     
     /**
@@ -253,6 +259,7 @@ public abstract class AbstractIpcCallFilterChainTest {
         EasyMock.replay(filter, proceeding, call, command);
         
         unit.filter(call, command);
+        EasyMock.verify(filter, proceeding, call, command);
     }
     
 }
