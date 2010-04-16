@@ -35,10 +35,10 @@ public final class ConnectionAwareUnitOfWorkScopeModule implements Module {
 
     @Override
     public void configure(Binder binder) {
-        final ConnectionAwareUnitOfWorkScope unitOfWorkScope = new ConnectionAwareUnitOfWorkScope();
-        binder.requestInjection(unitOfWorkScope);
-        binder.bindScope(UnitOfWork.class, unitOfWorkScope);
-        binder.bind(UnitOfWorkScope.class).toInstance(unitOfWorkScope);
+        final UnitOfWorkScope scope = new ConnectionAwareUnitOfWorkScope();
+        binder.requestInjection(scope);
+        binder.bindScope(UnitOfWork.class, scope);
+        binder.bind(UnitOfWorkScope.class).toInstance(scope);
     }
 
 }
