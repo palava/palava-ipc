@@ -23,7 +23,6 @@ import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 
 import de.cosmocode.palava.core.Registry;
-import de.cosmocode.palava.core.Service;
 
 /**
  * Registers for all scope/context events and logs them using trace.
@@ -31,7 +30,7 @@ import de.cosmocode.palava.core.Service;
  * @author Tobias Sarnowski
  * @author Willi Schoenborn
  */
-public final class EventLogger implements Service,
+public final class EventLogger implements 
     IpcConnectionCreateEvent, IpcConnectionDestroyEvent,
     IpcSessionCreateEvent, IpcSessionDestroyEvent,
     IpcCallCreateEvent, IpcCallDestroyEvent {
