@@ -16,6 +16,7 @@
 
 package de.cosmocode.palava.ipc;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
@@ -31,7 +32,7 @@ import de.cosmocode.palava.scope.AbstractScopeContext;
  *
  * @author Willi Schoenborn
  */
-public abstract class AbstractIpcSession extends AbstractScopeContext implements IpcSession {
+public abstract class AbstractIpcSession extends AbstractScopeContext implements IpcSession, Serializable {
 
     private long timeout;
 
