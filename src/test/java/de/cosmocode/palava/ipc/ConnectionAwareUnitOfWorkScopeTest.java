@@ -24,6 +24,7 @@ import com.google.inject.Key;
 import com.google.inject.Provider;
 
 import de.cosmocode.palava.scope.AbstractUnitOfWorkScopeTest;
+import de.cosmocode.palava.scope.ThreadLocalUnitOfWorkScope;
 import de.cosmocode.palava.scope.UnitOfWorkScope;
 
 /**
@@ -48,8 +49,8 @@ public final class ConnectionAwareUnitOfWorkScopeTest extends AbstractUnitOfWork
     }
     
     private ConnectionAwareUnitOfWorkScope unit(Provider<IpcConnection> provider) {
-        final ConnectionAwareUnitOfWorkScope unit = new ConnectionAwareUnitOfWorkScope();
-        unit.setProvider(provider);
+        final ConnectionAwareUnitOfWorkScope unit = new ConnectionAwareUnitOfWorkScope(
+            new ThreadLocalUnitOfWorkScope(), provider);
         return unit;
     }
     
@@ -86,8 +87,8 @@ public final class ConnectionAwareUnitOfWorkScopeTest extends AbstractUnitOfWork
         final UnitOfWorkScope mockScope = EasyMock.createMock("mockScope", UnitOfWorkScope.class);
         EasyMock.replay(mockScope);
         
-        final ConnectionAwareUnitOfWorkScope unit = new ConnectionAwareUnitOfWorkScope(mockScope);
-        unit.setProvider(provider);
+        final ConnectionAwareUnitOfWorkScope unit = new ConnectionAwareUnitOfWorkScope(
+            mockScope, provider);
 
         Assert.assertTrue(unit.inProgress());
         unit.begin();

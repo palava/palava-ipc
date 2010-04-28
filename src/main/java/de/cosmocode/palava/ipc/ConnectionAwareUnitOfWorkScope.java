@@ -20,12 +20,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
-import com.google.inject.Inject;
 import com.google.inject.Provider;
 
 import de.cosmocode.palava.scope.AbstractScope;
 import de.cosmocode.palava.scope.ScopeContext;
-import de.cosmocode.palava.scope.ThreadLocalUnitOfWorkScope;
 import de.cosmocode.palava.scope.UnitOfWorkScope;
 
 /**
@@ -38,22 +36,19 @@ public final class ConnectionAwareUnitOfWorkScope extends AbstractScope<ScopeCon
 
     private static final Logger LOG = LoggerFactory.getLogger(ConnectionAwareUnitOfWorkScope.class);
 
-    private Provider<IpcConnection> provider;
+    private final Provider<IpcConnection> provider;
     
     private final UnitOfWorkScope workScope;
 
-    public ConnectionAwareUnitOfWorkScope(UnitOfWorkScope workScope) {
+    public ConnectionAwareUnitOfWorkScope(UnitOfWorkScope workScope, Provider<IpcConnection> provider) {
         this.workScope = Preconditions.checkNotNull(workScope, "WorkScope");
-    }
-
-    public ConnectionAwareUnitOfWorkScope() {
-        this(new ThreadLocalUnitOfWorkScope());
-    }
-    
-    @Inject
-    void setProvider(Provider<IpcConnection> provider) {
         this.provider = Preconditions.checkNotNull(provider, "Provider");
     }
+
+//    @Inject
+//    void setProvider(Provider<IpcConnection> provider) {
+//        this.provider = Preconditions.checkNotNull(provider, "Provider");
+//    }
 
     @Override
     public void begin() {
