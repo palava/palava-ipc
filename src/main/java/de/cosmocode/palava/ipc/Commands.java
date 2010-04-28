@@ -48,20 +48,20 @@ public final class Commands {
     }
     
     /**
-     * Provides a {@link Predicate<IpcCommand>} which matches every IpcCommand.
+     * Provides a {@link Predicate} which matches every IpcCommand.
      * 
-     * @return a {@link Predicate<IpcCommand>} which always return true
+     * @return a {@link Predicate} which always return true
      */
     public static Predicate<IpcCommand> any() {
         return ANY;
     }
     
     /**
-     * Provides a {@link Predicate<IpcCommand>} which uses the given predicate to decide
+     * Provides a {@link Predicate} which uses the given predicate to decide
      * whether a given {@link IpcCommand} matches.
      * 
      * @param predicate the backing predicate
-     * @return a {@link Predicate<IpcCommand>} backed by a {@link Predicate}
+     * @return a {@link Predicate} backed by a {@link Predicate}
      * @throws NullPointerException if predicate is null
      */
     public static Predicate<IpcCommand> of(final Predicate<? super IpcCommand> predicate) {

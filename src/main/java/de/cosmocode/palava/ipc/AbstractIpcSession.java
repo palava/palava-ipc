@@ -34,6 +34,8 @@ import de.cosmocode.palava.scope.AbstractScopeContext;
  */
 public abstract class AbstractIpcSession extends AbstractScopeContext implements IpcSession, Serializable {
 
+    private static final long serialVersionUID = 6438707896566787757L;
+
     private long timeout;
 
     private TimeUnit timeoutUnit;
