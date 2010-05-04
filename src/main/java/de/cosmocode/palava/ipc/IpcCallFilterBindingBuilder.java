@@ -31,6 +31,7 @@ public interface IpcCallFilterBindingBuilder {
      * by the given class.
      * 
      * @param type the filter type
+     * @throws NullPointerException if type is null
      */
     void through(Class<? extends IpcCallFilter> type);
     
@@ -39,7 +40,17 @@ public interface IpcCallFilterBindingBuilder {
      * by the given key.
      * 
      * @param key the filter key
+     * @throws NullPointerException if key is null
      */
     void through(Key<? extends IpcCallFilter> key);
+    
+    /**
+     * Configures the matching to run with the specified filter.
+     * 
+     * @since 1.3
+     * @param filter the filter being used
+     * @throws NullPointerException if filter is null
+     */
+    void through(IpcCallFilter filter);
     
 }

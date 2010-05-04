@@ -52,7 +52,7 @@ final class DefaultIpcCallFilterChainFactory implements IpcCallFilterChainFactor
                 
                 @Override
                 public IpcCallFilter apply(IpcCallFilterDefinition input) {
-                    return IpcCallFiltering.compose(input.getPredicate(), injector.getInstance(input.getKey()));
+                    return IpcCallFiltering.compose(input.getPredicate(), input.getFilter());
                 }
                 
             };

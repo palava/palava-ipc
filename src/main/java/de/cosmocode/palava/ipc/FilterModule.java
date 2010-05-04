@@ -23,9 +23,11 @@ import com.google.common.base.Predicate;
 import com.google.inject.Binder;
 import com.google.inject.Key;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.internal.Lists;
 import com.google.inject.internal.UniqueAnnotations;
+import com.google.inject.util.Providers;
 
 /**
  * Abstract module which allows binding filters to command.
@@ -36,8 +38,11 @@ public abstract class FilterModule implements Module {
 
     private final List<IpcCallFilterDefinition> definitions = Lists.newArrayList();
     
+    private Binder binder;
+    
     @Override
-    public final void configure(Binder binder) {
+    public final void configure(Binder b) {
+        this.binder = b;
         configure();
         
         final TypeLiteral<List<IpcCallFilterDefinition>> literal = IpcCallFilterDefinition.LITERAL;
@@ -58,7 +63,7 @@ public abstract class FilterModule implements Module {
      * @return a new filter binding builder
      * @throws NullPointerException if predicate is null
      */
-    protected IpcCallFilterBindingBuilder filter(Predicate<? super IpcCommand> predicate) {
+    protected final IpcCallFilterBindingBuilder filter(Predicate<? super IpcCommand> predicate) {
         return new InternalIpcCallFilterBindingBuilder(predicate);
     }
     
@@ -77,12 +82,20 @@ public abstract class FilterModule implements Module {
         
         @Override
         public void through(Class<? extends IpcCallFilter> type) {
+            Preconditions.checkNotNull(type, "Type");
             through(Key.get(type));
         }
         
         @Override
         public void through(Key<? extends IpcCallFilter> key) {
-            definitions.add(new InternalIpcCallFilterDefinition(key));
+            Preconditions.checkNotNull(key, "Key");
+            definitions.add(new InternalIpcCallFilterDefinition(binder.getProvider(key)));
+        }
+        
+        @Override
+        public void through(IpcCallFilter filter) {
+            Preconditions.checkNotNull(filter, "Filter");
+            definitions.add(new InternalIpcCallFilterDefinition(Providers.of(filter)));
         }
         
         /**
@@ -92,10 +105,10 @@ public abstract class FilterModule implements Module {
          */
         private final class InternalIpcCallFilterDefinition implements IpcCallFilterDefinition {
             
-            private final Key<? extends IpcCallFilter> key;
+            private final Provider<? extends IpcCallFilter> provider;
             
-            public InternalIpcCallFilterDefinition(Key<? extends IpcCallFilter> key) {
-                this.key = Preconditions.checkNotNull(key, "Key");
+            public InternalIpcCallFilterDefinition(Provider<? extends IpcCallFilter> provider) {
+                this.provider = Preconditions.checkNotNull(provider, "Provider");
             }
             
             @Override
@@ -104,8 +117,8 @@ public abstract class FilterModule implements Module {
             }
             
             @Override
-            public Key<? extends IpcCallFilter> getKey() {
-                return key;
+            public IpcCallFilter getFilter() {
+                return provider.get();
             }
             
         }

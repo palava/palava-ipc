@@ -19,7 +19,6 @@ package de.cosmocode.palava.ipc;
 import java.util.List;
 
 import com.google.common.base.Predicate;
-import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 
 /**
@@ -40,10 +39,10 @@ interface IpcCallFilterDefinition {
     Predicate<? super IpcCommand> getPredicate();
     
     /**
-     * Provides the guice key for the associated filter.
+     * Provides the associated filter.
      * 
-     * @return the filter binding key
+     * @return the filter
      */
-    Key<? extends IpcCallFilter> getKey();
+    IpcCallFilter getFilter();
     
 }
