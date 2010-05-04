@@ -89,7 +89,11 @@ public abstract class AbstractIpcSession extends AbstractScopeContext implements
 
     @Override
     public boolean isExpired() {
-        return (System.currentTimeMillis() - lastAccess) > timeoutUnit.toMillis(timeout);
+        if (timeout == 0 || timeoutUnit == null) {
+            return false;
+        } else {
+            return (System.currentTimeMillis() - lastAccess) > timeoutUnit.toMillis(timeout);
+        }
     }
 
     @Override
