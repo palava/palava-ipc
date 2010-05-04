@@ -49,7 +49,7 @@ public abstract class AbstractIpcCallFilterChain implements IpcCallFilterChain {
     protected abstract IpcCallFilterChain proceedingChain();
     
     @Override
-    public Map<String, Object> filter(IpcCall call, IpcCommand command) throws IpcCommandExecutionException {
+    public final Map<String, Object> filter(IpcCall call, IpcCommand command) throws IpcCommandExecutionException {
         index++;
         if (index < getFilters().size()) {
             final IpcCallFilter filter = getFilters().get(index);
