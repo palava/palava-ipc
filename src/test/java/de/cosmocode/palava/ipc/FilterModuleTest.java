@@ -64,7 +64,7 @@ public final class FilterModuleTest {
         final Injector injector = Guice.createInjector(
             new LifecycleModule(),
             new DefaultRegistryModule(),
-            new IpcFilterModule(),
+            new DefaultIpcCallFilterChainFactoryModule(),
             new FilterModule() {
                 
                 @Override

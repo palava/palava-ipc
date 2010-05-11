@@ -26,7 +26,7 @@ import com.google.inject.Provides;
  *   <li>{@link IpcCallScoped}</li>
  *   <li>{@link IpcConnectionScoped}</li>
  *   <li>{@link IpcSessionScoped}</li>
- *   <li>{@link ConnectionAwareUnitOfWorkScope}}</li>
+ *   <li>{@link ConnectionAwareUnitOfWorkScope}</li>
  * </ol>
  *
  * @author Willi Schoenborn

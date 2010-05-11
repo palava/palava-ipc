@@ -22,11 +22,9 @@ import com.google.inject.Module;
 /**
  * Binds the default implementation to the {@link IpcCallFilterChainFactory} interface.
  *
- * @deprecated use {@link DefaultIpcCallFilterChainFactoryModule} instead
  * @author Willi Schoenborn
  */
-@Deprecated
-public final class IpcFilterModule implements Module {
+public final class DefaultIpcCallFilterChainFactoryModule implements Module {
 
     @Override
     public void configure(Binder binder) {
