@@ -16,16 +16,14 @@
 
 package de.cosmocode.palava.ipc;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
-import com.google.inject.Binder;
+import com.google.inject.AbstractModule;
 import com.google.inject.Key;
-import com.google.inject.Module;
 import com.google.inject.Provider;
-import com.google.inject.TypeLiteral;
-import com.google.inject.internal.Lists;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.util.Providers;
 
@@ -34,27 +32,8 @@ import com.google.inject.util.Providers;
  *
  * @author Willi Schoenborn
  */
-public abstract class FilterModule implements Module {
+public abstract class FilterModule extends AbstractModule {
 
-    private final List<IpcCallFilterDefinition> definitions = Lists.newArrayList();
-    
-    private Binder binder;
-    
-    @Override
-    public final void configure(Binder b) {
-        this.binder = b;
-        configure();
-        
-        final TypeLiteral<List<IpcCallFilterDefinition>> literal = IpcCallFilterDefinition.LITERAL;
-        final Key<List<IpcCallFilterDefinition>> key = Key.get(literal, UniqueAnnotations.create());
-        binder.bind(key).toInstance(definitions);
-    }
-    
-    /**
-     * Configures the filter instances.
-     */
-    protected abstract void configure();
-    
     /**
      * Creates a filter binding builder for the given predicate.
      * 
@@ -89,13 +68,21 @@ public abstract class FilterModule implements Module {
         @Override
         public void through(Key<? extends IpcCallFilter> key) {
             Preconditions.checkNotNull(key, "Key");
-            definitions.add(new InternalIpcCallFilterDefinition(binder.getProvider(key)));
+            bind(getProvider(key));
         }
         
         @Override
         public void through(IpcCallFilter filter) {
             Preconditions.checkNotNull(filter, "Filter");
-            definitions.add(new InternalIpcCallFilterDefinition(Providers.of(filter)));
+            bind(Providers.of(filter));
+        }
+        
+        private void bind(Provider<? extends IpcCallFilter> provider) {
+            final IpcCallFilterDefinition definition = new InternalIpcCallFilterDefinition(provider);
+            final List<IpcCallFilterDefinition> list = Collections.singletonList(definition);
+            final Key<List<IpcCallFilterDefinition>> key = Key.get(IpcCallFilterDefinition.LITERAL, 
+                UniqueAnnotations.create());
+            FilterModule.this.bind(key).toInstance(list);
         }
         
         /**
