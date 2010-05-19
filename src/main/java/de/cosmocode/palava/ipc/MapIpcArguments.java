@@ -16,6 +16,7 @@
 
 package de.cosmocode.palava.ipc;
 
+import java.util.Collections;
 import java.util.Map;
 
 import com.google.common.base.Preconditions;
@@ -30,6 +31,8 @@ import de.cosmocode.collections.utility.UtilitySet;
  */
 public final class MapIpcArguments extends AbstractIpcArguments {
 
+    private static final IpcArguments EMPTY = new MapIpcArguments(Collections.<String, Object>emptyMap());
+    
     private final Map<String, Object> arguments;
     
     public MapIpcArguments(Map<String, Object> arguments) {
@@ -46,4 +49,14 @@ public final class MapIpcArguments extends AbstractIpcArguments {
         return arguments.put(key, value);
     }
 
+    /**
+     * Returns empty immutable {@link IpcArguments}.
+     * 
+     * @since 1.3
+     * @return empty immutable arguments
+     */
+    public static IpcArguments empty() {
+        return EMPTY;
+    }
+    
 }
