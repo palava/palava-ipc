@@ -58,6 +58,8 @@ public interface IpcCallScope extends Scope, Provider<IpcCall> {
     /**
      * Exists this scope. This method just returns
      * if there is currently no scoping block in progress.
+     * The current ipc call will be cleared after this method returns,
+     * in clear words: {@link IpcCall#clear()} will be called.
      */
     void exit();
 
