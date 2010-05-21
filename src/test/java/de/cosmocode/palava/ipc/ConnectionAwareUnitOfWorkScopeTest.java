@@ -71,9 +71,9 @@ public final class ConnectionAwareUnitOfWorkScopeTest extends AbstractUnitOfWork
         };
         
         final IpcConnection connection = EasyMock.createMock("connection", IpcConnection.class);
-        connection.set(scopeKey, scopeProvider);
+        connection.set(scopeKey.toString(), scopeProvider);
         EasyMock.expectLastCall();
-        EasyMock.expect(connection.get(scopeKey)).andReturn(expected);
+        EasyMock.expect(connection.get(scopeKey.toString())).andReturn(expected);
         EasyMock.replay(connection);
         
         final Provider<IpcConnection> provider = new Provider<IpcConnection>() {
