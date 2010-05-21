@@ -16,6 +16,7 @@
 
 package de.cosmocode.palava.ipc;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -32,6 +33,6 @@ public interface IpcSessionResumeEvent {
      * @param session the session which will be resumed
      * @param data the deserialized context information
      */
-    void eventIpcSessionResume(IpcSession session, Map<String, Object> data);
+    void eventIpcSessionResume(IpcSession session, Map<String, ? extends Serializable> data);
 
 }

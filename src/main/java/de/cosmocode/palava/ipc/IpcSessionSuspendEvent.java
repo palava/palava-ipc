@@ -16,6 +16,7 @@
 
 package de.cosmocode.palava.ipc;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -32,6 +33,6 @@ public interface IpcSessionSuspendEvent {
      * @param ipcSession the session which will be suspended
      * @param data context information which will be serialized
      */
-    void eventIpcSessionSuspend(IpcSession ipcSession, Map<String, Object> data);
+    void eventIpcSessionSuspend(IpcSession ipcSession, Map<String, ? super Serializable> data);
 
 }

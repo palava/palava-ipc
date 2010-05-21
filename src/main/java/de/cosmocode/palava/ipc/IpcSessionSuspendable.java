@@ -16,6 +16,7 @@
 
 package de.cosmocode.palava.ipc;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -30,13 +31,13 @@ public interface IpcSessionSuspendable {
      *
      * @param data a map to store meta informations for the later resume
      */
-    void suspend(Map<String, Object> data);
+    void suspend(Map<String, ? super Serializable> data);
 
     /**
      * Will be triggered when the corresponding context gets resumed.
      *
      * @param data the map, created on suspend
      */
-    void resume(Map<String, Object> data);
+    void resume(Map<String, ? extends Serializable> data);
 
 }
