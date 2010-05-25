@@ -27,6 +27,7 @@ final class SessionConstants {
     public static final String KEYS = "keys";
     public static final String ENTRIES = "entries";
     public static final String STATUS = "status";
+    public static final String SORT = "sort";
 
     private SessionConstants() {
         
