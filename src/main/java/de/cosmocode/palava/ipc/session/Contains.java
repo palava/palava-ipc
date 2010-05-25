@@ -29,6 +29,7 @@ import de.cosmocode.palava.ipc.IpcCommandExecutionException;
 import de.cosmocode.palava.ipc.IpcSession;
 import de.cosmocode.palava.ipc.IpcCommand.Description;
 import de.cosmocode.palava.ipc.IpcCommand.Param;
+import de.cosmocode.palava.ipc.IpcCommand.Params;
 import de.cosmocode.palava.ipc.IpcCommand.Return;
 
 /**
@@ -38,7 +39,11 @@ import de.cosmocode.palava.ipc.IpcCommand.Return;
  * @author Willi Schoenborn
  */
 @Description("Checks whether the session contains all specified keys")
-@Param(name = SessionConstants.KEYS, description = "The requested keys", type = "array")
+@Params({
+    @Param(name = SessionConstants.KEYS, description = "The requested keys", type = "array"),
+    @Param(name = SessionConstants.NAMESPACE, description = "The global namespace keys (null disables)", 
+        type = "string", optional = true)
+})
 @Return(name = SessionConstants.STATUS, 
     description = "A mapping of key to boolean, where keys mapped to true are contained")
 @Singleton
@@ -48,12 +53,23 @@ public class Contains implements IpcCommand {
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {
         final IpcArguments arguments = call.getArguments();
         final List<Object> keys = arguments.getList(SessionConstants.KEYS);
+        final String namespace = arguments.getString(SessionConstants.NAMESPACE, null);
         final IpcSession session = call.getConnection().getSession();
         
         final Map<Object, Boolean> status = Maps.newHashMap();
         
         for (Object key : keys) {
-            final boolean contained = session.contains(key);
+            final boolean contained;
+            
+            if (namespace == null) {
+                contained = session.contains(key);
+            } else if (session.contains(namespace)) {
+                final Map<Object, Object> namespaced = session.get(namespace);
+                contained = namespaced.containsKey(key);
+            } else {
+                contained = false;
+            }
+            
             status.put(key, Boolean.valueOf(contained));
         }
         

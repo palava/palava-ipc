@@ -28,6 +28,7 @@ import de.cosmocode.palava.ipc.IpcCommandExecutionException;
 import de.cosmocode.palava.ipc.IpcSession;
 import de.cosmocode.palava.ipc.IpcCommand.Description;
 import de.cosmocode.palava.ipc.IpcCommand.Param;
+import de.cosmocode.palava.ipc.IpcCommand.Params;
 
 /**
  * See below.
@@ -36,7 +37,11 @@ import de.cosmocode.palava.ipc.IpcCommand.Param;
  * @author Willi Schoenborn
  */
 @Description("Adds all specified entries to the session.")
-@Param(name = SessionConstants.ENTRIES, description = "Map of entries")
+@Params({
+    @Param(name = SessionConstants.ENTRIES, description = "Map of entries"),
+    @Param(name = SessionConstants.NAMESPACE, description = "The global namespace keys (null disables)", 
+        type = "string", optional = true)
+})
 @Singleton
 public final class Set implements IpcCommand {
 
@@ -44,11 +49,16 @@ public final class Set implements IpcCommand {
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {
         final IpcArguments arguments = call.getArguments();
         final Map<Object, Object> entries = arguments.getMap(SessionConstants.ENTRIES);
+        final String namespace = arguments.getString(SessionConstants.NAMESPACE, null);
         final IpcSession session = call.getConnection().getSession();
-        
-        // @Alliteration
+
         for (Entry<Object, Object> entry : entries.entrySet()) {
-            session.set(entry.getKey(), entry.getValue());
+            if (namespace == null) {
+                session.set(entry.getKey(), entry.getValue());
+            } else if (session.contains(namespace)) {
+                final Map<Object, Object> namespaced = session.get(namespace);
+                namespaced.put(entry.getKey(), entry.getValue());
+            }
         }
         
     }

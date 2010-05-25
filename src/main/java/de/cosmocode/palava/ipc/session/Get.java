@@ -29,6 +29,7 @@ import de.cosmocode.palava.ipc.IpcCommandExecutionException;
 import de.cosmocode.palava.ipc.IpcSession;
 import de.cosmocode.palava.ipc.IpcCommand.Description;
 import de.cosmocode.palava.ipc.IpcCommand.Param;
+import de.cosmocode.palava.ipc.IpcCommand.Params;
 import de.cosmocode.palava.ipc.IpcCommand.Return;
 
 /**
@@ -38,7 +39,11 @@ import de.cosmocode.palava.ipc.IpcCommand.Return;
  * @author Willi Schoenborn
  */
 @Description("Retrieves the values for the specified keys.")
-@Param(name = SessionConstants.KEYS, description = "The requested keys", type = "array")
+@Params({
+    @Param(name = SessionConstants.KEYS, description = "The requested keys", type = "array"),
+    @Param(name = SessionConstants.NAMESPACE, description = "The global namespace keys (null disables)", 
+        type = "string", optional = true)
+})
 @Return(name = SessionConstants.ENTRIES, description = "The a mapping of all found entries")
 @Singleton
 public final class Get implements IpcCommand {
@@ -47,12 +52,23 @@ public final class Get implements IpcCommand {
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {
         final IpcArguments arguments = call.getArguments();
         final List<Object> keys = arguments.getList(SessionConstants.KEYS);
+        final String namespace = arguments.getString(SessionConstants.NAMESPACE, null);
         final IpcSession session = call.getConnection().getSession();
         
         final Map<Object, Object> entries = Maps.newHashMap();
         
         for (Object key : keys) {
-            final Object value = session.get(key);
+            final Object value;
+            
+            if (namespace == null) {
+                value = session.get(key);
+            } else if (session.contains(namespace)) {
+                final Map<Object, Object> namespaced = session.get(namespace);
+                value = namespaced.get(key);
+            } else {
+                value = null;
+            }
+            
             entries.put(key, value);
         }
         

@@ -28,6 +28,7 @@ import de.cosmocode.palava.ipc.IpcCommandExecutionException;
 import de.cosmocode.palava.ipc.IpcSession;
 import de.cosmocode.palava.ipc.IpcCommand.Description;
 import de.cosmocode.palava.ipc.IpcCommand.Param;
+import de.cosmocode.palava.ipc.IpcCommand.Params;
 
 /**
  * See below.
@@ -36,7 +37,11 @@ import de.cosmocode.palava.ipc.IpcCommand.Param;
  * @author Willi Schoenborn
  */
 @Description("Remove entries from the session")
-@Param(name = SessionConstants.KEYS, description = "List of keys being removed")
+@Params({
+    @Param(name = SessionConstants.KEYS, description = "List of keys being removed"),
+    @Param(name = SessionConstants.NAMESPACE, description = "The global namespace keys (null disables)", 
+        type = "string", optional = true)
+})
 @Singleton
 public class Remove implements IpcCommand {
 
@@ -44,10 +49,16 @@ public class Remove implements IpcCommand {
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {
         final IpcArguments arguments = call.getArguments();
         final List<Object> keys = arguments.getList(SessionConstants.KEYS);
+        final String namespace = arguments.getString(SessionConstants.NAMESPACE, null);
         final IpcSession session = call.getConnection().getSession();
-        
+
         for (Object key : keys) {
-            session.remove(key);
+            if (namespace == null) {
+                session.remove(key);
+            } else if (session.contains(namespace)) {
+                final Map<Object, Object> namespaced = session.get(namespace);
+                namespaced.remove(key);
+            }
         }
     }
 

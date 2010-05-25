@@ -24,12 +24,14 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.inject.Singleton;
 
+import de.cosmocode.palava.ipc.IpcArguments;
 import de.cosmocode.palava.ipc.IpcCall;
 import de.cosmocode.palava.ipc.IpcCommand;
 import de.cosmocode.palava.ipc.IpcCommandExecutionException;
 import de.cosmocode.palava.ipc.IpcSession;
 import de.cosmocode.palava.ipc.IpcCommand.Description;
 import de.cosmocode.palava.ipc.IpcCommand.Param;
+import de.cosmocode.palava.ipc.IpcCommand.Params;
 import de.cosmocode.palava.ipc.IpcCommand.Return;
 
 /**
@@ -39,8 +41,12 @@ import de.cosmocode.palava.ipc.IpcCommand.Return;
  * @author Willi Schoenborn
  */
 @Description("Retrieves all entries of the session")
-@Param(name = SessionConstants.SORT, description = "Specifies whether entries should be sorted",
-    type = "boolean", optional = true, defaultValue = "false")
+@Params({
+    @Param(name = SessionConstants.SORT, description = "Specifies whether entries should be sorted",
+        type = "boolean", optional = true, defaultValue = "false"),
+    @Param(name = SessionConstants.NAMESPACE, description = "The global namespace keys (null disables)", 
+        type = "string", optional = true)
+})
 @Return(name = SessionConstants.ENTRIES, description = "All entries")
 @Singleton
 public class Entries implements IpcCommand {
@@ -49,13 +55,20 @@ public class Entries implements IpcCommand {
     
     @Override
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {
-        final boolean sort = call.getArguments().getBoolean(SessionConstants.SORT, false);
+        final IpcArguments arguments = call.getArguments();
+        final boolean sort = arguments.getBoolean(SessionConstants.SORT, false);
+        final String namespace = arguments.getString(SessionConstants.NAMESPACE, null);
         final IpcSession session = call.getConnection().getSession();
         
         final Map<Object, Object> entries = sort ? Maps.newTreeMap(ordering) : Maps.newHashMap();
         
-        for (Entry<Object, Object> entry : session) {
-            entries.put(entry.getKey(), entry.getValue());
+        if (namespace == null) {
+            for (Entry<Object, Object> entry : session) {
+                entries.put(entry.getKey(), entry.getValue());
+            }
+        } else if (session.contains(namespace)) {
+            final Map<Object, Object> namespaced = session.get(namespace);
+            entries.putAll(namespaced);
         }
         
         result.put(SessionConstants.ENTRIES, entries);

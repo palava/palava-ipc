@@ -23,11 +23,13 @@ import java.util.Map.Entry;
 import com.google.common.collect.Lists;
 import com.google.inject.Singleton;
 
+import de.cosmocode.palava.ipc.IpcArguments;
 import de.cosmocode.palava.ipc.IpcCall;
 import de.cosmocode.palava.ipc.IpcCommand;
 import de.cosmocode.palava.ipc.IpcCommandExecutionException;
 import de.cosmocode.palava.ipc.IpcSession;
 import de.cosmocode.palava.ipc.IpcCommand.Description;
+import de.cosmocode.palava.ipc.IpcCommand.Param;
 import de.cosmocode.palava.ipc.IpcCommand.Return;
 
 /**
@@ -37,18 +39,27 @@ import de.cosmocode.palava.ipc.IpcCommand.Return;
  * @author Willi Schoenborn
  */
 @Description("Retrieves all keys in this session")
+@Param(name = SessionConstants.NAMESPACE, description = "The global namespace keys (null disables)", 
+    type = "string", optional = true)
 @Return(name = SessionConstants.KEYS, description = "List of all keys")
 @Singleton
 public class Keys implements IpcCommand {
 
     @Override
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {
+        final IpcArguments arguments = call.getArguments();
+        final String namespace = arguments.getString(SessionConstants.NAMESPACE, null);
         final IpcSession session = call.getConnection().getSession();
         
         final List<Object> keys = Lists.newArrayList();
-        
-        for (Entry<Object, Object> entry : session) {
-            keys.add(entry.getKey());
+
+        if (namespace == null) {
+            for (Entry<Object, Object> entry : session) {
+                keys.add(entry.getKey());
+            }
+        } else if (session.contains(namespace)) {
+            final Map<Object, Object> namespaced = session.get(namespace);
+            keys.addAll(namespaced.keySet());
         }
         
         result.put(SessionConstants.KEYS, keys);
