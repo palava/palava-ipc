@@ -16,17 +16,20 @@
 
 package de.cosmocode.palava.ipc.session;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 import com.google.common.collect.Maps;
 import com.google.inject.Singleton;
-import de.cosmocode.palava.ipc.*;
+
+import de.cosmocode.palava.ipc.IpcArguments;
+import de.cosmocode.palava.ipc.IpcCall;
+import de.cosmocode.palava.ipc.IpcCommand;
+import de.cosmocode.palava.ipc.IpcCommandExecutionException;
+import de.cosmocode.palava.ipc.IpcSession;
 import de.cosmocode.palava.ipc.IpcCommand.Description;
 import de.cosmocode.palava.ipc.IpcCommand.Param;
 import de.cosmocode.palava.ipc.IpcCommand.Params;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * See below.
@@ -43,7 +46,6 @@ import java.util.Map.Entry;
 })
 @Singleton
 public final class Set implements IpcCommand {
-    private static final Logger LOG = LoggerFactory.getLogger(Set.class);
 
     @Override
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {
@@ -58,11 +60,11 @@ public final class Set implements IpcCommand {
             }
         } else {
             final Map<Object, Object> namespaced;
-            if (!session.contains(namespace)) {
+            if (session.contains(namespace)) {
+                namespaced = session.get(namespace);
+            } else {
                 namespaced = Maps.newHashMap();
                 session.set(namespace, namespaced);
-            } else {
-                namespaced = session.get(namespace);
             }
             namespaced.putAll(entries);
         }
