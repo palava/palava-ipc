@@ -16,29 +16,27 @@
 
 package de.cosmocode.palava.ipc.session;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.google.common.base.Functions;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.inject.Singleton;
-
-import de.cosmocode.palava.ipc.IpcArguments;
-import de.cosmocode.palava.ipc.IpcCall;
-import de.cosmocode.palava.ipc.IpcCommand;
-import de.cosmocode.palava.ipc.IpcCommandExecutionException;
-import de.cosmocode.palava.ipc.IpcSession;
+import de.cosmocode.palava.ipc.*;
 import de.cosmocode.palava.ipc.IpcCommand.Description;
 import de.cosmocode.palava.ipc.IpcCommand.Param;
 import de.cosmocode.palava.ipc.IpcCommand.Params;
 import de.cosmocode.palava.ipc.IpcCommand.Return;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * See below.
  *
  * @since 1.3
  * @author Willi Schoenborn
+ * @author Tobias Sarnowski
  */
 @Description("Retrieves all entries of the session")
 @Params({
@@ -50,6 +48,7 @@ import de.cosmocode.palava.ipc.IpcCommand.Return;
 @Return(name = SessionConstants.ENTRIES, description = "All entries")
 @Singleton
 public class Entries implements IpcCommand {
+    private static final Logger LOG = LoggerFactory.getLogger(Entries.class);
 
     private final Ordering<Object> ordering = Ordering.natural().onResultOf(Functions.toStringFunction());
     

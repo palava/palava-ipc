@@ -16,25 +16,24 @@
 
 package de.cosmocode.palava.ipc.session;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
+import com.google.common.collect.Maps;
 import com.google.inject.Singleton;
-
-import de.cosmocode.palava.ipc.IpcArguments;
-import de.cosmocode.palava.ipc.IpcCall;
-import de.cosmocode.palava.ipc.IpcCommand;
-import de.cosmocode.palava.ipc.IpcCommandExecutionException;
-import de.cosmocode.palava.ipc.IpcSession;
+import de.cosmocode.palava.ipc.*;
 import de.cosmocode.palava.ipc.IpcCommand.Description;
 import de.cosmocode.palava.ipc.IpcCommand.Param;
 import de.cosmocode.palava.ipc.IpcCommand.Params;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * See below.
  *
  * @since 1.3
  * @author Willi Schoenborn
+ * @author Tobias Sarnowski
  */
 @Description("Adds all specified entries to the session.")
 @Params({
@@ -44,6 +43,7 @@ import de.cosmocode.palava.ipc.IpcCommand.Params;
 })
 @Singleton
 public final class Set implements IpcCommand {
+    private static final Logger LOG = LoggerFactory.getLogger(Set.class);
 
     @Override
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {
@@ -52,13 +52,19 @@ public final class Set implements IpcCommand {
         final String namespace = arguments.getString(SessionConstants.NAMESPACE, null);
         final IpcSession session = call.getConnection().getSession();
 
-        for (Entry<Object, Object> entry : entries.entrySet()) {
-            if (namespace == null) {
+        if (namespace == null) {
+            for (Entry<Object, Object> entry : entries.entrySet()) {
                 session.set(entry.getKey(), entry.getValue());
-            } else if (session.contains(namespace)) {
-                final Map<Object, Object> namespaced = session.get(namespace);
-                namespaced.put(entry.getKey(), entry.getValue());
             }
+        } else {
+            final Map<Object, Object> namespaced;
+            if (!session.contains(namespace)) {
+                namespaced = Maps.newHashMap();
+                session.set(namespace, namespaced);
+            } else {
+                namespaced = session.get(namespace);
+            }
+            namespaced.putAll(entries);
         }
         
     }
