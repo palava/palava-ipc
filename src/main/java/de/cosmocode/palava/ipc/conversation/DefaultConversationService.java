@@ -16,16 +16,14 @@
 
 package de.cosmocode.palava.ipc.conversation;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.name.Names;
-
 import de.cosmocode.palava.ipc.IpcSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Default {@link ConversationService} implementation.
@@ -50,18 +48,7 @@ final class DefaultConversationService implements ConversationService {
         final IpcSession session = currentSession.get();
         final Conversation present = session.get(key);
         if (present == null) {
-            final Conversation conversation = new AbstractConversation() {
-                
-                @Override
-                public void abort() {
-                    try {
-                        clear();
-                    } finally {
-                        session.remove(key);
-                    }
-                }
-                
-            };
+            final Conversation conversation = new DefaultConversation(session, key);
             LOG.trace("Starting new conversation {}", conversation);
             session.set(key, conversation);
             return conversation;
