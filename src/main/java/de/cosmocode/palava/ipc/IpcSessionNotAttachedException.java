@@ -17,21 +17,28 @@
 package de.cosmocode.palava.ipc;
 
 /**
+ * A special RuntimeException thrown by {@link IpcConnection#getSession()}.
+ * 
  * @author Tobias Sarnowski
  */
 public class IpcSessionNotAttachedException extends IllegalStateException {
-    public IpcSessionNotAttachedException() {
-    }
+    
+    private static final long serialVersionUID = 994854837371470010L;
 
-    public IpcSessionNotAttachedException(String s) {
-        super(s);
+    public IpcSessionNotAttachedException() {
+        super();
     }
 
     public IpcSessionNotAttachedException(String message, Throwable cause) {
         super(message, cause);
     }
 
+    public IpcSessionNotAttachedException(String s) {
+        super(s);
+    }
+
     public IpcSessionNotAttachedException(Throwable cause) {
         super(cause);
     }
+
 }

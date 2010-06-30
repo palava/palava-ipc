@@ -30,8 +30,8 @@ public interface IpcConnection extends ScopeContext {
      * The connection related session.
      *
      * @return must not be null
-     * @throws IpcSessionNotAttachedException if this method is called in a state where no session is assigned to the
-     *                                        connection.
+     * @throws IpcSessionNotAttachedException if this method is called in a state where 
+     *         no session is assigned to the connection.
      */
     IpcSession getSession();
 

@@ -18,23 +18,26 @@ package de.cosmocode.palava.ipc.conversation;
 
 import java.io.Serializable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.common.base.Preconditions;
 
 import de.cosmocode.palava.ipc.IpcSession;
 
 /**
+ * Default {@link Conversation} implementation. This implementation removes the given key
+ * from the specified session when {@link Conversation#abort()} is called.
+ * 
  * @author Tobias Sarnowski
  */
-public class DefaultConversation extends AbstractConversation implements Serializable {
-    private static final Logger LOG = LoggerFactory.getLogger(DefaultConversation.class);
+public final class DefaultConversation extends AbstractConversation implements Serializable {
 
-    private IpcSession ipcSession;
+    private static final long serialVersionUID = -6810686546862281083L;
+    
+    private IpcSession session;
     private String key;
 
-    public DefaultConversation(IpcSession ipcSession, String key) {
-        this.ipcSession = ipcSession;
-        this.key = key;
+    public DefaultConversation(IpcSession session, String key) {
+        this.session = Preconditions.checkNotNull(session, "Session");
+        this.key = Preconditions.checkNotNull(key, "Key");
     }
 
     @Override
@@ -42,7 +45,8 @@ public class DefaultConversation extends AbstractConversation implements Seriali
         try {
             clear();
         } finally {
-            ipcSession.remove(key);
+            session.remove(key);
         }
     }
+    
 }
