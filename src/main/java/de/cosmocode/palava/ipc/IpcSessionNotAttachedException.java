@@ -16,23 +16,22 @@
 
 package de.cosmocode.palava.ipc;
 
-import de.cosmocode.palava.scope.ScopeContext;
-
 /**
- * A connection represents a set of {@linkplain IpcCall calls}.
- *
  * @author Tobias Sarnowski
- * @author Willi Schoenborn
  */
-public interface IpcConnection extends ScopeContext {
+public class IpcSessionNotAttachedException extends IllegalStateException {
+    public IpcSessionNotAttachedException() {
+    }
 
-    /**
-     * The connection related session.
-     *
-     * @return must not be null
-     * @throws IpcSessionNotAttachedException if this method is called in a state where no session is assigned to the
-     *                                        connection.
-     */
-    IpcSession getSession();
+    public IpcSessionNotAttachedException(String s) {
+        super(s);
+    }
 
+    public IpcSessionNotAttachedException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public IpcSessionNotAttachedException(Throwable cause) {
+        super(cause);
+    }
 }
