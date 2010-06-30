@@ -16,11 +16,12 @@
 
 package de.cosmocode.palava.ipc.conversation;
 
-import de.cosmocode.palava.ipc.IpcSession;
+import java.io.Serializable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
+import de.cosmocode.palava.ipc.IpcSession;
 
 /**
  * @author Tobias Sarnowski

@@ -16,14 +16,16 @@
 
 package de.cosmocode.palava.ipc.conversation;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.name.Names;
+
 import de.cosmocode.palava.ipc.IpcSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Default {@link ConversationService} implementation.
