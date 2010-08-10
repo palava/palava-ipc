@@ -70,9 +70,8 @@ public final class CompletionFailedException extends Exception {
     
     @Override
     public String toString() {
-        return String.format("%s:\n%s", 
-            this, JOINER.join(Iterables.transform(errors.keySet(), Functions.toStringFunction()))
-        );
+        return getClass().getName() + ":\n" + JOINER.join(
+            Iterables.transform(errors.keySet(), Functions.toStringFunction()));
     }
     
 }
