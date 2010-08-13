@@ -8,9 +8,9 @@
   <name>Palava IPC</name>
   <artifactId>palava-ipc</artifactId>
   <groupId>de.cosmocode.palava</groupId>
-  <version>1.7-SNAPSHOT</version>
+  <version>1.6.2</version>
   <scm>
-    <developerConnection>scm:svn:https://palava.svn.cosmocode.de/palava-ipc/trunk</developerConnection>
+    <developerConnection>scm:svn:https://palava.svn.cosmocode.de/palava-ipc/tags/1.6.2</developerConnection>
   </scm>
   <repositories>
     <repository>
