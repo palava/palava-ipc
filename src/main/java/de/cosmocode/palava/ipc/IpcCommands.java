@@ -93,14 +93,14 @@ public final class IpcCommands {
      */
     public static boolean mayThrow(Class<? extends IpcCommand> command, Class<? extends Throwable> throwable) {
         if (command.isAnnotationPresent(Throw.class)) {
-            if (command.getAnnotation(Throw.class).name().equals(throwable)) {
+            if (command.getAnnotation(Throw.class).name().isAssignableFrom(throwable)) {
                 return true;
             }
         }
         
         if (command.isAnnotationPresent(Throws.class)) {
             for (Throw t : command.getAnnotation(Throws.class).value()) {
-                if (t.name().equals(throwable)) {
+                if (t.name().isAssignableFrom(throwable)) {
                     return true;
                 }
             }
