@@ -1,7 +1,5 @@
 package de.cosmocode.palava.ipc;
 
-import java.net.InetAddress;
-
 /**
  * 
  *
@@ -21,7 +19,7 @@ public interface Browser {
     
     String getReferer();
     
-    InetAddress getRemoteAddress();
+    String getRemoteAddress();
     
     String getUserAgent();
     
