@@ -59,6 +59,18 @@ public final class IpcModule implements Module {
     IpcCall provideCall(IpcCallScope scope) {
         return scope.get();
     }
+
+    /**
+     * Provides the current call annotated with {@link Current}.
+     * 
+     * @param scope the call scope
+     * @return the current call or null, if there is no call scope in progress
+     */
+    @Provides
+    @Current
+    IpcCall provideCurrentCall(IpcCallScope scope) {
+        return scope.get();
+    }
     
     /**
      * Provides the current connection.
@@ -72,6 +84,18 @@ public final class IpcModule implements Module {
     }
     
     /**
+     * Provides the current connection annotated with {@link Current}.
+     * 
+     * @param scope the connection scope
+     * @return the current connection or null, if there is no connection scope in progress
+     */
+    @Provides
+    @Current
+    IpcConnection provideCurrentConnection(IpcConnectionScope scope) {
+        return scope.get();
+    }
+    
+    /**
      * Provides the current session.
      * 
      * @param scope the session scope
@@ -79,6 +103,18 @@ public final class IpcModule implements Module {
      */
     @Provides
     IpcSession provideSession(IpcSessionScope scope) {
+        return scope.get();
+    }
+    
+    /**
+     * Provides the current session annotated with {@link Current}.
+     * 
+     * @param scope the session scope
+     * @return the current session or null, if there is no session scope in progress 
+     */
+    @Provides
+    @Current
+    IpcSession provideCurrentSession(IpcSessionScope scope) {
         return scope.get();
     }
     
