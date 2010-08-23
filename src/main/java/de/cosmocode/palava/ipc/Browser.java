@@ -1,12 +1,13 @@
 package de.cosmocode.palava.ipc;
 
-import java.net.InetSocketAddress;
+import java.net.InetAddress;
 
 /**
  * 
  *
- * @since 
+ * @since 1.9 
  * @author Willi Schoenborn
+ * @author Tobias Sarnowski
  */
 public interface Browser {
 
@@ -20,7 +21,7 @@ public interface Browser {
     
     String getReferer();
     
-    InetSocketAddress getRemoteAddress();
+    InetAddress getRemoteAddress();
     
     String getUserAgent();
     
