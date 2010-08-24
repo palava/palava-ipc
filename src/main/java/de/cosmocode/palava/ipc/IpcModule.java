@@ -18,16 +18,17 @@ package de.cosmocode.palava.ipc;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
-import com.google.inject.Provides;
 
 /**
- * Binds the four custom scopes.
+ * Binds the three custom scopes.
  * <ol>
  *   <li>{@link IpcCallScoped}</li>
  *   <li>{@link IpcConnectionScoped}</li>
  *   <li>{@link IpcSessionScoped}</li>
- *   <li>{@link ConnectionAwareUnitOfWorkScope}</li>
  * </ol>
+ * 
+ * And in addition binds the corresponding providers for
+ * {@link IpcCall}, {@link IpcConnection} and {@link IpcSession}.
  *
  * @author Willi Schoenborn
  * @author Tobias Sarnowski
@@ -39,83 +40,20 @@ public final class IpcModule implements Module {
         final IpcCallScope callScope = new ThreadLocalIpcCallScope();
         binder.bindScope(IpcCallScoped.class, callScope);
         binder.bind(IpcCallScope.class).toInstance(callScope);
+        binder.bind(IpcCall.class).toProvider(callScope);
+        binder.bind(IpcCall.class).annotatedWith(Current.class).toProvider(callScope);
 
         final IpcConnectionScope connectionScope = new IpcConnectionScope(callScope);
         binder.bindScope(IpcConnectionScoped.class, connectionScope);
         binder.bind(IpcConnectionScope.class).toInstance(connectionScope);
+        binder.bind(IpcConnection.class).toProvider(connectionScope);
+        binder.bind(IpcConnection.class).annotatedWith(Current.class).toProvider(connectionScope);
 
         final IpcSessionScope sessionScope = new IpcSessionScope(connectionScope);
         binder.bindScope(IpcSessionScoped.class, sessionScope);
         binder.bind(IpcSessionScope.class).toInstance(sessionScope);
-    }
-
-    /**
-     * Provides the current call.
-     * 
-     * @param scope the call scope
-     * @return the current call or null, if there is no call scope in progress
-     */
-    @Provides
-    IpcCall provideCall(IpcCallScope scope) {
-        return scope.get();
-    }
-
-    /**
-     * Provides the current call annotated with {@link Current}.
-     * 
-     * @param scope the call scope
-     * @return the current call or null, if there is no call scope in progress
-     */
-    @Provides
-    @Current
-    IpcCall provideCurrentCall(IpcCallScope scope) {
-        return scope.get();
-    }
-    
-    /**
-     * Provides the current connection.
-     * 
-     * @param scope the connection scope
-     * @return the current connection or null, if there is no connection scope in progress
-     */
-    @Provides
-    IpcConnection provideConnection(IpcConnectionScope scope) {
-        return scope.get();
-    }
-    
-    /**
-     * Provides the current connection annotated with {@link Current}.
-     * 
-     * @param scope the connection scope
-     * @return the current connection or null, if there is no connection scope in progress
-     */
-    @Provides
-    @Current
-    IpcConnection provideCurrentConnection(IpcConnectionScope scope) {
-        return scope.get();
-    }
-    
-    /**
-     * Provides the current session.
-     * 
-     * @param scope the session scope
-     * @return the current session or null, if there is no session scope in progress 
-     */
-    @Provides
-    IpcSession provideSession(IpcSessionScope scope) {
-        return scope.get();
-    }
-    
-    /**
-     * Provides the current session annotated with {@link Current}.
-     * 
-     * @param scope the session scope
-     * @return the current session or null, if there is no session scope in progress 
-     */
-    @Provides
-    @Current
-    IpcSession provideCurrentSession(IpcSessionScope scope) {
-        return scope.get();
+        binder.bind(IpcSession.class).toProvider(sessionScope);
+        binder.bind(IpcSession.class).annotatedWith(Current.class).toProvider(sessionScope);
     }
     
 }
