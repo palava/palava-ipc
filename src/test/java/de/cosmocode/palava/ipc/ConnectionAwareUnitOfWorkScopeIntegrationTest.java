@@ -58,7 +58,7 @@ public final class ConnectionAwareUnitOfWorkScopeIntegrationTest extends Abstrac
         return Guice.createInjector(
             new LifecycleModule(),
             new DefaultRegistryModule(),
-            new IpcModule(),
+            new IpcScopeModule(),
             new ConnectionAwareUnitOfWorkScopeModule(),
             new Module() {
                 
