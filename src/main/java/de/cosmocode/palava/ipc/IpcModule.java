@@ -29,31 +29,17 @@ import com.google.inject.Module;
  * 
  * And in addition binds the corresponding providers for
  * {@link IpcCall}, {@link IpcConnection} and {@link IpcSession}.
- *
+ * 
+ * @deprecated use {@link IpcScopeModule}
  * @author Willi Schoenborn
  * @author Tobias Sarnowski
  */
+@Deprecated
 public final class IpcModule implements Module {
 
     @Override
     public void configure(Binder binder) {
-        final IpcCallScope callScope = new ThreadLocalIpcCallScope();
-        binder.bindScope(IpcCallScoped.class, callScope);
-        binder.bind(IpcCallScope.class).toInstance(callScope);
-        binder.bind(IpcCall.class).toProvider(callScope);
-        binder.bind(IpcCall.class).annotatedWith(Current.class).toProvider(callScope);
-
-        final IpcConnectionScope connectionScope = new IpcConnectionScope(callScope);
-        binder.bindScope(IpcConnectionScoped.class, connectionScope);
-        binder.bind(IpcConnectionScope.class).toInstance(connectionScope);
-        binder.bind(IpcConnection.class).toProvider(connectionScope);
-        binder.bind(IpcConnection.class).annotatedWith(Current.class).toProvider(connectionScope);
-
-        final IpcSessionScope sessionScope = new IpcSessionScope(connectionScope);
-        binder.bindScope(IpcSessionScoped.class, sessionScope);
-        binder.bind(IpcSessionScope.class).toInstance(sessionScope);
-        binder.bind(IpcSession.class).toProvider(sessionScope);
-        binder.bind(IpcSession.class).annotatedWith(Current.class).toProvider(sessionScope);
+        binder.install(new IpcScopeModule());
     }
     
 }
