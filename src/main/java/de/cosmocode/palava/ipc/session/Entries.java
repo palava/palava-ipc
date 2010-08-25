@@ -50,7 +50,7 @@ import de.cosmocode.palava.ipc.IpcSession;
 })
 @Return(name = SessionConstants.ENTRIES, description = "All entries")
 @Singleton
-public class Entries implements IpcCommand {
+final class Entries implements IpcCommand {
 
     private final Ordering<Object> ordering = Ordering.natural().onResultOf(Functions.toStringFunction());
     

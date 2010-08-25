@@ -46,7 +46,7 @@ import de.cosmocode.palava.ipc.IpcSession;
 })
 @Return(name = SessionConstants.ENTRIES, description = "The a mapping of all found entries")
 @Singleton
-public final class Get implements IpcCommand {
+final class Get implements IpcCommand {
 
     @Override
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {

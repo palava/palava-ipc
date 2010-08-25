@@ -43,7 +43,7 @@ import de.cosmocode.palava.ipc.IpcSession;
     type = "string", optional = true)
 @Return(name = SessionConstants.KEYS, description = "List of all keys")
 @Singleton
-public class Keys implements IpcCommand {
+final class Keys implements IpcCommand {
 
     @Override
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {

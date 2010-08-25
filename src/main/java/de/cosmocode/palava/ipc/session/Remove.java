@@ -43,7 +43,7 @@ import de.cosmocode.palava.ipc.IpcSession;
         type = "string", optional = true)
 })
 @Singleton
-public class Remove implements IpcCommand {
+final class Remove implements IpcCommand {
 
     @Override
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {

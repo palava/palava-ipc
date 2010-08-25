@@ -47,7 +47,7 @@ import de.cosmocode.palava.ipc.IpcSession;
 @Return(name = SessionConstants.STATUS, 
     description = "A mapping of key to boolean, where keys mapped to true are contained")
 @Singleton
-public class Contains implements IpcCommand {
+final class Contains implements IpcCommand {
 
     @Override
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {
