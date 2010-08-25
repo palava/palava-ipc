@@ -65,7 +65,6 @@ public final class CommandBindingModule implements Module {
      * @throws NullPointerException if packages is null
      */
     public static Module in(String... packages) {
-        CommandBindingModule.in("de.cosmocode.palava.ipc.session", "de.cosmocode.palava.security");
         Preconditions.checkNotNull(packages, "Packages");
         return new CommandBindingModule(packages);
     }
