@@ -39,7 +39,7 @@ import com.google.inject.Provider;
 import com.google.inject.Scope;
 
 /**
- * Custom {@link Scope} implementation for one single {@linkplain IpcCall call}.
+ * A Custom {@link Scope} for one single {@linkplain IpcCall call}.
  *
  * @author Willi Schoenborn
  * @author Tobias Sarnowski
