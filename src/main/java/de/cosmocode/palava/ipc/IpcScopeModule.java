@@ -18,6 +18,7 @@ package de.cosmocode.palava.ipc;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
+import com.google.inject.Provides;
 
 /**
  * Binds the three custom scopes.
@@ -54,6 +55,20 @@ public final class IpcScopeModule implements Module {
         binder.bind(IpcSessionScope.class).toInstance(sessionScope);
         binder.bind(IpcSession.class).toProvider(sessionScope);
         binder.bind(IpcSession.class).annotatedWith(Current.class).toProvider(sessionScope);
+    }
+    
+    /**
+     * Provides the current arguments provided by {@link IpcCall#getArguments()} of the
+     * {@link Current} {@link IpcCall}.
+     *
+     * @since 1.9.1
+     * @param call
+     * @return
+     */
+    @Provides
+    @Current
+    IpcArguments getCurrentArguments(@Current IpcCall call) {
+        return call.getArguments();
     }
     
 }
