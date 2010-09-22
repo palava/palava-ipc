@@ -62,8 +62,8 @@ public final class IpcScopeModule implements Module {
      * {@link Current} {@link IpcCall}.
      *
      * @since 1.9.1
-     * @param call
-     * @return
+     * @param call the current call
+     * @return the current arguments
      */
     @Provides
     @Current
