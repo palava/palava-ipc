@@ -16,6 +16,8 @@
 
 package de.cosmocode.palava.ipc;
 
+import com.google.common.base.Preconditions;
+
 import de.cosmocode.collections.utility.AbstractUtilityMap;
 
 /**
@@ -27,9 +29,13 @@ public abstract class AbstractIpcArguments extends AbstractUtilityMap<String, Ob
 
     @Override
     public void require(String... keys) throws IpcArgumentsMissingException {
+        Preconditions.checkNotNull(keys, "Keys");
         for (String key : keys) {
-            if (containsKey(key)) continue;
-            throw new IpcArgumentsMissingException(key);
+            if (containsKey(key)) {
+                continue;
+            } else {
+                throw new IpcArgumentsMissingException(key);
+            }
         }
     }
 

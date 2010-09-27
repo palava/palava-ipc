@@ -31,6 +31,7 @@ public interface IpcArguments extends UtilityMap<String, Object> {
      * Checks whether all specified keys exist in these arguments.
      *
      * @param keys the required keys
+     * @throws NullPointerException if keys is null
      * @throws IpcArgumentsMissingException if any key is missing
      */
     void require(String... keys) throws IpcArgumentsMissingException;
