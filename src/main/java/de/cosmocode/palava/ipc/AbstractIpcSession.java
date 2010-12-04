@@ -92,7 +92,7 @@ public abstract class AbstractIpcSession extends AbstractScopeContext implements
         if (timeout == 0 || timeoutUnit == null) {
             return false;
         } else {
-            return (System.currentTimeMillis() - lastAccess) > timeoutUnit.toMillis(timeout);
+            return System.currentTimeMillis() - lastAccess > timeoutUnit.toMillis(timeout);
         }
     }
 
