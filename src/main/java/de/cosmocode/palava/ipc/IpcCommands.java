@@ -92,10 +92,9 @@ public final class IpcCommands {
      * @return true if the given command is allowed to throw the given throwable
      */
     public static boolean mayThrow(Class<? extends IpcCommand> command, Class<? extends Throwable> throwable) {
-        if (command.isAnnotationPresent(Throw.class)) {
-            if (command.getAnnotation(Throw.class).name().isAssignableFrom(throwable)) {
-                return true;
-            }
+        if (command.isAnnotationPresent(Throw.class) && 
+                command.getAnnotation(Throw.class).name().isAssignableFrom(throwable)) {
+            return true;
         }
         
         if (command.isAnnotationPresent(Throws.class)) {
