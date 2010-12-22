@@ -39,7 +39,7 @@ public final class Commands {
         @Override
         public String toString() {
             return "Commandy.any()";
-        };
+        }
         
     };
     
