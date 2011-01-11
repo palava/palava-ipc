@@ -45,11 +45,6 @@ public final class ConnectionAwareUnitOfWorkScope extends AbstractScope<ScopeCon
         this.provider = Preconditions.checkNotNull(provider, "Provider");
     }
 
-//    @Inject
-//    void setProvider(Provider<IpcConnection> provider) {
-//        this.provider = Preconditions.checkNotNull(provider, "Provider");
-//    }
-
     @Override
     public void begin() {
         if (provider.get() == null) {
