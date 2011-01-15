@@ -22,7 +22,7 @@ package de.cosmocode.palava.ipc.session;
  * @since 1.3
  * @author Willi Schoenborn
  */
-final class SessionConstants {
+final class Naming {
 
     public static final String KEYS = "keys";
     public static final String ENTRIES = "entries";
@@ -31,7 +31,7 @@ final class SessionConstants {
     public static final String SORT = "sort";
     public static final String NAMESPACE = "namespace";
 
-    private SessionConstants() {
+    private Naming() {
         
     }
 

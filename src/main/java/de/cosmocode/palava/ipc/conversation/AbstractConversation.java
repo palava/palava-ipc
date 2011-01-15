@@ -18,14 +18,13 @@ package de.cosmocode.palava.ipc.conversation;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.ForwardingConcurrentMap;
 import com.google.common.collect.Maps;
-
-import de.cosmocode.palava.scope.AbstractScopeContext;
 
 /**
  * Abstract {@link Conversation} implementation.
@@ -33,29 +32,33 @@ import de.cosmocode.palava.scope.AbstractScopeContext;
  * @since 1.4
  * @author Willi Schoenborn
  */
-abstract class AbstractConversation extends AbstractScopeContext implements Conversation {
+abstract class AbstractConversation extends ForwardingConcurrentMap<Object, Object> implements Conversation {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractConversation.class);
     
-    private Map<Object, Object> context;
+    private ConcurrentMap<Object, Object> map;
     
     @Override
-    protected Map<Object, Object> context() {
-        if (context == null) {
-            context = Maps.newHashMap();
+    protected ConcurrentMap<Object, Object> delegate() {
+        if (map == null) {
+            map = Maps.newConcurrentMap();
         }
-        return context;
+        return map;
     }
-
+    
     @Override
     public final void destroy() {
-        clear();
+        if (map == null) {
+            return;
+        } else {
+            map.clear();
+        }
     }
 
     @Override
     public void end() throws CompletionFailedException {
         final Map<Throwable, Object> errors = Maps.newHashMap();
-        final Iterator<Entry<Object, Object>> iterator = iterator();
+        final Iterator<Entry<Object, Object>> iterator = entrySet().iterator();
         
         while (iterator.hasNext()) {
             final Entry<Object, Object> entry = iterator.next();

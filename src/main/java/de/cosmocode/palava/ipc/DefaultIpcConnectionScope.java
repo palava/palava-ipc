@@ -19,34 +19,38 @@ package de.cosmocode.palava.ipc;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Scope;
 
 import de.cosmocode.palava.core.inject.Providers;
 import de.cosmocode.palava.scope.AbstractScope;
 import de.cosmocode.palava.scope.ScopeContext;
 
 /**
- * Custom {@link Scope} implementation for one {@linkplain IpcSession session}.
+ * Default {@link IpcConnectionScope} implementation. 
  * 
  * @author Willi Schoenborn
  * @author Tobias Sarnowski
  */
-final class IpcSessionScope extends AbstractScope {
+final class DefaultIpcConnectionScope extends AbstractScope implements IpcConnectionScope {
 
-    private Provider<IpcConnection> currentConnection = Providers.nullProvider();
+    private Provider<IpcCall> currentCall = Providers.nullProvider();
 
     @Inject
-    void setCurrentConnection(@Current Provider<IpcConnection> currentConnection) {
-        this.currentConnection = Preconditions.checkNotNull(currentConnection, "CurrentConnection");
+    void setCurrentCall(@Current Provider<IpcCall> currentCall) {
+        this.currentCall = Preconditions.checkNotNull(currentCall, "CurrentCall");
     }
-
-    private IpcSession getSession(IpcConnection connection) {
-        return connection == null ? null : connection.getSession();
+   
+    @Override
+    public boolean isActive() {
+        return currentCall.get() != null;
+    }
+    
+    private IpcConnection getConnection(IpcCall call) {
+        return call == null ? null : call.getConnection();
     }
     
     @Override
     public ScopeContext get() {
-        return getSession(currentConnection.get());
+        return getConnection(currentCall.get());
     }
-
+    
 }

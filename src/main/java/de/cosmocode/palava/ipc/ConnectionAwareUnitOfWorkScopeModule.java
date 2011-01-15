@@ -19,7 +19,6 @@ package de.cosmocode.palava.ipc;
 import com.google.inject.Binder;
 import com.google.inject.Module;
 
-import de.cosmocode.palava.scope.ThreadLocalUnitOfWorkScope;
 import de.cosmocode.palava.scope.UnitOfWork;
 import de.cosmocode.palava.scope.UnitOfWorkScope;
 
@@ -32,8 +31,7 @@ public final class ConnectionAwareUnitOfWorkScopeModule implements Module {
 
     @Override
     public void configure(Binder binder) {
-        final UnitOfWorkScope scope = new ConnectionAwareUnitOfWorkScope(
-            new ThreadLocalUnitOfWorkScope(), binder.getProvider(IpcConnection.class));
+        final UnitOfWorkScope scope = new ConnectionAwareUnitOfWorkScope();
         binder.bindScope(UnitOfWork.class, scope);
         binder.bind(UnitOfWorkScope.class).toInstance(scope);
     }

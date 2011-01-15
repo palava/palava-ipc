@@ -17,7 +17,6 @@
 package de.cosmocode.palava.ipc.session;
 
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.google.common.base.Functions;
 import com.google.common.collect.Maps;
@@ -27,10 +26,6 @@ import com.google.inject.Singleton;
 import de.cosmocode.palava.ipc.IpcArguments;
 import de.cosmocode.palava.ipc.IpcCall;
 import de.cosmocode.palava.ipc.IpcCommand;
-import de.cosmocode.palava.ipc.IpcCommand.Description;
-import de.cosmocode.palava.ipc.IpcCommand.Param;
-import de.cosmocode.palava.ipc.IpcCommand.Params;
-import de.cosmocode.palava.ipc.IpcCommand.Return;
 import de.cosmocode.palava.ipc.IpcCommandExecutionException;
 import de.cosmocode.palava.ipc.IpcSession;
 
@@ -41,14 +36,14 @@ import de.cosmocode.palava.ipc.IpcSession;
  * @author Willi Schoenborn
  * @author Tobias Sarnowski
  */
-@Description("Retrieves all entries of the session")
-@Params({
-    @Param(name = SessionConstants.SORT, description = "Specifies whether entries should be sorted",
+@IpcCommand.Description("Retrieves all entries of the session")
+@IpcCommand.Params({
+    @IpcCommand.Param(name = Naming.SORT, description = "Specifies whether entries should be sorted",
         type = "boolean", optional = true, defaultValue = "false"),
-    @Param(name = SessionConstants.NAMESPACE, description = "The global namespace keys (null disables)", 
+    @IpcCommand.Param(name = Naming.NAMESPACE, description = "The global namespace keys (null disables)", 
         type = "string", optional = true)
 })
-@Return(name = SessionConstants.ENTRIES, description = "All entries")
+@IpcCommand.Return(name = Naming.ENTRIES, description = "All entries")
 @Singleton
 final class Entries implements IpcCommand {
 
@@ -57,22 +52,21 @@ final class Entries implements IpcCommand {
     @Override
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {
         final IpcArguments arguments = call.getArguments();
-        final boolean sort = arguments.getBoolean(SessionConstants.SORT, false);
-        final String namespace = arguments.getString(SessionConstants.NAMESPACE, null);
+        final boolean sort = arguments.getBoolean(Naming.SORT, false);
+        final String namespace = arguments.getString(Naming.NAMESPACE, null);
         final IpcSession session = call.getConnection().getSession();
         
         final Map<Object, Object> entries = sort ? Maps.newTreeMap(ordering) : Maps.newHashMap();
         
         if (namespace == null) {
-            for (Entry<Object, Object> entry : session) {
-                entries.put(entry.getKey(), entry.getValue());
-            }
-        } else if (session.contains(namespace)) {
-            final Map<Object, Object> namespaced = session.get(namespace);
+            entries.putAll(session);
+        } else if (session.containsKey(namespace)) {
+            @SuppressWarnings("unchecked")
+            final Map<Object, Object> namespaced = (Map<Object, Object>) session.get(namespace);
             entries.putAll(namespaced);
         }
         
-        result.put(SessionConstants.ENTRIES, entries);
+        result.put(Naming.ENTRIES, entries);
     }
 
 }

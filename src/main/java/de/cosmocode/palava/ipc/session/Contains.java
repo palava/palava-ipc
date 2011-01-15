@@ -25,10 +25,6 @@ import com.google.inject.Singleton;
 import de.cosmocode.palava.ipc.IpcArguments;
 import de.cosmocode.palava.ipc.IpcCall;
 import de.cosmocode.palava.ipc.IpcCommand;
-import de.cosmocode.palava.ipc.IpcCommand.Description;
-import de.cosmocode.palava.ipc.IpcCommand.Param;
-import de.cosmocode.palava.ipc.IpcCommand.Params;
-import de.cosmocode.palava.ipc.IpcCommand.Return;
 import de.cosmocode.palava.ipc.IpcCommandExecutionException;
 import de.cosmocode.palava.ipc.IpcSession;
 
@@ -38,13 +34,13 @@ import de.cosmocode.palava.ipc.IpcSession;
  * @since 1.3
  * @author Willi Schoenborn
  */
-@Description("Checks whether the session contains all specified keys")
-@Params({
-    @Param(name = SessionConstants.KEYS, description = "The requested keys", type = "array"),
-    @Param(name = SessionConstants.NAMESPACE, description = "The global namespace keys (null disables)", 
+@IpcCommand.Description("Checks whether the session contains all specified keys")
+@IpcCommand.Params({
+    @IpcCommand.Param(name = Naming.KEYS, description = "The requested keys", type = "array"),
+    @IpcCommand.Param(name = Naming.NAMESPACE, description = "The global namespace keys (null disables)", 
         type = "string", optional = true)
 })
-@Return(name = SessionConstants.STATUS, 
+@IpcCommand.Return(name = Naming.STATUS, 
     description = "A mapping of key to boolean, where keys mapped to true are contained")
 @Singleton
 final class Contains implements IpcCommand {
@@ -52,8 +48,8 @@ final class Contains implements IpcCommand {
     @Override
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {
         final IpcArguments arguments = call.getArguments();
-        final List<Object> keys = arguments.getList(SessionConstants.KEYS);
-        final String namespace = arguments.getString(SessionConstants.NAMESPACE, null);
+        final List<Object> keys = arguments.getList(Naming.KEYS);
+        final String namespace = arguments.getString(Naming.NAMESPACE, null);
         final IpcSession session = call.getConnection().getSession();
         
         final Map<Object, Boolean> status = Maps.newHashMap();
@@ -62,9 +58,10 @@ final class Contains implements IpcCommand {
             final boolean contained;
             
             if (namespace == null) {
-                contained = session.contains(key);
-            } else if (session.contains(namespace)) {
-                final Map<Object, Object> namespaced = session.get(namespace);
+                contained = session.containsKey(key);
+            } else if (session.containsKey(namespace)) {
+                @SuppressWarnings("unchecked")
+                final Map<Object, Object> namespaced = (Map<Object, Object>) session.get(namespace);
                 contained = namespaced.containsKey(key);
             } else {
                 contained = false;
@@ -73,7 +70,7 @@ final class Contains implements IpcCommand {
             status.put(key, Boolean.valueOf(contained));
         }
         
-        result.put(SessionConstants.STATUS, status);
+        result.put(Naming.STATUS, status);
     }
 
 }

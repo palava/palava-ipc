@@ -25,10 +25,6 @@ import com.google.inject.Singleton;
 import de.cosmocode.palava.ipc.IpcArguments;
 import de.cosmocode.palava.ipc.IpcCall;
 import de.cosmocode.palava.ipc.IpcCommand;
-import de.cosmocode.palava.ipc.IpcCommand.Description;
-import de.cosmocode.palava.ipc.IpcCommand.Param;
-import de.cosmocode.palava.ipc.IpcCommand.Params;
-import de.cosmocode.palava.ipc.IpcCommand.Return;
 import de.cosmocode.palava.ipc.IpcCommandExecutionException;
 import de.cosmocode.palava.ipc.IpcSession;
 
@@ -38,21 +34,21 @@ import de.cosmocode.palava.ipc.IpcSession;
  * @since 1.3
  * @author Willi Schoenborn
  */
-@Description("Retrieves the values for the specified keys.")
-@Params({
-    @Param(name = SessionConstants.KEYS, description = "The requested keys", type = "array"),
-    @Param(name = SessionConstants.NAMESPACE, description = "The global namespace keys (null disables)", 
+@IpcCommand.Description("Retrieves the values for the specified keys.")
+@IpcCommand.Params({
+    @IpcCommand.Param(name = Naming.KEYS, description = "The requested keys", type = "array"),
+    @IpcCommand.Param(name = Naming.NAMESPACE, description = "The global namespace keys (null disables)", 
         type = "string", optional = true)
 })
-@Return(name = SessionConstants.ENTRIES, description = "The a mapping of all found entries")
+@IpcCommand.Return(name = Naming.ENTRIES, description = "The a mapping of all found entries")
 @Singleton
 final class Get implements IpcCommand {
 
     @Override
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {
         final IpcArguments arguments = call.getArguments();
-        final List<Object> keys = arguments.getList(SessionConstants.KEYS);
-        final String namespace = arguments.getString(SessionConstants.NAMESPACE, null);
+        final List<Object> keys = arguments.getList(Naming.KEYS);
+        final String namespace = arguments.getString(Naming.NAMESPACE, null);
         final IpcSession session = call.getConnection().getSession();
         
         final Map<Object, Object> entries = Maps.newHashMap();
@@ -62,8 +58,9 @@ final class Get implements IpcCommand {
             
             if (namespace == null) {
                 value = session.get(key);
-            } else if (session.contains(namespace)) {
-                final Map<Object, Object> namespaced = session.get(namespace);
+            } else if (session.containsKey(namespace)) {
+                @SuppressWarnings("unchecked")
+                final Map<Object, Object> namespaced = (Map<Object, Object>) session.get(namespace);
                 value = namespaced.get(key);
             } else {
                 value = null;
@@ -72,7 +69,7 @@ final class Get implements IpcCommand {
             entries.put(key, value);
         }
         
-        result.put(SessionConstants.ENTRIES, entries);
+        result.put(Naming.ENTRIES, entries);
     }
 
 }

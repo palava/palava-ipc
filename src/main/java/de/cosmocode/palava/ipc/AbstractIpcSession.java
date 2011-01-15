@@ -17,14 +17,16 @@
 package de.cosmocode.palava.ipc;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Preconditions;
 
+import de.cosmocode.collections.callback.Callback;
+import de.cosmocode.collections.callback.Callbacks;
 import de.cosmocode.palava.scope.AbstractScopeContext;
 
 /**
@@ -45,7 +47,22 @@ public abstract class AbstractIpcSession extends AbstractScopeContext implements
     private long lastAccess = System.currentTimeMillis();
 
     private boolean suppressingTouch;
+    
+    /**
+     * {@link Callback} implementation used to handle updates in collection views.
+     *
+     * @since 2.0
+     * @author Willi Schoenborn
+     */
+    private final class Toucher implements Callback {
 
+        @Override
+        public void poke() {
+            touch();
+        }
+        
+    }
+    
     protected void setSuppressingTouch(boolean suppressingTouch) {
         this.suppressingTouch = suppressingTouch;
     }
@@ -97,60 +114,99 @@ public abstract class AbstractIpcSession extends AbstractScopeContext implements
     }
 
     @Override
-    public <K, V> void set(K key, V value) {
+    public Object putIfAbsent(Object key, Object value) {
         touch();
-        super.set(key, value);
+        return super.putIfAbsent(key, value);
     }
 
     @Override
-    public <K, V> V get(K key) {
+    public boolean remove(Object key, Object value) {
         touch();
-        return super.<K, V>get(key);
+        return super.remove(key, value);
     }
 
     @Override
-    public <K> boolean contains(K key) {
+    public Object replace(Object key, Object value) {
         touch();
-        return super.contains(key);
+        return super.replace(key, value);
     }
 
     @Override
-    public <K, V> V remove(K key) {
+    public boolean replace(Object key, Object oldValue, Object newValue) {
         touch();
-        return super.<K, V>remove(key);
+        return super.replace(key, oldValue, newValue);
     }
 
     @Override
-    public <K, V> void putAll(Map<? extends K, ? extends V> map) {
+    public int size() {
+        touch();
+        return super.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        touch();
+        return super.isEmpty();
+    }
+
+    @Override
+    public Object remove(Object object) {
+        touch();
+        return super.remove(object);
+    }
+
+    @Override
+    public void clear() {
+        touch();
+        super.clear();
+    }
+
+    @Override
+    public boolean containsKey(Object key) {
+        touch();
+        return super.containsKey(key);
+    }
+
+    @Override
+    public boolean containsValue(Object value) {
+        touch();
+        return super.containsValue(value);
+    }
+
+    @Override
+    public Object get(Object key) {
+        touch();
+        return super.get(key);
+    }
+
+    @Override
+    public Object put(Object key, Object value) {
+        touch();
+        return super.put(key, value);
+    }
+
+    @Override
+    public void putAll(Map<? extends Object, ? extends Object> map) {
         touch();
         super.putAll(map);
     }
 
     @Override
-    public Iterator<Entry<Object, Object>> iterator() {
+    public Set<Object> keySet() {
         touch();
-        final Iterator<Entry<Object, Object>> delegate = super.iterator();
-        return new Iterator<Entry<Object, Object>>() {
+        return Callbacks.compose(super.keySet(), new Toucher());
+    }
 
-            @Override
-            public boolean hasNext() {
-                touch();
-                return delegate.hasNext();
-            }
+    @Override
+    public Collection<Object> values() {
+        touch();
+        return Callbacks.compose(super.values(), new Toucher());
+    }
 
-            @Override
-            public Entry<Object, Object> next() {
-                touch();
-                return delegate.next();
-            }
-
-            @Override
-            public void remove() {
-                touch();
-                delegate.remove();
-            }
-
-        };
+    @Override
+    public Set<Entry<Object, Object>> entrySet() {
+        touch();
+        return Callbacks.compose(super.entrySet(), new Toucher());
     }
 
 }

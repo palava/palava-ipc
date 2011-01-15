@@ -18,7 +18,6 @@ package de.cosmocode.palava.ipc.session;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Singleton;
@@ -26,9 +25,6 @@ import com.google.inject.Singleton;
 import de.cosmocode.palava.ipc.IpcArguments;
 import de.cosmocode.palava.ipc.IpcCall;
 import de.cosmocode.palava.ipc.IpcCommand;
-import de.cosmocode.palava.ipc.IpcCommand.Description;
-import de.cosmocode.palava.ipc.IpcCommand.Param;
-import de.cosmocode.palava.ipc.IpcCommand.Return;
 import de.cosmocode.palava.ipc.IpcCommandExecutionException;
 import de.cosmocode.palava.ipc.IpcSession;
 
@@ -38,31 +34,30 @@ import de.cosmocode.palava.ipc.IpcSession;
  * @since 1.3
  * @author Willi Schoenborn
  */
-@Description("Retrieves all keys in this session")
-@Param(name = SessionConstants.NAMESPACE, description = "The global namespace keys (null disables)", 
+@IpcCommand.Description("Retrieves all keys in this session")
+@IpcCommand.Param(name = Naming.NAMESPACE, description = "The global namespace keys (null disables)", 
     type = "string", optional = true)
-@Return(name = SessionConstants.KEYS, description = "List of all keys")
+@IpcCommand.Return(name = Naming.KEYS, description = "List of all keys")
 @Singleton
 final class Keys implements IpcCommand {
 
     @Override
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {
         final IpcArguments arguments = call.getArguments();
-        final String namespace = arguments.getString(SessionConstants.NAMESPACE, null);
+        final String namespace = arguments.getString(Naming.NAMESPACE, null);
         final IpcSession session = call.getConnection().getSession();
         
         final List<Object> keys = Lists.newArrayList();
 
         if (namespace == null) {
-            for (Entry<Object, Object> entry : session) {
-                keys.add(entry.getKey());
-            }
-        } else if (session.contains(namespace)) {
-            final Map<Object, Object> namespaced = session.get(namespace);
+            keys.addAll(session.keySet());
+        } else if (session.containsKey(namespace)) {
+            @SuppressWarnings("unchecked")
+            final Map<Object, Object> namespaced = (Map<Object, Object>) session.get(namespace);
             keys.addAll(namespaced.keySet());
         }
         
-        result.put(SessionConstants.KEYS, keys);
+        result.put(Naming.KEYS, keys);
     }
 
 }

@@ -16,30 +16,23 @@
 
 package de.cosmocode.palava.ipc;
 
-import com.google.common.base.Preconditions;
-import com.google.inject.Provider;
 import com.google.inject.Scope;
 
-import de.cosmocode.palava.scope.AbstractScope;
-
 /**
- * Custom {@link Scope} implementation for one {@linkplain IpcConnection connection}.
+ * Custom {@link Scope} for one {@link IpcConnection connection}.
  * 
  * @author Willi Schoenborn
  * @author Tobias Sarnowski
  */
-final class IpcConnectionScope extends AbstractScope<IpcConnection> {
+public interface IpcConnectionScope extends Scope {
 
-    private final Provider<IpcCall> provider;
-
-    public IpcConnectionScope(Provider<IpcCall> provider) {
-        this.provider = Preconditions.checkNotNull(provider, "Provider");
-    }
-    
-    @Override
-    public IpcConnection get() {
-        final IpcCall currentCall = provider.get();
-        return currentCall == null ? null : currentCall.getConnection();
-    }
+    /**
+     * Provides the current state of this scope.
+     *
+     * @since 1.11
+     * @return true if this scope is in progress, false otherwise
+     */
+    boolean isActive();
 
 }
+

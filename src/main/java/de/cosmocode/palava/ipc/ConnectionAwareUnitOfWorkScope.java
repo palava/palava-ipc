@@ -20,10 +20,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
+import com.google.inject.Inject;
+import com.google.inject.Key;
 import com.google.inject.Provider;
 
-import de.cosmocode.palava.scope.AbstractScope;
-import de.cosmocode.palava.scope.ScopeContext;
+import de.cosmocode.palava.scope.Delegate;
 import de.cosmocode.palava.scope.UnitOfWorkScope;
 
 /**
@@ -32,49 +33,56 @@ import de.cosmocode.palava.scope.UnitOfWorkScope;
  *
  * @author Willi Schoenborn
  */
-public final class ConnectionAwareUnitOfWorkScope extends AbstractScope<ScopeContext> implements UnitOfWorkScope {
+final class ConnectionAwareUnitOfWorkScope implements UnitOfWorkScope {
 
     private static final Logger LOG = LoggerFactory.getLogger(ConnectionAwareUnitOfWorkScope.class);
 
-    private final Provider<IpcConnection> provider;
+    private IpcConnectionScope connectionScope;
+    private UnitOfWorkScope workScope;
     
-    private final UnitOfWorkScope workScope;
-
-    public ConnectionAwareUnitOfWorkScope(UnitOfWorkScope workScope, Provider<IpcConnection> provider) {
+    @Inject
+    void setConnectionScope(IpcConnectionScope connectionScope) {
+        this.connectionScope = Preconditions.checkNotNull(connectionScope, "ConnectionScope");
+    }
+    
+    @Inject
+    void setWorkScope(@Delegate UnitOfWorkScope workScope) {
         this.workScope = Preconditions.checkNotNull(workScope, "WorkScope");
-        this.provider = Preconditions.checkNotNull(provider, "Provider");
     }
 
     @Override
     public void begin() {
-        if (provider.get() == null) {
-            LOG.trace("Outside of connection scope, entering unit of work");
+        if (connectionScope.isActive()) {
+            LOG.trace("{} already in progress", connectionScope);
+        } else {
+            LOG.trace("Outside of {}, entering {}", connectionScope, workScope);
             workScope.begin();
         }
     }
     
     @Override
-    public boolean inProgress() {
-        return provider.get() == null ? workScope.inProgress() : true;
+    public boolean isActive() {
+        return connectionScope.isActive() || workScope.isActive();
     }
     
     @Override
-    public void end() {
-        if (provider.get() == null) {
-            LOG.trace("Outside of connection scope, exiting unit of work");
-            workScope.end();
+    public <T> Provider<T> scope(Key<T> key, Provider<T> unscoped) {
+        if (connectionScope.isActive()) {
+            LOG.trace("{} currently in progress, delegating...", connectionScope);
+            return connectionScope.scope(key, unscoped);
+        } else {
+            LOG.trace("Outside of {}, falling back to {}", connectionScope, workScope);
+            return workScope.scope(key, unscoped);
         }
     }
     
     @Override
-    public ScopeContext get() {
-        final IpcConnection connection = provider.get();
-        if (connection == null) {
-            LOG.trace("Outside of connection scope, using unit work");
-            return workScope.get();
+    public void end() {
+        if (connectionScope.isActive()) {
+            LOG.trace("{} in progress, no need to end", connectionScope);
         } else {
-            LOG.trace("Inside of connection scope");
-            return connection;
+            LOG.trace("Outside of {}, exiting {}", connectionScope, workScope);
+            workScope.end();
         }
     }
     

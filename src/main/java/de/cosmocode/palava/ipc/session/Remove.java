@@ -24,9 +24,6 @@ import com.google.inject.Singleton;
 import de.cosmocode.palava.ipc.IpcArguments;
 import de.cosmocode.palava.ipc.IpcCall;
 import de.cosmocode.palava.ipc.IpcCommand;
-import de.cosmocode.palava.ipc.IpcCommand.Description;
-import de.cosmocode.palava.ipc.IpcCommand.Param;
-import de.cosmocode.palava.ipc.IpcCommand.Params;
 import de.cosmocode.palava.ipc.IpcCommandExecutionException;
 import de.cosmocode.palava.ipc.IpcSession;
 
@@ -36,10 +33,10 @@ import de.cosmocode.palava.ipc.IpcSession;
  * @since 1.3
  * @author Willi Schoenborn
  */
-@Description("Remove entries from the session")
-@Params({
-    @Param(name = SessionConstants.KEYS, description = "List of keys being removed"),
-    @Param(name = SessionConstants.NAMESPACE, description = "The global namespace keys (null disables)", 
+@IpcCommand.Description("Remove entries from the session")
+@IpcCommand.Params({
+    @IpcCommand.Param(name = Naming.KEYS, description = "List of keys being removed"),
+    @IpcCommand.Param(name = Naming.NAMESPACE, description = "The global namespace keys (null disables)", 
         type = "string", optional = true)
 })
 @Singleton
@@ -48,15 +45,16 @@ final class Remove implements IpcCommand {
     @Override
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {
         final IpcArguments arguments = call.getArguments();
-        final List<Object> keys = arguments.getList(SessionConstants.KEYS);
-        final String namespace = arguments.getString(SessionConstants.NAMESPACE, null);
+        final List<Object> keys = arguments.getList(Naming.KEYS);
+        final String namespace = arguments.getString(Naming.NAMESPACE, null);
         final IpcSession session = call.getConnection().getSession();
 
         for (Object key : keys) {
             if (namespace == null) {
                 session.remove(key);
-            } else if (session.contains(namespace)) {
-                final Map<Object, Object> namespaced = session.get(namespace);
+            } else if (session.containsKey(namespace)) {
+                @SuppressWarnings("unchecked")
+                final Map<Object, Object> namespaced = (Map<Object, Object>) session.get(namespace);
                 namespaced.remove(key);
             }
         }

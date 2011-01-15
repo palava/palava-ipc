@@ -18,7 +18,7 @@ package de.cosmocode.palava.ipc;
 
 import java.util.Set;
 
-import com.google.inject.internal.Sets;
+import com.google.common.collect.Sets;
 
 import de.cosmocode.palava.ipc.IpcCommand.Throw;
 import de.cosmocode.palava.ipc.IpcCommand.Throws;

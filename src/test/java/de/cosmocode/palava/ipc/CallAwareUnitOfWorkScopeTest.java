@@ -29,16 +29,16 @@ import de.cosmocode.palava.scope.DestroyStrategyModule;
  *
  * @author Willi Schoenborn
  */
-public final class ConnectionAwareUnitOfWorkScopeTest extends AbstractUnitOfWorkScopeTest {
+public final class CallAwareUnitOfWorkScopeTest extends AbstractUnitOfWorkScopeTest {
 
     @Override
     public Injector unit() {
         return Guice.createInjector(
-            new ConnectionAwareUnitOfWorkScopeModule(),
+            new CallAwareUnitOfWorkScopeModule(),
             new IpcScopeModule(),
             new DelegateThreadLocalUnitOfWorkScopeModule(),
             new DestroyStrategyModule(),
-            MoreModules.nullProviderOf(IpcConnection.class)
+            MoreModules.nullProviderOf(IpcCall.class)
         );
     }
 

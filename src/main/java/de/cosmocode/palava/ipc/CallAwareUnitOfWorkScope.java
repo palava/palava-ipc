@@ -20,61 +20,69 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
+import com.google.inject.Inject;
+import com.google.inject.Key;
 import com.google.inject.Provider;
 
-import de.cosmocode.palava.scope.AbstractScope;
-import de.cosmocode.palava.scope.ScopeContext;
+import de.cosmocode.palava.scope.Delegate;
 import de.cosmocode.palava.scope.UnitOfWorkScope;
 
 /**
- * An implementation of the {@link UnitOfWorkScope} which delegates to {@link IpcConnectionScope}
+ * An implementation of the {@link UnitOfWorkScope} which delegates to {@link IpcCallScope}
  * or another implementation of the {@link UnitOfWorkScope} respectively.
  *
  * @author Willi Schoenborn
  */
-public final class CallAwareUnitOfWorkScope extends AbstractScope<ScopeContext> implements UnitOfWorkScope {
+final class CallAwareUnitOfWorkScope implements UnitOfWorkScope {
 
     private static final Logger LOG = LoggerFactory.getLogger(CallAwareUnitOfWorkScope.class);
 
-    private final Provider<IpcCall> provider;
+    private IpcCallScope callScope;
+    private UnitOfWorkScope workScope;
     
-    private final UnitOfWorkScope workScope;
-
-    public CallAwareUnitOfWorkScope(UnitOfWorkScope workScope, Provider<IpcCall> provider) {
-        this.workScope = Preconditions.checkNotNull(workScope, "WorkScope");
-        this.provider = Preconditions.checkNotNull(provider, "Provider");
+    @Inject
+    void setCallScope(IpcCallScope callScope) {
+        this.callScope = Preconditions.checkNotNull(callScope, "CalLScope");
     }
 
+    @Inject
+    void setWorkScope(@Delegate UnitOfWorkScope workScope) {
+        this.workScope = Preconditions.checkNotNull(workScope, "WorkScope");
+    }
+    
     @Override
     public void begin() {
-        if (provider.get() == null) {
-            LOG.trace("Outside of call scope, entering unit of work");
+        if (callScope.isActive()) {
+            LOG.trace("{} already in progress", callScope);
+        } else {
+            LOG.trace("Outside of {}, entering {}", callScope, workScope);
             workScope.begin();
         }
     }
     
     @Override
-    public boolean inProgress() {
-        return provider.get() == null ? workScope.inProgress() : true;
+    public boolean isActive() {
+        return callScope.isActive() || workScope.isActive();
     }
     
     @Override
-    public void end() {
-        if (provider.get() == null) {
-            LOG.trace("Outside of call scope, exiting unit of work");
-            workScope.end();
+    public <T> Provider<T> scope(Key<T> key, Provider<T> unscoped) {
+        if (callScope.isActive()) {
+            LOG.trace("{} currently in progress, delegating...", callScope);
+            return callScope.scope(key, unscoped);
+        } else {
+            LOG.trace("Outside of {}, falling back to {}", callScope, workScope);
+            return workScope.scope(key, unscoped);
         }
     }
     
     @Override
-    public ScopeContext get() {
-        final IpcCall call = provider.get();
-        if (call == null) {
-            LOG.trace("Outside of call scope, using unit work");
-            return workScope.get();
+    public void end() {
+        if (callScope.isActive()) {
+            LOG.trace("{} in progress, no need to end", callScope);
         } else {
-            LOG.trace("Inside of call scope");
-            return call;
+            LOG.trace("Outside of {}, exiting {}", callScope, workScope);
+            workScope.end();
         }
     }
     

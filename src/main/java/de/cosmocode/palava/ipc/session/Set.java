@@ -17,7 +17,6 @@
 package de.cosmocode.palava.ipc.session;
 
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Singleton;
@@ -25,9 +24,6 @@ import com.google.inject.Singleton;
 import de.cosmocode.palava.ipc.IpcArguments;
 import de.cosmocode.palava.ipc.IpcCall;
 import de.cosmocode.palava.ipc.IpcCommand;
-import de.cosmocode.palava.ipc.IpcCommand.Description;
-import de.cosmocode.palava.ipc.IpcCommand.Param;
-import de.cosmocode.palava.ipc.IpcCommand.Params;
 import de.cosmocode.palava.ipc.IpcCommandExecutionException;
 import de.cosmocode.palava.ipc.IpcSession;
 
@@ -38,10 +34,10 @@ import de.cosmocode.palava.ipc.IpcSession;
  * @author Willi Schoenborn
  * @author Tobias Sarnowski
  */
-@Description("Adds all specified entries to the session.")
-@Params({
-    @Param(name = SessionConstants.ENTRIES, description = "Map of entries"),
-    @Param(name = SessionConstants.NAMESPACE, description = "The global namespace keys (null disables)", 
+@IpcCommand.Description("Adds all specified entries to the session.")
+@IpcCommand.Params({
+    @IpcCommand.Param(name = Naming.ENTRIES, description = "Map of entries"),
+    @IpcCommand.Param(name = Naming.NAMESPACE, description = "The global namespace keys (null disables)", 
         type = "string", optional = true)
 })
 @Singleton
@@ -50,21 +46,21 @@ final class Set implements IpcCommand {
     @Override
     public void execute(IpcCall call, Map<String, Object> result) throws IpcCommandExecutionException {
         final IpcArguments arguments = call.getArguments();
-        final Map<Object, Object> entries = arguments.getMap(SessionConstants.ENTRIES);
-        final String namespace = arguments.getString(SessionConstants.NAMESPACE, null);
+        final Map<Object, Object> entries = arguments.getMap(Naming.ENTRIES);
+        final String namespace = arguments.getString(Naming.NAMESPACE, null);
         final IpcSession session = call.getConnection().getSession();
 
         if (namespace == null) {
-            for (Entry<Object, Object> entry : entries.entrySet()) {
-                session.set(entry.getKey(), entry.getValue());
-            }
+            session.putAll(entries);
         } else {
             final Map<Object, Object> namespaced;
-            if (session.contains(namespace)) {
-                namespaced = session.get(namespace);
+            if (session.containsKey(namespace)) {
+                @SuppressWarnings("unchecked")
+                final Map<Object, Object> cacged = (Map<Object, Object>) session.get(namespace);
+                namespaced = cacged;
             } else {
                 namespaced = Maps.newHashMap();
-                session.set(namespace, namespaced);
+                session.put(namespace, namespaced);
             }
             namespaced.putAll(entries);
         }

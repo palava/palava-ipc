@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import com.google.common.base.Preconditions;
+import com.google.inject.internal.Maps;
 
 import de.cosmocode.collections.utility.Utility;
 import de.cosmocode.collections.utility.UtilitySet;
@@ -34,6 +35,10 @@ public final class MapIpcArguments extends AbstractIpcArguments {
     private static final IpcArguments EMPTY = new MapIpcArguments(Collections.<String, Object>emptyMap());
     
     private final Map<String, Object> arguments;
+    
+    public MapIpcArguments() {
+        this(Maps.<String, Object>newHashMap());
+    }
     
     public MapIpcArguments(Map<String, Object> arguments) {
         this.arguments = Preconditions.checkNotNull(arguments, "Arguments");

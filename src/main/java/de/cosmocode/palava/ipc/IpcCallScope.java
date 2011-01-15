@@ -56,6 +56,13 @@ public interface IpcCallScope extends Scope, Provider<IpcCall> {
     void enter(IpcCall call);
 
     /**
+     * Checks the current state.
+     * 
+     * @return true if this scope is currently in progress, false otherwise
+     */
+    boolean isActive();
+
+    /**
      * Exists this scope. This method just returns
      * if there is currently no scoping block in progress.
      * The current ipc call will be cleared after this method returns,

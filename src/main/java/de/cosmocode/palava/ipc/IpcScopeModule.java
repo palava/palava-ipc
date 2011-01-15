@@ -41,20 +41,41 @@ public final class IpcScopeModule implements Module {
         final IpcCallScope callScope = new ThreadLocalIpcCallScope();
         binder.bindScope(IpcCallScoped.class, callScope);
         binder.bind(IpcCallScope.class).toInstance(callScope);
-        binder.bind(IpcCall.class).toProvider(callScope);
         binder.bind(IpcCall.class).annotatedWith(Current.class).toProvider(callScope);
 
-        final IpcConnectionScope connectionScope = new IpcConnectionScope(callScope);
+        final IpcConnectionScope connectionScope = new DefaultIpcConnectionScope();
         binder.bindScope(IpcConnectionScoped.class, connectionScope);
         binder.bind(IpcConnectionScope.class).toInstance(connectionScope);
-        binder.bind(IpcConnection.class).toProvider(connectionScope);
-        binder.bind(IpcConnection.class).annotatedWith(Current.class).toProvider(connectionScope);
 
-        final IpcSessionScope sessionScope = new IpcSessionScope(connectionScope);
+        final IpcSessionScope sessionScope = new IpcSessionScope();
         binder.bindScope(IpcSessionScoped.class, sessionScope);
         binder.bind(IpcSessionScope.class).toInstance(sessionScope);
-        binder.bind(IpcSession.class).toProvider(sessionScope);
-        binder.bind(IpcSession.class).annotatedWith(Current.class).toProvider(sessionScope);
+    }
+    
+    /**
+     * Provides the current connection.
+     *
+     * @since 2.0
+     * @param call the current call
+     * @return the current connection
+     */
+    @Provides
+    @Current
+    IpcConnection getCurrentConnection(@Current IpcCall call) {
+        return call.getConnection();
+    }
+
+    /**
+     * Provides the current session.
+     *
+     * @since 2.0
+     * @param connection the current connection
+     * @return the current session
+     */
+    @Provides
+    @Current
+    IpcSession getCurrentSession(@Current IpcConnection connection) {
+        return connection.getSession();
     }
     
     /**

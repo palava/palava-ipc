@@ -41,12 +41,12 @@ import com.google.inject.Scope;
 import de.cosmocode.palava.scope.AbstractScope;
 
 /**
- * Custom {@link Scope} implementation for one single {@linkplain IpcCall call}.
+ * Custom {@link Scope} implementation for one single {@link IpcCall call}.
  *
  * @author Willi Schoenborn
  * @author Tobias Sarnowski
  */
-final class ThreadLocalIpcCallScope extends AbstractScope<IpcCall> implements IpcCallScope {
+final class ThreadLocalIpcCallScope extends AbstractScope implements IpcCallScope {
 
     private final ThreadLocal<IpcCall> currentCall = new ThreadLocal<IpcCall>();
     
@@ -55,13 +55,10 @@ final class ThreadLocalIpcCallScope extends AbstractScope<IpcCall> implements Ip
         Preconditions.checkNotNull(call, "Call");
         currentCall.set(call);
     }
-
+    
     @Override
-    public void exit() {
-        final IpcCall call = currentCall.get();
-        Preconditions.checkState(call != null, "There is no %s block in progress", this);
-        call.clear();
-        currentCall.remove();
+    public boolean isActive() {
+        return currentCall.get() != null;
     }
 
     @Override
@@ -70,8 +67,16 @@ final class ThreadLocalIpcCallScope extends AbstractScope<IpcCall> implements Ip
     }
 
     @Override
-    public String toString() {
-        return IpcCallScope.class.getSimpleName();
+    public void exit() {
+        final IpcCall call = currentCall.get();
+        Preconditions.checkState(call != null, "There is no %s block in progress", this);
+        try {
+            destroy(call);
+        } finally {
+            call.clear();
+            currentCall.remove();
+        }
     }
-    
+
 }
+

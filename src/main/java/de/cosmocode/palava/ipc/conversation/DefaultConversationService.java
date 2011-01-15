@@ -48,11 +48,11 @@ final class DefaultConversationService implements ConversationService {
     public Conversation get(String name) {
         final String key = Key.get(Conversation.class, Names.named(name)).toString();
         final IpcSession session = currentSession.get();
-        final Conversation present = session.get(key);
+        final Conversation present = (Conversation) session.get(key);
         if (present == null) {
             final Conversation conversation = new DefaultConversation(session, key);
             LOG.trace("Starting new conversation {}", conversation);
-            session.set(key, conversation);
+            session.put(key, conversation);
             return conversation;
         } else {
             LOG.trace("Found old conversation {} in session", present);
