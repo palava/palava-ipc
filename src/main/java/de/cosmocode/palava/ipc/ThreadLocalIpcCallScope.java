@@ -72,11 +72,12 @@ final class ThreadLocalIpcCallScope extends AbstractScope implements IpcCallScop
         Preconditions.checkState(call != null, "There is no %s block in progress", this);
         try {
             destroy(call);
-        } finally {
+        } finally {
             call.clear();
             currentCall.remove();
         }
     }
+
 
 }
 
