@@ -42,7 +42,7 @@ final class CallAwareUnitOfWorkScope implements UnitOfWorkScope {
     
     @Inject
     void setCallScope(IpcCallScope callScope) {
-        this.callScope = Preconditions.checkNotNull(callScope, "CalLScope");
+        this.callScope = Preconditions.checkNotNull(callScope, "CallScope");
     }
 
     @Inject
