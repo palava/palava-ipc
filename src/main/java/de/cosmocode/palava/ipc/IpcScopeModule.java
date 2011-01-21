@@ -41,7 +41,7 @@ public final class IpcScopeModule implements Module {
         final IpcCallScope callScope = new ThreadLocalIpcCallScope();
         binder.bindScope(IpcCallScoped.class, callScope);
         binder.bind(IpcCallScope.class).toInstance(callScope);
-        binder.bind(IpcCall.class).annotatedWith(Current.class).toProvider(callScope);
+        binder.bind(IpcCall.class).annotatedWith(Current.class).toProvider(IpcCallScope.class);
 
         final IpcConnectionScope connectionScope = new DefaultIpcConnectionScope();
         binder.bindScope(IpcConnectionScoped.class, connectionScope);
