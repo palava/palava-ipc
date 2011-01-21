@@ -19,7 +19,6 @@ package de.cosmocode.palava.ipc;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-import de.cosmocode.palava.core.inject.MoreModules;
 import de.cosmocode.palava.scope.AbstractUnitOfWorkScopeTest;
 import de.cosmocode.palava.scope.DelegateThreadLocalUnitOfWorkScopeModule;
 import de.cosmocode.palava.scope.DestroyStrategyModule;
@@ -37,8 +36,7 @@ public final class CallAwareUnitOfWorkScopeTest extends AbstractUnitOfWorkScopeT
             new CallAwareUnitOfWorkScopeModule(),
             new IpcScopeModule(),
             new DelegateThreadLocalUnitOfWorkScopeModule(),
-            new DestroyStrategyModule(),
-            MoreModules.nullProviderOf(IpcCall.class)
+            new DestroyStrategyModule()
         );
     }
 
