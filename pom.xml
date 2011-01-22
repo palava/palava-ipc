@@ -8,7 +8,7 @@
   <name>Palava IPC</name>
   <artifactId>palava-ipc</artifactId>
   <groupId>de.cosmocode.palava</groupId>
-  <version>1.11.0-SNAPSHOT</version>
+  <version>2.0.0</version>
   <scm>
     <developerConnection>scm:git:git@github.com:palava/${project.artifactId}.git</developerConnection>
   </scm>
