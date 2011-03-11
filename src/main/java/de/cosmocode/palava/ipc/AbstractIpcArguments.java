@@ -16,9 +16,13 @@
 
 package de.cosmocode.palava.ipc;
 
+import java.util.Date;
+
 import com.google.common.base.Preconditions;
 
 import de.cosmocode.collections.utility.AbstractUtilityMap;
+import de.cosmocode.collections.utility.Convert;
+import de.cosmocode.commons.DateMode;
 
 /**
  * Abstract skeleton implementation of the {@link IpcArguments} interface.
@@ -37,6 +41,19 @@ public abstract class AbstractIpcArguments extends AbstractUtilityMap<String, Ob
                 throw new IpcArgumentsMissingException(key);
             }
         }
+    }
+
+    @Override
+    public Date getDate(String key) throws IllegalArgumentException {
+        Preconditions.checkArgument(containsKey(key), "No key named '%s' present for expected date", key);
+        final Object value = get(key);
+        Preconditions.checkNotNull(value, "Required value for key '%s' is null, but should be a UNIX timestamp", key);
+        return Convert.intoDate(value, DateMode.UNIXTIME);
+    }
+
+    @Override
+    public Date getDate(String key, Date defaultValue) {
+        return Convert.intoDate(get(key), DateMode.UNIXTIME, defaultValue);
     }
 
 }
